@@ -43,6 +43,12 @@ public class Snake {
 		}
 	}
 	
+	public void GScore(int x) {
+		score += x; 
+	}
+	
+	
+	
 	public void move() {
 		Point ajout = null;
 		if (dir == 0) { 
