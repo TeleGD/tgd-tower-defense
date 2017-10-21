@@ -64,6 +64,7 @@ public class World extends BasicGameState {
 		or = 0;
 		input = container.getInput();
 		atarashi = false;
+		incomeDelay = 1000;
 		
 	}
 
@@ -92,10 +93,6 @@ public class World extends BasicGameState {
 		tempEnemies.addAll(enemies);
 		tempProjectiles.clear();
 		tempProjectiles.addAll(projectiles);
-	}
-	
-	public void getPaid(){
-		player.earnGold(10);
 	}
 	
 	@Override
@@ -134,6 +131,12 @@ public class World extends BasicGameState {
 					System.out.println(towers.size());
 				}
 			}
+		}
+		
+		incomeDelay -= delta;
+		if(incomeDelay <=0){
+			incomeDelay = 1000;
+			player.earnGold(10);
 		}
 	}
 	
