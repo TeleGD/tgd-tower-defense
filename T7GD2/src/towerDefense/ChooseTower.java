@@ -30,8 +30,12 @@ public class ChooseTower {
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g){
-		g.setColor(Color.red);
+		g.setColor(Color.yellow);
 		int i;
+		
+		g.fillRect(0, (float)y-8, (float)1280, (float)(720 - ((float)y-8)));
+
+		g.setColor(Color.red);
 		for(i = 0; i < nbTower; i++){
 			g.fillRect((float)x + i*7*lenX, (float)y, (float)lenX*5, (float)lenX*5);
 		}

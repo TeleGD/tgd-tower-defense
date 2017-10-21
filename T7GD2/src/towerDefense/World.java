@@ -2,8 +2,10 @@ package towerDefense;
 
 import java.util.ArrayList;
 
+import org.lwjgl.Sys;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -21,6 +23,11 @@ public class World extends BasicGameState {
 
 	private Enemy e;
 	private Projectile p;
+	
+	int ab;
+	int or;
+	boolean change;
+	Input input;
 	
 	public int getID(){
 		return ID;
@@ -48,6 +55,11 @@ public class World extends BasicGameState {
 		enemies.add(e);
 		p = new Projectile(10,10,e,1);
 		projectiles.add(p);
+		
+		ab = 0;
+		or = 0;
+		change = false;
+		input = container.getInput();
 	}
 
 	@Override
@@ -65,13 +77,6 @@ public class World extends BasicGameState {
 			p.render(container,game,g);
 		}
 		
-		boolean ok = false;
-		
-		/*
-		while(!ok){
-			ok = c.clik(0 +2*16, 720 - 6*16);
-		}
-		*/
 	}
 
 	public void updateArrays(){
@@ -97,6 +102,19 @@ public class World extends BasicGameState {
 			p.update(container, game, delta);
 		}
 		//System.out.println(delta);
+		
+		change = false;
+		
+		
+		if(input.isMousePressed(0)){
+			
+			changeMouse();
+			change = c.clik(ab, or);
+			if(change){
+				System.out.println("chhhhhhhhhhhhhhhhhhhhhhhhhaaaaaaaaaaaaaatttttt");
+			}
+		}
+		
 	}
 	
 	public void keyReleased(int key, char c){
@@ -104,5 +122,10 @@ public class World extends BasicGameState {
 	
 	public void keyPressed(int key, char c){
 
+	}
+	
+	public void changeMouse(){
+		ab = input.getMouseX();
+		or = input.getMouseY();
 	}
 }
