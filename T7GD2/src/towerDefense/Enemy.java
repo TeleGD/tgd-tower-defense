@@ -27,7 +27,7 @@ public class Enemy {
 	private int cx;
 	private int cy;
 	
-	public Enemy(int posX, int posY) {
+	public Enemy(int posX, int posY,Level map) {
 		this.x= 32*posY;
 		this.y= 720-32*posX;
 		this.currentPosX=posX;
@@ -46,7 +46,7 @@ public class Enemy {
 		}
 		this.cx=x;
 		this.cy=y;
-		
+		this.map=map;
 		World.enemies.add(this);
 		
 		shape=new Rectangle((float)(x),(float)(y),(float) 32, (float) 32);
