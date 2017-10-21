@@ -12,11 +12,13 @@ public class World extends BasicGameState {
 	public MenuMulti menu;
 	public static int longueur=1280;
 	public static int hauteur=720;
-	public static int ID =1;
+	
+	public static int ID=1;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
 		menu = new MenuMulti();
+		menu.init(container, game);
 	}
 
 	@Override
@@ -31,7 +33,7 @@ public class World extends BasicGameState {
 
 	@Override
 	public int getID() {
-		return ID;
+		return 1;
 	}
 	
 	public void keyReleased(int key, char c){
