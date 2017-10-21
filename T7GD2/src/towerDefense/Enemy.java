@@ -28,13 +28,13 @@ public class Enemy {
 	private int cy;
 	
 	public Enemy(int posX, int posY,Level map) {
-		this.x= 32*posY;
-		this.y= 720-32*posX;
+		this.x= 32*posX;
+		this.y= 32*posY;
 		this.currentPosX=posX;
 		this.currentPosY=posY;
 		this.nextPosX=posX;
 		this.nextPosY=posY;
-		this.speed = 0.5;
+		this.speed = 0.25;
 		this.life=10;
 		this.attack=1;
 		this.direction=0;
@@ -55,51 +55,54 @@ public class Enemy {
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		g.drawImage(sprite, (float)x, (float)y);
+		g.drawString("dir : "+direction, 1, 600);
+		g.drawString("X : "+nextPosX, 1, 620);
+		g.drawString("Y : "+nextPosY, 1, 640);
 	}
 	
 
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-		if ( this.x >= this.cx+32 && this.direction==2 ) {
-			this.x = this.cx+32;
+		if ( this.x >= (int) map.getX(nextPosY) && this.direction==2 ) {
+			this.x = (int) map.getX(nextPosY);
+			calcNextPos(); 
+		}
+		else if ( this.x <= (int) map.getX(nextPosY) && this.direction==4 ) {
+			this.x =  (int) map.getX(nextPosY);
 			calcNextPos();
 		}
-		else if ( this.x <= this.cx-32 && this.direction==4 ) {
-			this.x = this.cx-32;
+		else if ( this.y >= (int) map.getY(nextPosX) && this.direction==3 ) {
+			this.y = (int) map.getY(nextPosX);
 			calcNextPos();
 		}
-		else if ( this.y >= this.cy+32 && this.direction==3 ) {
-			this.y = this.cy+32;
-			calcNextPos();
-		}
-		else if ( this.y <= this.cy-32 && this.direction==1 ) {
-			this.y = this.cy-32;
+		else if ( this.y <= (int) map.getY(nextPosX) && this.direction==1 ) {
+			this.y = (int) map.getY(nextPosX);
 			calcNextPos();
 		}	
-			
 		move(delta);
 	}
 
+	
 	public void calcNextPos() {
 		
 		this.cx = this.x;
 		this.cy = this.y;
 		
-		if ( map.getCase(this.nextPosX+1,this.nextPosY)==0 && (this.nextPosX+1 != this.currentPosX || nextPosY != currentPosY) ) {
-			this.currentPosX = this.nextPosX; this.currentPosY = this.nextPosY;
-			this.nextPosX += 1;
-			this.direction=1;
-		}
-		else if ( map.getCase(this.nextPosX-1,this.nextPosY)==0 && (this.nextPosX-1 != this.currentPosX || nextPosY != currentPosY) ) {
+		if ( (map.getCase(this.nextPosX-1,this.nextPosY)==0 || map.getCase(this.nextPosX-1,this.nextPosY)==3 ) && (this.nextPosX-1 != this.currentPosX || this.nextPosY != this.currentPosY) ) {
 			this.currentPosX = this.nextPosX; this.currentPosY = this.nextPosY;
 			this.nextPosX -= 1;
+			this.direction=1;
+		}
+		else if ( (map.getCase(this.nextPosX+1,this.nextPosY)==0 || map.getCase(this.nextPosX+1,this.nextPosY)==3 ) && (this.nextPosX+1 != this.currentPosX || this.nextPosY != this.currentPosY) ) {
+			this.currentPosX = this.nextPosX; this.currentPosY = this.nextPosY;
+			this.nextPosX += 1;
 			this.direction=3;
 		}
-		else if ( map.getCase(this.nextPosX,this.nextPosY+1)==0 && (this.nextPosX != this.currentPosX || nextPosY+1 != currentPosY) ) {
+		else if ( (map.getCase(this.nextPosX,this.nextPosY+1)==0 || map.getCase(this.nextPosX,this.nextPosY+1)==3 ) && (this.nextPosX != this.currentPosX || this.nextPosY+1 != this.currentPosY) ) {
 			this.currentPosX = this.nextPosX; this.currentPosY = this.nextPosY;
 			this.nextPosY += 1;
 			this.direction=2;
 		}
-		else if ( map.getCase(this.nextPosX,this.nextPosY-1)==0 && (this.nextPosX != this.currentPosX || nextPosY-1 != currentPosY) ) {
+		else if ( (map.getCase(this.nextPosX,this.nextPosY-1)==0 || map.getCase(this.nextPosX,this.nextPosY-1)==3 ) && (this.nextPosX != this.currentPosX || this.nextPosY-1 != this.currentPosY) ) {
 			this.currentPosX = this.nextPosX; this.currentPosY = this.nextPosY;
 			this.nextPosY -= 1;
 			this.direction=4;
@@ -107,7 +110,7 @@ public class Enemy {
 		else {
 			this.currentPosX = this.nextPosX; this.currentPosY = this.nextPosY;
 		}
-		if ( map.getCase(currentPosX,currentPosY) == 3) {
+		if ( map.getCase(this.currentPosX,this.currentPosY) == 3) {
 			// giveDamage(attack);
 			World.enemies.remove(this);
 		}
