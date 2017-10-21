@@ -67,6 +67,15 @@ public class World extends BasicGameState {
 		}
 		g.setColor(Color.cyan);
 		g.fillRect(32*3, 32*2, 32, 32);
+
+		
+		/*
+		boolean ok = false;		
+		
+		while(!ok){
+			ok = c.clik(0 +2*16, 720 - 6*16);
+		}
+		*/
 	}
 
 	public void updateArrays(){

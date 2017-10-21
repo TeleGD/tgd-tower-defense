@@ -27,8 +27,6 @@ public class ChooseTower {
 		}catch (SlickException e) {
 			e.printStackTrace();
 		}
-		//x = 0;
-		//y = 0;
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g){
@@ -44,10 +42,10 @@ public class ChooseTower {
 	}
 	
 	public boolean clik(int abs, int ord){
-		if(ord > y){
-			if(abs > x){
+		if(ord >= y){
+			if(abs >= x){
 				for(int i = 0; i < nbTower; i++){
-					if(abs > ((float)x + i*7*lenX) && abs < ((float)x + i*7*lenX + 5*lenX)){
+					if(abs >= ((float)x + i*7*lenX) && abs <= ((float)x + i*7*lenX + 5*lenX)){
 						System.out.println("ok");
 						return true;
 					}
