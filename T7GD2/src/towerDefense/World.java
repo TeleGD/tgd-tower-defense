@@ -21,8 +21,9 @@ public class World extends BasicGameState {
 	private Tower t;
 	private ChooseTower c;
 	private Player player;
+	
 	int ligne, colonne;
-
+	private int incomeDelay;
 	private Enemy e;
 	private Projectile p;
 	
@@ -54,7 +55,7 @@ public class World extends BasicGameState {
 		c = new ChooseTower();
 		
 		towers.add(t);
-		e = new Enemy(1, 1, l);
+		e = new Enemy(1, 1, l, 1);
 		enemies.add(e);
 		p = new Projectile(32*20,32*0,e,1);
 		projectiles.add(p);
@@ -63,6 +64,7 @@ public class World extends BasicGameState {
 		or = 0;
 		input = container.getInput();
 		atarashi = false;
+		
 	}
 
 	@Override
@@ -90,6 +92,10 @@ public class World extends BasicGameState {
 		tempEnemies.addAll(enemies);
 		tempProjectiles.clear();
 		tempProjectiles.addAll(projectiles);
+	}
+	
+	public void getPaid(){
+		player.earnGold(10);
 	}
 	
 	@Override
@@ -129,15 +135,6 @@ public class World extends BasicGameState {
 				}
 			}
 		}
-		
-		
-	}
-	
-	public void keyReleased(int key, char c){
-	}
-	
-	public void keyPressed(int key, char c){
-
 	}
 	
 	public void changeMouse(){
