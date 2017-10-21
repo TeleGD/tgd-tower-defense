@@ -48,11 +48,12 @@ public class Tower {
 	
 	private boolean ChooseEnemy() {            // renvoie vrai si un ennemi est à portée
 		for (Enemy e : World.enemies) {        // cherche dans la liste des ennemis triée par ordre d'appartition
-			if (Math.sqrt(Math.pow(this.x-this.y,2)+Math.pow(Enemy.getX()-Enemy.getY(),2))<this.range) {
+			if (Math.sqrt(Math.pow(this.x-this.y,2)+Math.pow(e.getX()-e.getY(),2))<this.range) {
 				this.enemy = e;
 				return true;
 			}
 		}
+		return false;
 	}
 	
 	public void upgrade(int n) {
