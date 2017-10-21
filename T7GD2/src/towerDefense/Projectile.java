@@ -234,7 +234,6 @@ public class Projectile {
 		}
 		sprite.setRotation(angle);
 		int deltaAngle = previousAngle - angle;
-		System.out.println("Delta : "+deltaAngle);
 		collisionBox.transform(Transform.createRotateTransform(deltaAngle));
 	}
 	

@@ -20,6 +20,7 @@ public class World extends BasicGameState {
 	private Level l;
 	private Tower t;
 	private ChooseTower c;
+	private Player player;
 	int ligne, colonne;
 
 	private Enemy e;
@@ -46,6 +47,7 @@ public class World extends BasicGameState {
 		tempTowers = new ArrayList<Tower>();
 		tempEnemies = new ArrayList<Enemy>();
 		tempProjectiles = new ArrayList<Projectile>();
+		player = new Player(20, 200);
 		
 		l = new Level();
 		t = new Tower((double)10, (double)10, (double)1, (double)1, (double)10, 1);
@@ -67,7 +69,7 @@ public class World extends BasicGameState {
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		l.render(container,game,g);
 		c.render(container, game, g);
-		
+		player.render(container, game, g);
 		for(Tower t : towers){
 			t.render(container, game, g);
 		}
@@ -93,6 +95,7 @@ public class World extends BasicGameState {
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		l.update(container, game, delta);
+		//player.update(container, game, delta);
 		tempTowers.clear();
 		tempTowers.addAll(towers);
 		for(Tower t: towers){
