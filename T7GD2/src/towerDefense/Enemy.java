@@ -24,6 +24,7 @@ public class Enemy {
 	private double speed;
 	private Image sprite;
 	private Level map;
+	private int type;
 
 	
 	public Enemy(int posX, int posY,Level map) {
@@ -34,10 +35,11 @@ public class Enemy {
 		this.currentPosY=posY;
 		this.nextPosX=posX;
 		this.nextPosY=posY;
-		this.speed = 0.15;
+		this.speed = 0.35;
 		this.life=1;
 		this.attack=1;
 		this.direction=0;
+//		this.type=enemyType;
 		try {
 			sprite = new Image("images/TowerDefense/enemy1.png");
 		} catch (SlickException e) {

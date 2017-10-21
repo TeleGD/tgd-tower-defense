@@ -1,5 +1,14 @@
 package towerDefense;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.state.StateBasedGame;
+
 public class Player {
 	private int wave;
 	private int gold;
@@ -14,6 +23,14 @@ public class Player {
 		boughtTowers = 0;
 		wave = 1;
 		
+	}
+	
+	
+	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+		g.setColor(Color.black);
+		g.drawString("Or : "+this.gold, 1100, 628);
+		g.drawString("Vies : "+this.lives, 1100, 656);
+		g.drawString("Vagues : "+this.wave, 1100, 684);
 	}
 	
 	

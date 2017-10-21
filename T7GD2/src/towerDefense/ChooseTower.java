@@ -13,7 +13,6 @@ public class ChooseTower {
 	int y;
 	int lenX;
 	int lenY;
-	int ligne, colonne;
 
 	private Image sprite;
 	private int type = 1;
@@ -58,11 +57,11 @@ public class ChooseTower {
 		}
 	}
 	
-	public void update(int abs, int ord) throws SlickException {
-		click(abs, ord);
+	public boolean update(int abs, int ord) throws SlickException {
+		return click(abs, ord);
 	}
 	
-	public void click(int abs, int ord){
+	public boolean click(int abs, int ord){
 		if(ord >= y){
 			if(abs >= x){
 				for(int i = 0; i < nbTower; i++){
@@ -72,14 +71,17 @@ public class ChooseTower {
 						if(choose != chooseOld || deselect == false){
 							System.out.println("Vous avez choisi la tour nÂ°"+choose);
 							deselect = true;
+							return true;
 						}else{
 							deselect = false;
 							System.out.println("Vous avez dÃ©selectionnÃ© une tour");
+							return false;
 						}
 					}
 				}
 			}
 		}
+		return deselect;
 	}
 
 	public int getChoose() {
@@ -88,12 +90,5 @@ public class ChooseTower {
 
 	public int getChooseOld() {
 		return chooseOld;
-	}
-	
-	public void getTile (double X, double Y) {
-		// Indique les coordonnée ligne colonne dans un tableau de 2 éléments
-		ligne = (int)(X / 32);
-		colonne = (int)(Y /32);
-		
 	}
 }

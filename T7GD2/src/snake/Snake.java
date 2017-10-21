@@ -176,7 +176,7 @@ public class Snake {
 	
 	public void retrecir(){
 		if(body.size() == 1)
-			World.dead(this);
+			this.meurt();
 		body.remove((body.size()-1)); 
 	}
 	
@@ -185,7 +185,9 @@ public class Snake {
 	}
 	
 	public void plusLent(){
+		if (speed > 2){
 		speed = speed/2;
+		}
 	}
 	
 	
