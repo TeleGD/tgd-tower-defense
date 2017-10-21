@@ -13,6 +13,7 @@ import general.Main;
 public class Projectile {
 
 	private double x,y,speedX,speedY;
+	private float width, height;
 	private double damage;
 	private int dirX, dirY;
 	private Enemy target;
@@ -22,6 +23,8 @@ public class Projectile {
 	public Projectile (double x, double y, Enemy target, double damage){
 		this.x = x;
 		this.y = y;
+		width = 9;
+		height = 16;
 		this.damage = damage;
 		this.target = target;
 		faceTarget();
@@ -39,7 +42,7 @@ public class Projectile {
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		g.setColor(Color.orange);
-		g.fillRect((float)x,(float) y,(float) 8.0,(float) 8.0);
+		g.fillRect((float)x,(float) y,width,height);
 	}
 	
 	public void die(){
@@ -67,11 +70,11 @@ public class Projectile {
 		}
 		double tempY = target.getY();
 		if(y < tempY){
-			dirX = 1;
+			dirY = 1;
 		}else if(y == tempY){
-			dirX = 0;
+			dirY = 0;
 		}else{
-			dirX = -1;
+			dirY = -1;
 		}
 	}
 	
@@ -79,8 +82,15 @@ public class Projectile {
 		if(target != null){
 			faceTarget();
 		}
-		x += dirX*speedX*dt;
-		y += dirY*speedY*dt;
+		x += dirX*speedX*dt/2;
+		y += dirY*speedY*dt/2;
+		collisionBox.setLocation((float)x, (float)y);
+		if(target != null){
+			faceTarget();
+		}
+		x += dirX*speedX*dt/2;
+		y += dirY*speedY*dt/2;
+		collisionBox.setLocation((float)x, (float)y);
 		if(x > Main.longueur || y > Main.hauteur || x < 0 || y < 0){
 			alreadyDead = true;
 		}
