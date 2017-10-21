@@ -17,7 +17,7 @@ public class Level {
 		width = 32;
 		height = 32;
 		lenX = (int)(1280 / width);
-		lenY = (int)(720 / height);
+		lenY = (int)(616 / height);
 		genereMap();
 		
 	}
@@ -43,19 +43,20 @@ public class Level {
 		
 		int [] line1 = new int[lenX];
 		Arrays.fill(line1, 1);
-		map[0] = line1;
+		map[0] = line1; //Murs du haut
 		
 		for (int i=1; i < (int)(lenY - 4); i+=4)
 		{
-			map[i] = genereLine(0,1,1,2);
-			map[i+1] = genereLine(0,1,1,lenX - 1);
-			map[i+2] = genereLine(0,1,lenX - 2,lenX - 1);
-			map[i+3] = genereLine(0,1,1,lenX - 1);
+			map[i+3] = genereLine(0,1,1,2);
+			map[i+2] = genereLine(0,1,1,lenX - 1);
+			map[i+1] = genereLine(0,1,lenX - 2,lenX - 1);
+			map[i] = genereLine(0,1,1,lenX - 1);
 		}
-		
+
+		map[lenY -2] = genereLine(0,1,1,lenX - 1); //avant dernière ligne
 		map[1][1] = 2;    //spawn
-		map[lenY - 2][1] = 3;  //fin	
-		map[lenY-1] = line1;	
+		map[lenY - 2][lenX - 2 ] = 3;  //fin
+		map[lenY-1] = line1;	//Murs du bas
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
@@ -85,7 +86,11 @@ public class Level {
 	}
 	
 	public int getCase(int ligne, int colonne) {
-		return map[ligne][colonne];
+		if (ligne > lenY -1|| colonne > lenX - 1) {
+			return -1; //Dépassement de la carte
+		} else {
+			return map[ligne][colonne];
+		}
 	}
 	
 	public double getX(int colonne) {

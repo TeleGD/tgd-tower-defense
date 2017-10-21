@@ -2,7 +2,7 @@ package towerDefense;
 
 import java.util.ArrayList;
 
-import org.lwjgl.Sys;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -51,7 +51,7 @@ public class World extends BasicGameState {
 		c = new ChooseTower();
 		
 		towers.add(t);
-		e = new Enemy(2, 1, l);
+		e = new Enemy(20, 1, l);
 		enemies.add(e);
 		p = new Projectile(10,10,e,1);
 		projectiles.add(p);
@@ -76,7 +76,9 @@ public class World extends BasicGameState {
 		for(Projectile p : projectiles){
 			p.render(container,game,g);
 		}
-		
+
+		g.setColor(Color.cyan);
+		g.fillRect(32*3, 32*2, 32, 32);
 	}
 
 	public void updateArrays(){
