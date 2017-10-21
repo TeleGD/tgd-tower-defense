@@ -26,7 +26,7 @@ public class Bonus {
 		double b = r.nextFloat();
 		bonusType bonus;
 		if(b < 0.5)
-			bonus = bonusType.bRetrecis;
+			bonus = bonusType.bGrandis;
 		else if(b < 0.55)
 			bonus = bonusType.bRetrecis;
 		else if(b < 0.70)
