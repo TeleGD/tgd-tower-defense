@@ -65,6 +65,14 @@ public class World extends BasicGameState {
 		for(Projectile p : projectiles){
 			p.render(container,game,g);
 		}
+		
+		boolean ok = false;
+		
+		/*
+		while(!ok){
+			ok = c.clik(0 +2*16, 720 - 6*16);
+		}
+		*/
 	}
 
 	public void updateArrays(){
