@@ -5,6 +5,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -22,6 +23,8 @@ public class Enemy {
 	private double speed;
 	private Image sprite;
 	private Level map;
+	private int cx;
+	private int cy;
 	
 	public Enemy(int[] pos) {
 		this.x= 32*pos[1];
@@ -34,11 +37,12 @@ public class Enemy {
 		this.attack=1;
 		this.direction=0;
 		this.sprite=sprite;
-//		shape = new Shape();
-//		shape.setX((float) this.x);
-//		shape.setY((float) this.y);
-//		shape.setCenterX((float) this.x+16);
-//		shape.setCenterY((float) this.y+16);
+		this.cx=x;
+		this.cy=y;
+		
+		World.enemies.add(this);
+		
+		shape=new Rectangle((float)(x),(float)(y),(float) 32, (float) 32);
 	}
 	
 	
@@ -48,13 +52,31 @@ public class Enemy {
 	
 
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-		if ( ((float)(x) /32 ) == ((float)(x/32)) ) {
+		if ( this.x >= this.cx+32 && this.direction==2 ) {
+			this.x = this.cx+32;
 			calcNextPos();
 		}
+		else if ( this.x <= this.cx-32 && this.direction==4 ) {
+			this.x = this.cx-32;
+			calcNextPos();
+		}
+		else if ( this.y >= this.cy+32 && this.direction==3 ) {
+			this.y = this.cy+32;
+			calcNextPos();
+		}
+		else if ( this.y <= this.cy-32 && this.direction==1 ) {
+			this.y = this.cy-32;
+			calcNextPos();
+		}	
+			
 		move(delta);
 	}
 
 	public void calcNextPos() {
+		
+		this.cx = this.x;
+		this.cy = this.y;
+		
 		if ( map.getCase(this.nextPos[0]+1,this.nextPos[1])==0 && (this.nextPos[0]+1 != this.currentPos[0] || nextPos[1] != currentPos[1]) ) {
 			this.currentPos[0] = this.nextPos[0]; this.currentPos[1] = this.nextPos[1];
 			this.nextPos[0] += 1;
@@ -85,15 +107,19 @@ public class Enemy {
 		switch (this.direction) {
 			case 1 :
 				this.y-=speed*delta;
+				shape.setY((float) this.y);
 				break;
 			case 2 :
 				this.x+=speed*delta;
+				shape.setX((float) this.x);
 				break;
 			case 3 :
 				this.y+=speed*delta;
+				shape.setY((float) this.y);
 				break;
 			case 4 :
 				this.x-=speed*delta;
+				shape.setX((float) this.x);
 				break;
 			default :
 		}
