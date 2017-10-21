@@ -3,6 +3,7 @@ package towerDefense;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.state.StateBasedGame;
@@ -19,6 +20,8 @@ public class Enemy {
 	private int direction; // haut=1 -> sens horaire +1
 	private Shape shape;
 	private double speed;
+	private Image sprite;
+	private Level map;
 	
 	public Enemy(int[] pos) {
 		this.x= 32*pos[1];
@@ -30,6 +33,7 @@ public class Enemy {
 		this.life=10;
 		this.attack=1;
 		this.direction=0;
+		this.sprite=sprite;
 //		shape = new Shape();
 //		shape.setX((float) this.x);
 //		shape.setY((float) this.y);
@@ -39,8 +43,7 @@ public class Enemy {
 	
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-//		g.setColor(Color.red);
-//		g.fillOval((float)(x-rad),(float)(y-rad),(float)(2*rad),(float)(2*rad));
+		g.drawImage(sprite, (float)x, (float)y);
 	}
 	
 
@@ -52,27 +55,27 @@ public class Enemy {
 	}
 
 	public void calcNextPos() {
-		if ( getCase(this.nextPos[0]+1,this.nextPos[1])==0 && (this.nextPos[0]+1 != this.currentPos[0] || nextPos[1] != currentPos[1]) ) {
+		if ( map.getCase(this.nextPos[0]+1,this.nextPos[1])==0 && (this.nextPos[0]+1 != this.currentPos[0] || nextPos[1] != currentPos[1]) ) {
 			this.currentPos[0] = this.nextPos[0]; this.currentPos[1] = this.nextPos[1];
 			this.nextPos[0] += 1;
 			this.direction=1;
 		}
-		else if ( getCase(this.nextPos[0]-1,this.nextPos[1])==0 && (this.nextPos[0]-1 != this.currentPos[0] || nextPos[1] != currentPos[1]) ) {
+		else if ( map.getCase(this.nextPos[0]-1,this.nextPos[1])==0 && (this.nextPos[0]-1 != this.currentPos[0] || nextPos[1] != currentPos[1]) ) {
 			this.currentPos[0] = this.nextPos[0]; this.currentPos[1] = this.nextPos[1];
 			this.nextPos[0] -= 1;
 			this.direction=3;
 		}
-		else if ( getCase(this.nextPos[0],this.nextPos[1]+1)==0 && (this.nextPos[0] != this.currentPos[0] || nextPos[1]+1 != currentPos[1]) ) {
+		else if ( map.getCase(this.nextPos[0],this.nextPos[1]+1)==0 && (this.nextPos[0] != this.currentPos[0] || nextPos[1]+1 != currentPos[1]) ) {
 			this.currentPos[0] = this.nextPos[0]; this.currentPos[1] = this.nextPos[1];
 			this.nextPos[1] += 1;
 			this.direction=2;
 		}
-		else if ( getCase(this.nextPos[0],this.nextPos[1]-1)==0 && (this.nextPos[0] != this.currentPos[0] || nextPos[1]-1 != currentPos[1]) ) {
+		else if ( map.getCase(this.nextPos[0],this.nextPos[1]-1)==0 && (this.nextPos[0] != this.currentPos[0] || nextPos[1]-1 != currentPos[1]) ) {
 			this.currentPos[0] = this.nextPos[0]; this.currentPos[1] = this.nextPos[1];
 			this.nextPos[1] -= 1;
 			this.direction=4;
 		}
-		if ( getCase(nextPos[0]==nextPos[1]) ) {
+		if ( map.getCase(nextPos[0],nextPos[1]) == 3) {
 			// giveDamage(attack);
 		}
 	}
