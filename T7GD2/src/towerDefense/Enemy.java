@@ -35,7 +35,7 @@ public class Enemy {
 		this.currentPosY=posY;
 		this.nextPosX=posX;
 		this.nextPosY=posY;
-		this.speed = 0.15;
+		this.speed = 0.35;
 		this.life=1;
 		this.attack=1;
 		this.direction=0;
