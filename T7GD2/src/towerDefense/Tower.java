@@ -17,6 +17,7 @@ public class Tower {
 	private double timer;
 	private int type;
 	private int level;
+	private float radius;
 	
 	public double getX() {
 		return x;                             
@@ -57,6 +58,7 @@ public class Tower {
 			case 3: this.damage=3;
 					this.range=100;
 					this.attackSpeed=2000;
+					this.radius=64;
 			case 4:	this.damage=1;
 					this.range=112;
 					this.attackSpeed=1000;
@@ -100,6 +102,7 @@ public class Tower {
 			this.level+=1;
 			this.range+=25;
 			this.damage+=1;
+			this.radius+=16;
 			try {
 				sprite = new Image("images/TowerDefense/TowerType"+type+"Level1.png");
 			} catch (SlickException e) {
@@ -121,6 +124,7 @@ public class Tower {
 			this.level+=1;
 			this.range+=25;
 			this.damage+=1;
+			this.radius+=16;
 			try {
 				sprite = new Image("images/TowerDefense/TowerType"+type+"Level"+level+".png");
 			} catch (SlickException e) {
