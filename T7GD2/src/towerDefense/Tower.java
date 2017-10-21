@@ -1,10 +1,9 @@
 package towerDefense;
 
-import org.newdawn.slick.Color;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -14,9 +13,9 @@ public class Tower {
 	private Enemy enemy;
 	private double range;
 	private Image sprite;
-	private Image niveau1,niveau2,niveau3,niveau4,niveau5;
 	private double attackSpeed;
 	private double timer;
+	private int type;
 	
 	public double getX() {
 		return x;                             
@@ -26,12 +25,15 @@ public class Tower {
 		return y;
 	}
 	
-	public Tower(double x,double y,double damage,double attackSpeed,double range) {
+	public Tower(double x,double y,double damage,double attackSpeed,double range,int type) {
 		this.x=x;
 		this.y=y;
 		this.damage=damage;
-		this.sprite=niveau1;
-			
+		try {
+			sprite = new Image("images/TowerDefense/TowerType"+type+"Level1");
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
@@ -56,7 +58,7 @@ public class Tower {
 		return false;
 	}
 	
-	public void upgrade(int n) {
+	public void upgrade(int n) {               // n correspond au niveau
 		if (n==2) {
 			this.damage+=1;
 			this.sprite=niveau2;
