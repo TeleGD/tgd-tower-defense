@@ -9,24 +9,28 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class World extends BasicGameState {
 
-
+	public MenuMulti menu;
+	public static int longueur=1280;
+	public static int hauteur=720;
+	
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
+		menu = new MenuMulti();
 	}
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+		menu.render(container, game, g);
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+		menu.update(container, game, delta);
 	}
 
 	@Override
 	public int getID() {
-		// Aucune id�e
-		return 0;
-		
+		return 1;
 	}
 	
 	public void keyReleased(int key, char c){
@@ -36,6 +40,8 @@ public class World extends BasicGameState {
 
 	}
 	
-	
+	public static void reset() {
+		
+	}
 
 }
