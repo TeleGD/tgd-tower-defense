@@ -33,6 +33,7 @@ public class World extends BasicGameState {
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+		//init(container,game,g);
 		//l.render(container,game,g);
 		/*
 		for(Enemy e : enemies){
