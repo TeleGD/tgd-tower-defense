@@ -90,6 +90,7 @@ public class Snake {
 		body.remove((body.size()-1)); 
 		if (body.size()==0) {
 			meurt();
+			World.dead(this);
 		}
 		if (mort == false){
 			body.add(0,ajout);
