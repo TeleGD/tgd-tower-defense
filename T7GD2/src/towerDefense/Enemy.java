@@ -32,7 +32,6 @@ public class Enemy {
 		this.currentPos=pos;
 		this.nextPos=pos;
 		this.speed = 0.5;
-		this.destructed=false;
 		this.life=10;
 		this.attack=1;
 		this.direction=0;
@@ -97,8 +96,12 @@ public class Enemy {
 			this.nextPos[1] -= 1;
 			this.direction=4;
 		}
-		if ( map.getCase(nextPos[0],nextPos[1]) == 3) {
+		else {
+			this.currentPos[0] = this.nextPos[0]; this.currentPos[1] = this.nextPos[1];
+		}
+		if ( map.getCase(currentPos[0],currentPos[1]) == 3) {
 			// giveDamage(attack);
+			World.enemies.remove(this);
 		}
 	}
 
@@ -122,6 +125,7 @@ public class Enemy {
 				shape.setX((float) this.x);
 				break;
 			default :
+				calcNextPos();
 		}
 	}
 	
@@ -129,14 +133,10 @@ public class Enemy {
 	public void takeDamage(int damage) {
 		this.life -= damage;
 		if (this.life<=0) {
-			this.destructed = true;
+			World.enemies.remove(this);
 		}
 	}
-	
-	public boolean isDestructed() {
-		return this.destructed;
-	}
-	
+
 	public Shape getShape() {
 		return shape;
 	}
