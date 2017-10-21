@@ -46,7 +46,6 @@ public class World extends BasicGameState {
         for(int i=0;i<snakes.size();i++){
             snakes.get(i).render(container, game, g);
             g.setColor(Color.black);
-
         }
 
         g.setColor(new Color(150,150,150));
@@ -62,10 +61,11 @@ public class World extends BasicGameState {
         g.resetFont();
 
         for(int i=0;i<snakes.size();i++){
-            g.drawString(snakes.get(i).nom+" : ",World.longueur-widthBandeau+20,100+30*i);
+            g.setColor(snakes.get(i).couleur);
+            g.drawString(snakes.get(i).nom+" : "+snakes.get(i).score,World.longueur-widthBandeau+20,100+30*i);
         }
-        replay.render(container, game, g);
 
+        replay.render(container, game, g);
         menu.render(container, game, g);
 
     }
@@ -76,6 +76,7 @@ public class World extends BasicGameState {
         replay.update(container, game,delta);
 
         for(int i=0;i<snakes.size();i++){
+            snakes.get(i).GScore(1);
             snakes.get(i).update(container, game,delta);
 
             for(int j = i+1;j<snakes.size();j++){
