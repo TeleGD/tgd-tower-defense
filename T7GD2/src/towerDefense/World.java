@@ -52,9 +52,9 @@ public class World extends BasicGameState {
 		towers.add(t);
 		e = new Enemy(1, 1, l);
 		enemies.add(e);
-		p = new Projectile(32*20,32*4,e,1);
+		p = new Projectile(32*20,32*0,e,1);
 		projectiles.add(p);
-		
+		projectiles.add(new Projectile(32*25,32*10,e,1,3));
 		ab = 0;
 		or = 0;
 		input = container.getInput();
@@ -78,6 +78,7 @@ public class World extends BasicGameState {
 	}
 
 	public void updateArrays(){
+		//Useless method
 		tempTowers.clear();
 		tempTowers.addAll(towers);
 		tempEnemies.clear();
@@ -89,13 +90,20 @@ public class World extends BasicGameState {
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		l.update(container, game, delta);
-		updateArrays();
+		tempTowers.clear();
+		tempTowers.addAll(towers);
 		for(Tower t: towers){
 			t.update(container, game, delta);
 		}
+		
+		tempEnemies.clear();
+		tempEnemies.addAll(enemies);
 		for(Enemy e : tempEnemies){
 			e.update(container, game, delta);
 		}
+		
+		tempProjectiles.clear();
+		tempProjectiles.addAll(projectiles);
 		for(Projectile p : tempProjectiles){
 			p.update(container, game, delta);
 		}
