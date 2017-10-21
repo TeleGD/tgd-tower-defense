@@ -34,6 +34,7 @@ public class World extends BasicGameState {
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		//init(container,game,g);
+		//dessine la map
 		//l.render(container,game,g);
 		/*
 		for(Enemy e : enemies){
@@ -63,5 +64,13 @@ public class World extends BasicGameState {
 	
 	public void keyPressed(int key, char c){
 
+	}
+	
+	public void chooseTower(){
+		Graphics g;
+		g.setColor(Color.green);
+		for(int i = 0; i < 4; i++){
+			
+		}
 	}
 }
