@@ -113,7 +113,7 @@ public class World extends BasicGameState {
             }
         }
         
-        addBonus();
+        //addBonus();
 
     }
     
