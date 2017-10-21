@@ -28,6 +28,7 @@ public class Snake {
 	public int dir;
 	public int score;
 	public boolean mort ;
+	public boolean inverse;
 	
 	public Snake(Color couleur,int x_init, int TDroite, int TGauche,int taille_init, String nom,int speed) {
 		this.couleur = couleur;
@@ -39,6 +40,7 @@ public class Snake {
 		this.score = 0;
 		this.speed = speed;
 		this.mort = false;
+		this.inverse = false;
 		for (int i = 0;i<taille_init;i++){
 			body.add(new Point(x_init,(nbcasesh-i)));
 		}
@@ -179,11 +181,11 @@ public class Snake {
 	}
 	
 	public void plusRapide(){
-		speed += 5;
+		speed = speed * 2;
 	}
 	
 	public void plusLent(){
-		speed -= 5;
+		speed = speed/2;
 	}
 	
 	
@@ -200,7 +202,6 @@ public class Snake {
 		if (compteur >= 20){	
 			move();
 			compteur -=20;
-		System.out.println(body.get(0).y);
 		}
 			//turn();
 	}	

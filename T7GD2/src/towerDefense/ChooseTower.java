@@ -13,6 +13,7 @@ public class ChooseTower {
 	int y;
 	int lenX;
 	int lenY;
+	int ligne, colonne;
 
 	private Image sprite;
 	private int type = 1;
@@ -87,5 +88,12 @@ public class ChooseTower {
 
 	public int getChooseOld() {
 		return chooseOld;
+	}
+	
+	public void getTile (double X, double Y) {
+		// Indique les coordonnée ligne colonne dans un tableau de 2 éléments
+		ligne = (int)(X / 32);
+		colonne = (int)(Y /32);
+		
 	}
 }

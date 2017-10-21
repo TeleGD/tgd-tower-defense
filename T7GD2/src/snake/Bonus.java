@@ -5,7 +5,9 @@ import java.util.Random;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Bonus {
@@ -13,6 +15,7 @@ public class Bonus {
 	public Point pt;
 	
 	public static enum bonusType {bGrandis,bRetrecis,bRapide,bLent,bMort,bInverseBonus,bInverseMalus};
+	
 	
 	public bonusType type;
 	public Image imageBonus;
@@ -37,7 +40,7 @@ public class Bonus {
 		else
 			bonus = bonusType.bMort;
 		
-		return new Bonus(pt,bonus,r.nextInt(4)+1);
+		return new Bonus(pt,bonus,r.nextInt(2)+1);
 	}
 	
 	public Bonus(Point pt,int numBonus,int rayon){
@@ -62,8 +65,13 @@ public class Bonus {
 		switch(this.type){
 		case bGrandis:
 			s.grandir();
+			s.grandir();
+			s.grandir();
+			s.grandir();
 		break;
 		case bRetrecis:
+			s.retrecir();
+			s.retrecir();
 			s.retrecir();
 		break;
 		case bRapide:

@@ -127,9 +127,11 @@ public class World extends BasicGameState {
 
             for (Iterator<Bonus> it = bonus.iterator();it.hasNext();) {
                 Bonus b = it.next();
+                if (!snakes.get(i).mort){
                 if (b.isInBonus(snakes.get(i).body.get(0))) {
                     b.applyBonus(snakes.get(i));
                     it.remove();
+                	}
                 }
             }
 
