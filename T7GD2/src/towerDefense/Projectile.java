@@ -37,7 +37,7 @@ public class Projectile {
 		alreadyDead = false;
 		this.collisionBox = new Rectangle((float)x,(float)y,(float)8,(float)8);
 		try {
-			sprite = new Image("images/towerDefense/Arrow.png");
+			sprite = new Image("images/TowerDefense/Arrow.png");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -67,7 +67,7 @@ public class Projectile {
 			this.speedX = 0.6;
 			this.speedY = 0.6;			
 			try {
-				sprite = new Image("images/towerDefense/Arrow.png");
+				sprite = new Image("images/TowerDefense/Arrow.png");
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -82,7 +82,7 @@ public class Projectile {
 			this.speedY = 0.6;
 			this.radius = radius;
 			try {
-				sprite = new Image("images/towerDefense/Bomb.png");
+				sprite = new Image("images/TowerDefense/Bomb.png");
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -96,7 +96,7 @@ public class Projectile {
 			this.speedX = 0.6;
 			this.speedY = 0.6;
 			try {
-				sprite = new Image("images/towerDefense/Bolt.png");
+				sprite = new Image("images/TowerDefense/Bolt.png");
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -123,7 +123,7 @@ public class Projectile {
 		this.speedX = 0.6;
 		this.speedY = 0.6;
 		try {
-			sprite = new Image("images/towerDefense/Bomb.png");
+			sprite = new Image("images/TowerDefense/Bomb.png");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
