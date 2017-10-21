@@ -113,14 +113,14 @@ public class World extends BasicGameState {
             }
         }
         
-        //addBonus();
+        addBonus();
 
     }
     
     private void addBonus(){
     	Random r =  new Random();
     	if(r.nextFloat() >= 0.99){
-    		bonus.add(new Bonus(new Point(r.nextInt(nbcasesl),r.nextInt(nbcasesh)),bonusType.values()[r.nextInt(bonusType.values().length)]));
+    		bonus.add(new Bonus(new Point(r.nextInt(nbcasesl),r.nextInt(nbcasesh))));
     	}
     }
 

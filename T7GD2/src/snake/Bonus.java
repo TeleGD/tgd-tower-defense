@@ -19,8 +19,20 @@ public class Bonus {
 	public Bonus(Point pt){
 		double b = Math.random();
 		bonusType bonus;
-		if(b > 0.5)
+		if(b > 0.4)
 			bonus = bonusType.bGrandis;
+		else if(b > 0.6)
+			bonus = bonusType.bRetrecis;
+		else if(b > 0.7)
+			bonus = bonusType.bRapide;
+		else if(b > 0.8)
+			bonus = bonusType.bLent;
+		else if(b > 0.9)
+			bonus = bonusType.bInverseBonus;
+		else if(b > 0.95)
+			bonus = bonusType.bInverseMalus;
+		else
+			bonus = bonusType.bMort;
 		
 	}
 	
