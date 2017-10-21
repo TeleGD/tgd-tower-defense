@@ -85,7 +85,11 @@ public class Level {
 	}
 	
 	public int getCase(int ligne, int colonne) {
-		return map[ligne][colonne];
+		if (ligne > lenY -1|| colonne > lenX - 1) {
+			return -1; //Dépassement de la carte
+		} else {
+			return map[ligne][colonne];
+		}
 	}
 	
 	public double getX(int colonne) {
