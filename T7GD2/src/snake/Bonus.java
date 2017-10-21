@@ -25,15 +25,15 @@ public class Bonus {
 		Random r = new Random();
 		double b = r.nextFloat();
 		bonusType bonus;
-		if(b < 0.4)
-			bonus = bonusType.bGrandis;
-		else if(b < 0.6)
+		if(b < 0.5)
 			bonus = bonusType.bRetrecis;
-		else if(b < 0.7)
+		else if(b < 0.55)
+			bonus = bonusType.bRetrecis;
+		else if(b < 0.70)
 			bonus = bonusType.bRapide;
-		else if(b < 0.8)
+		else if(b < 0.85)
 			bonus = bonusType.bLent;
-		else if(b < 0.9)
+		else if(b < 0.90)
 			bonus = bonusType.bInverseBonus;
 		else if(b < 0.95)
 			bonus = bonusType.bInverseMalus;
@@ -70,9 +70,12 @@ public class Bonus {
 			s.grandir();
 		break;
 		case bRetrecis:
-			s.retrecir();
-			s.retrecir();
-			s.retrecir();
+			if(s.body.size() >= 1)
+				s.retrecir();
+			if(s.body.size() >= 1)
+				s.retrecir();
+			if(s.body.size() >= 1)
+				s.retrecir();
 		break;
 		case bRapide:
 			s.plusRapide();
@@ -81,7 +84,7 @@ public class Bonus {
 			s.plusLent();
 		break;
 		case bMort:
-			World.dead(s);
+			s.meurt();
 			
 		break;
 		case bInverseBonus:
