@@ -17,6 +17,7 @@ public class Projectile {
 	private int dirX, dirY;
 	private Enemy target;
 	private Shape collisionBox;
+	private boolean alreadyDead;
 
 	public Projectile (double x, double y, Enemy target, double damage){
 		this.x = x;
@@ -24,14 +25,16 @@ public class Projectile {
 		this.damage = damage;
 		this.target = target;
 		faceTarget();
-		this.speedX = 0;
-		this.speedY = 0;
+		this.speedX = 0.6;
+		this.speedY = 0.6;
+		alreadyDead = false;
 		this.collisionBox = new Rectangle((float)x,(float)y,(float)8,(float)8);
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		checkForCollision();
 		move(delta);
+		if(alreadyDead) die();
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
@@ -47,7 +50,7 @@ public class Projectile {
 		for(Enemy e : World.enemies){
 			if(collisionBox.intersects(e.getShape())){
 				e.takeDamage((int)damage);
-				die();
+				alreadyDead = true;
 				return;
 			}
 		}
@@ -79,7 +82,7 @@ public class Projectile {
 		x += dirX*speedX*dt;
 		y += dirY*speedY*dt;
 		if(x > Main.longueur || y > Main.hauteur || x < 0 || y < 0){
-			die();
+			alreadyDead = true;
 		}
 	}
 	
