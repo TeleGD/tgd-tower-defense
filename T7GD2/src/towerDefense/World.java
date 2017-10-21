@@ -18,6 +18,8 @@ public class World extends BasicGameState {
 	//A VIRER
 	private Level l;
 	private Tower t;
+	private Enemy e;
+	private Projectile p;
 	
 	public int getID(){
 		return ID;
@@ -35,6 +37,10 @@ public class World extends BasicGameState {
 		l = new Level();
 		t = new Tower((double)10, (double)10, (double)1, (double)1, (double)10, 1);
 		towers.add(t);
+		e = new Enemy(10, 10, l);
+		enemies.add(e);
+		p = new Projectile(10,10,e,1);
+		projectiles.add(p);
 		//System.out.println("Level created");
 	}
 
