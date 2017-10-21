@@ -27,9 +27,10 @@ public class Player {
 	
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-		g.drawString("Or : "+this.gold, 1100, 630);
-		g.drawString("Vies : "+this.lives, 1100, 660);
-		g.drawString("Vagues : "+this.wave, 1100, 690);
+		g.setColor(Color.black);
+		g.drawString("Or : "+this.gold, 1100, 628);
+		g.drawString("Vies : "+this.lives, 1100, 656);
+		g.drawString("Vagues : "+this.wave, 1100, 684);
 	}
 	
 	

@@ -20,6 +20,7 @@ public class World extends BasicGameState {
 	private Level l;
 	private Tower t;
 	private ChooseTower c;
+	int ligne, colonne;
 
 	private Enemy e;
 	private Projectile p;
@@ -27,6 +28,7 @@ public class World extends BasicGameState {
 	int ab;
 	int or;
 	Input input;
+	boolean atarashi;
 	
 	public int getID(){
 		return ID;
@@ -52,12 +54,13 @@ public class World extends BasicGameState {
 		towers.add(t);
 		e = new Enemy(1, 1, l);
 		enemies.add(e);
-		p = new Projectile(32*20,32*4,e,1);
+		p = new Projectile(32*20,32*0,e,1);
 		projectiles.add(p);
-		
+		projectiles.add(new Projectile(32*25,32*10,e,1,3));
 		ab = 0;
 		or = 0;
 		input = container.getInput();
+		atarashi = false;
 	}
 
 	@Override
@@ -78,6 +81,7 @@ public class World extends BasicGameState {
 	}
 
 	public void updateArrays(){
+		//Useless method
 		tempTowers.clear();
 		tempTowers.addAll(towers);
 		tempEnemies.clear();
@@ -89,13 +93,20 @@ public class World extends BasicGameState {
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		l.update(container, game, delta);
-		updateArrays();
+		tempTowers.clear();
+		tempTowers.addAll(towers);
 		for(Tower t: towers){
 			t.update(container, game, delta);
 		}
+		
+		tempEnemies.clear();
+		tempEnemies.addAll(enemies);
 		for(Enemy e : tempEnemies){
 			e.update(container, game, delta);
 		}
+		
+		tempProjectiles.clear();
+		tempProjectiles.addAll(projectiles);
 		for(Projectile p : tempProjectiles){
 			p.update(container, game, delta);
 		}
@@ -103,10 +114,17 @@ public class World extends BasicGameState {
 				
 		
 		if(input.isMousePressed(0)){
-			
 			changeMouse();
-			c.update(ab, or);
+			//atarashi = c.update(ab, or);
+			/*
+			if(ab > 0 && ab < 0 && or > 0 && or < 616 && atarashi == true){
+				getTile(ab, or);
+				if(l.getCase(ligne, colonne) != 1){
+					towers.add(new Tower(ligne, colonne, 1));
+				}
+			}*/
 		}
+		
 		
 	}
 	
@@ -120,5 +138,12 @@ public class World extends BasicGameState {
 	public void changeMouse(){
 		ab = input.getMouseX();
 		or = input.getMouseY();
+	}
+	
+	public void getTile (int X, int Y) {
+		// Indique les coordonn�e ligne colonne dans un tableau de 2 �l�ments
+		ligne = (int)(X / 32);
+		colonne = (int)(Y /32);
+		
 	}
 }

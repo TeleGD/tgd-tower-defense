@@ -16,7 +16,7 @@ public class Projectile {
 
 	private double x,y,speedX,speedY, damage;
 	private float width, height, radius;
-	private int dirX, dirY, type;
+	private int dirX, dirY, type, angle;
 	private Enemy target;
 	private Shape collisionBox;
 	private boolean alreadyDead;
@@ -35,9 +35,9 @@ public class Projectile {
 		this.speedX = 0.6;
 		this.speedY = 0.6;
 		alreadyDead = false;
-		this.collisionBox = new Rectangle((float)x,(float)y,(float)8,(float)8);
+		this.collisionBox = new Rectangle((float)x,(float)y,(float)width,(float)height);
 		try {
-			sprite = new Image("images/towerDefense/Arrow.png");
+			sprite = new Image("images/TowerDefense/Arrow.png");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -47,9 +47,9 @@ public class Projectile {
 	
 	public Projectile(double x, double y, Enemy target, double damage, int type){
 		/* Types :
-		 * 0 : Normal
-		 * 1 : Powerful but slow
-		 * 2 : AOE
+		 * 1 : Normal
+		 * 2 : Powerful but slow
+		 * 3 : AOE
 		 */
 		this.x = x;
 		this.y = y;
@@ -57,7 +57,6 @@ public class Projectile {
 		alreadyDead = false;
 		this.type = type;
 		this.radius = 0;
-		
 		switch(type){
 		default:
 			width = 9;
@@ -67,7 +66,7 @@ public class Projectile {
 			this.speedX = 0.6;
 			this.speedY = 0.6;			
 			try {
-				sprite = new Image("images/towerDefense/Arrow.png");
+				sprite = new Image("images/TowerDefense/Arrow.png");
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -80,9 +79,9 @@ public class Projectile {
 			//A ADAPTER A LA VITESSE DES ENNEMIS
 			this.speedX = 0.6;
 			this.speedY = 0.6;
-			this.radius = radius;
+			this.radius = 64;
 			try {
-				sprite = new Image("images/towerDefense/Bomb.png");
+				sprite = new Image("images/TowerDefense/Bomb.png");
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -96,7 +95,7 @@ public class Projectile {
 			this.speedX = 0.6;
 			this.speedY = 0.6;
 			try {
-				sprite = new Image("images/towerDefense/Bolt.png");
+				sprite = new Image("images/TowerDefense/Bolt.png");
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -109,7 +108,6 @@ public class Projectile {
 	}
 	
 	public Projectile(double x, double y, Enemy target, double damage, float radius){
-	
 		this.x = x;
 		this.y = y;
 		this.damage = damage;
@@ -123,7 +121,7 @@ public class Projectile {
 		this.speedX = 0.6;
 		this.speedY = 0.6;
 		try {
-			sprite = new Image("images/towerDefense/Bomb.png");
+			sprite = new Image("images/TowerDefense/Bomb.png");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -142,6 +140,8 @@ public class Projectile {
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		g.drawImage(sprite,(float) x,(float) y);
+		//g.setColor(Color.cyan);
+		//g.fillRect(collisionBox.getX(), collisionBox.getY(), collisionBox.getWidth(), collisionBox.getHeight());
 	}
 	
 	public void die(){
@@ -165,7 +165,7 @@ public class Projectile {
 					break;
 				case 3:
 					//AOE
-					for(Enemy enn:World.enemies){
+					for(Enemy enn:World.tempEnemies){
 						if(distanceToTarget(enn)<=radius){
 							enn.takeDamage((int) damage);
 						}
@@ -200,49 +200,42 @@ public class Projectile {
 		}
 		
 		//Sprite orientation :
-		int a = 0;
-		switch(dirX){
-		case -1:
-			switch(dirY){
-			case -1:
-				sprite.setRotation(a+135);
-				break;
-			case 0:
-				sprite.setRotation(a+90);
-				break;
-			case 1:
-				sprite.setRotation(a+45);
-				break;
-			}
+		int previousAngle = angle;
+		int dirnum = 3*dirY + dirX;
+		switch(dirnum){//WARNING : the angles are measured in anti-trigonometric order
+		case -4://Up-left
+			angle = 135;
 			break;
-		case 0:
-			switch(dirY){
-			case -1:
-				sprite.setRotation(a-180);
-				break;
-			case 0:
-				//This should be encountered only in case of collision
-				break;
-			case 1:
-				sprite.setRotation(a+0);
-				break;
-			}
+		case -3://Up
+			angle = 180;
 			break;
-		case 1:
-			switch(dirY){
-			case -1:
-				sprite.setRotation(a-135);
-				break;
-			case 0:
-				sprite.setRotation(a-90);
-				break;
-			case 1:
-				sprite.setRotation(a-45);
-				break;
-			}
+		case -2://Up-right
+			angle = -135;
+			break;
+		case -1://Left
+			angle = 90;
+			break;
+		case 0://Collision case
+			previousAngle = 0;
+			angle = 0;
+			break;
+		case 1://Right
+			angle = -90;
+			break;
+		case 2://Down-left
+			angle = 45;
+			break;
+		case 3://Down
+			angle = 0;
+			break;
+		case 4://Down-right
+			angle = -45;
 			break;
 		}
-		
+		sprite.setRotation(angle);
+		int deltaAngle = previousAngle - angle;
+		System.out.println("Delta : "+deltaAngle);
+		collisionBox.transform(Transform.createRotateTransform(deltaAngle));
 	}
 	
 	public void move(int dt){
