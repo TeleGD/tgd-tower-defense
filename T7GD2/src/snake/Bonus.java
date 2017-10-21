@@ -1,9 +1,13 @@
 package snake;
 
+import java.util.Random;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Bonus {
@@ -12,35 +16,38 @@ public class Bonus {
 	
 	public static enum bonusType {bGrandis,bRetrecis,bRapide,bLent,bMort,bInverseBonus,bInverseMalus};
 	
+	
 	public bonusType type;
 	public Image imageBonus;
 	public int rayon;
 	
-	public Bonus(Point pt){
-		double b = Math.random();
+	public static Bonus RandomBonus(Point pt){
+		Random r = new Random();
+		double b = r.nextFloat();
 		bonusType bonus;
-		if(b > 0.4)
+		if(b < 0.4)
 			bonus = bonusType.bGrandis;
-		else if(b > 0.6)
+		else if(b < 0.6)
 			bonus = bonusType.bRetrecis;
-		else if(b > 0.7)
+		else if(b < 0.7)
 			bonus = bonusType.bRapide;
-		else if(b > 0.8)
+		else if(b < 0.8)
 			bonus = bonusType.bLent;
-		else if(b > 0.9)
+		else if(b < 0.9)
 			bonus = bonusType.bInverseBonus;
-		else if(b > 0.95)
+		else if(b < 0.95)
 			bonus = bonusType.bInverseMalus;
 		else
 			bonus = bonusType.bMort;
 		
+		return new Bonus(pt,bonus,r.nextInt(2)+1);
 	}
 	
-	public Bonus(Point pt,int numBonus){
-		this(pt,bonusType.values()[numBonus]);
+	public Bonus(Point pt,int numBonus,int rayon){
+		this(pt,bonusType.values()[numBonus],rayon);
 	}
 	
-	public Bonus(Point pt,bonusType bonus){
+	public Bonus(Point pt,bonusType bonus,int rayon){
 		this.pt=pt;
 		this.type = bonus;
 		
@@ -51,15 +58,20 @@ public class Bonus {
 			e.printStackTrace();
 		}
 		
-		this.rayon = 2;
+		this.rayon = rayon;
 	}
 	
 	public void applyBonus(Snake s){
 		switch(this.type){
 		case bGrandis:
 			s.grandir();
+			s.grandir();
+			s.grandir();
+			s.grandir();
 		break;
 		case bRetrecis:
+			s.retrecir();
+			s.retrecir();
 			s.retrecir();
 		break;
 		case bRapide:
