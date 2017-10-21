@@ -29,7 +29,7 @@ public class MenuMulti {
 	public int debutNom = World.longueur/2 - longueurMenu/10;
 	private Button boutonStart;
 	private Snake[] joueurs;
-	private boolean enleve=false;
+	public boolean enleve=false;
 	private int[] touchesDefaut = {Input.KEY_RIGHT,Input.KEY_LEFT, Input.KEY_Z, Input.KEY_A, Input.KEY_P, Input.KEY_O, Input.KEY_X, Input.KEY_W, Input.KEY_N, Input.KEY_B};
 	private Color[] couleursDefaut =new Color[] {Color.white, Color.blue,Color.red,Color.green,Color.pink};
 	
@@ -56,6 +56,8 @@ public class MenuMulti {
 				for (int i = 0;i<nJoueur;i+=1) {
 					yn = debuty + (i+1)*pas;
 					fieldNomsJoueurs[i] = new TextField(container , debutNom , yn , longueurMenu/2 , hauteurMenu/15 );
+					fieldNomsJoueurs[i].setBackgroundColor(Color.black);
+					fieldNomsJoueurs[i].setTextColor(couleursDefaut[i]);
 					fieldNomsJoueurs[i].setText("Joueur "+(i+1));
 					fieldNomsJoueurs[i].setPlaceHolder("Entrer le nom du joueur");
 					fieldNomsJoueurs[i].setPadding(5, 5, 0, 15);
@@ -74,7 +76,7 @@ public class MenuMulti {
 				// TODO Auto-generated method stub
 				joueurs = new Snake[nJoueur];
 				for (int i = 0;i<nJoueur;i+=1) {
-					joueurs[i] = new Snake(couleursDefaut[i],20+20*i,touchesDefaut[2*i],touchesDefaut[2*i+1],10,fieldNomsJoueurs[i].getText(),10);
+					joueurs[i] = new Snake(couleursDefaut[i],(100-nJoueur)/(nJoueur+1) + i*((100-nJoueur)/(nJoueur+1)+1),touchesDefaut[2*i],touchesDefaut[2*i+1],10,fieldNomsJoueurs[i].getText(),10);
 				}
 				World.setSnakes(joueurs);
 				enleve = true;
@@ -95,7 +97,7 @@ public class MenuMulti {
 				yn = debuty + i*pas;
 				g.setColor(new Color(0,0,0));
 				if (fieldNomsJoueurs[i-1]!=null) {
-					g.drawString("nom joueur "+i+" :",debutx,yn);
+					g.drawString("Nom Joueur n°"+i+" :",debutx,yn+5);
 					fieldNomsJoueurs[i-1].render(container, game, g);
 				}
 			}
