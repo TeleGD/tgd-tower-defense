@@ -6,14 +6,15 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import general.ui.Button;
 import general.ui.TextField;
 import general.ui.TextField.EnterActionListener;
 
 public class MenuMulti {
 	
-	public int hauteurMenu=World.hauteur/2;
-	public int longueurMenu=World.longueur/4;
-	public int debutx=(World.longueur-longueurMenu)/2+longueurMenu/10;
+	public int hauteurMenu=(int)(World.hauteur/1.5);
+	public int longueurMenu=World.longueur/3;
+	public int debutx=(World.longueur-longueurMenu)/2+longueurMenu/15;
 	public int debuty=(World.hauteur-hauteurMenu)/2+hauteurMenu/10;
 	public int debutdroiteansx=(World.longueur+longueurMenu)/2-longueurMenu/10-longueurMenu/8;
 	public TextField nbrJoueurs;
@@ -23,16 +24,17 @@ public class MenuMulti {
 	public String[] nomsJoueurs;
 	public TextField[] fieldNomsJoueurs;
 	public int debutNom = World.longueur/2 - longueurMenu/10;
+	private Button boutonStart;
 	
 	public MenuMulti() {
 		
 	}
 	
-	public void init(GameContainer container, StateBasedGame game) throws SlickException {
+	public void init(final GameContainer container, StateBasedGame game) throws SlickException {
 		nbrJoueurs = new TextField(container, debutdroiteansx, debuty,longueurMenu/8, hauteurMenu/15);
 		nbrJoueurs.setPlaceHolder("");
 		nbrJoueurs.setText("0");
-		nbrJoueurs.setPadding(2, 2, 0, 15);
+		nbrJoueurs.setPadding(5, 5, 0, 23);
 		nbrJoueurs.setMaxNumberOfLetter(1);
 		nbrJoueurs.setEnterActionListener(new EnterActionListener() {
 
@@ -45,10 +47,13 @@ public class MenuMulti {
 					yn = debuty + (i+1)*pas;
 					fieldNomsJoueurs[i] = new TextField(container , debutNom , yn , longueurMenu/2 , hauteurMenu/15 );
 					fieldNomsJoueurs[i].setText("Joueur "+(i+1));
-					fieldNomsJoueurs[i].setPadding(2, 2, 0, 15);
-					nbrJoueurs.setMaxNumberOfLetter(30);
-				}
+					fieldNomsJoueurs[i].setPadding(5, 5, 0, 15);
+					fieldNomsJoueurs[i].setMaxNumberOfLetter(20);
+				}		
 			}});
+		
+		boutonStart = new Button("START",container,World.longueur/2-longueurMenu/6,(World.hauteur+hauteurMenu)/2-8*hauteurMenu/75,longueurMenu/3,hauteurMenu/15);
+		boutonStart.setBackgroundColor(Color.green);
 		
 		
 	}
@@ -64,14 +69,17 @@ public class MenuMulti {
 			yn = debuty + i*pas;
 			g.setColor(new Color(0,0,0));
 			if (fieldNomsJoueurs[i-1]!=null) {
-				g.drawString("nom joueur "+i,debutx,yn);
+				g.drawString("nom joueur "+i+" :",debutx,yn);
 				fieldNomsJoueurs[i-1].render(container, game, g);
 			}
 		}
+		
+		boutonStart.render(container, game, g);
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		nbrJoueurs.update(container, game, delta);
+		boutonStart.update(container, game, delta);
 		
 	}
 
