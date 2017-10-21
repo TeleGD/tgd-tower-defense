@@ -18,6 +18,10 @@ public class World extends BasicGameState {
 	//A VIRER
 	private Level l;
 	private Tower t;
+	private ChooseTower c;
+
+	private Enemy e;
+	private Projectile p;
 	
 	public int getID(){
 		return ID;
@@ -34,13 +38,20 @@ public class World extends BasicGameState {
 		towers = new ArrayList<Tower>();
 		l = new Level();
 		t = new Tower((double)10, (double)10, (double)1, (double)1, (double)10, 1);
+		c = new ChooseTower();
+		
 		towers.add(t);
-		//System.out.println("Level created");
+		e = new Enemy(2, 1, l);
+		enemies.add(e);
+		p = new Projectile(10,10,e,1);
+		projectiles.add(p);
 	}
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		l.render(container,game,g);
+		c.render(container, game, g);
+		
 		for(Tower t : towers){
 			t.render(container, game, g);
 		}
@@ -61,9 +72,12 @@ public class World extends BasicGameState {
 		for(Enemy e : enemies){
 			e.update(container, game, delta);
 		}
-		for(Projectile p : projectiles){
-			p.update(container, game, delta);
+		if(projectiles != null){
+			for(Projectile p : projectiles){
+				p.update(container, game, delta);
+			}
 		}
+		//System.out.println(delta);
 	}
 	
 	public void keyReleased(int key, char c){

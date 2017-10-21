@@ -53,6 +53,8 @@ public class Level {
 			map[i+3] = genereLine(0,1,1,lenX - 1);
 		}
 		
+		map[1][1] = 3;    //fin
+		map[lenY - 2][1] = 2;	//spawn			
 		map[lenY-1] = line1;	
 	}
 	
@@ -62,8 +64,13 @@ public class Level {
 		{
 			for(int j = 0; j < lenX; j++)
 			{
-				if (map[i][j] == 1) {
-					g.fillRect((float)(32*j), (float)(720-32*(i+1)),(float) width, (float)height);
+				switch (map[i][j]) {
+				case 1 : g.setColor(Color.green);g.fillRect((float)(32*j), (float)(720-32*(i+1)),(float) width, (float)height);
+				break;
+				case 2 :  g.setColor(Color.red);g.fillRect((float)(32*j), (float)(720-32*(i+1)),(float) width, (float)height);
+				break;
+				case 3 :  g.setColor(Color.blue);g.fillRect((float)(32*j), (float)(720-32*(i+1)),(float) width, (float)height);
+				break;
 				}
 			}
 		}
@@ -78,5 +85,14 @@ public class Level {
 		return map[ligne][colonne];
 	}
 	
+	public double getX(int colonne) {
+		//Donne le x du point en haut à gauche de la case à la colonne 'colonne'
+		return 32*colonne;
+	}
+	
+	public double getY(int ligne) {
+		//Donne le y du point en haut à gauche de la case à la ligne 'ligne'
+		return (720- 32*(ligne+1));
+	}
 
 }
