@@ -13,9 +13,10 @@ public class Enemy {
 	
 	private int x;
 	private int y;
-	private int[] nextPos;
-	private int[] currentPos;
-	private boolean destructed;
+	private int nextPosX;
+	private int nextPosY;
+	private int currentPosX;
+	private int currentPosY;
 	private int life;
 	private int attack;
 	private int direction; // haut=1 -> sens horaire +1
@@ -26,11 +27,13 @@ public class Enemy {
 	private int cx;
 	private int cy;
 	
-	public Enemy(int[] pos) {
-		this.x= 32*pos[1];
-		this.y= 720-32*pos[0];
-		this.currentPos=pos;
-		this.nextPos=pos;
+	public Enemy(int posX, int posY) {
+		this.x= 32*posY;
+		this.y= 720-32*posX;
+		this.currentPosX=posX;
+		this.currentPosY=posY;
+		this.nextPosX=posX;
+		this.nextPosY=posY;
 		this.speed = 0.5;
 		this.life=10;
 		this.attack=1;
@@ -76,30 +79,30 @@ public class Enemy {
 		this.cx = this.x;
 		this.cy = this.y;
 		
-		if ( map.getCase(this.nextPos[0]+1,this.nextPos[1])==0 && (this.nextPos[0]+1 != this.currentPos[0] || nextPos[1] != currentPos[1]) ) {
-			this.currentPos[0] = this.nextPos[0]; this.currentPos[1] = this.nextPos[1];
-			this.nextPos[0] += 1;
+		if ( map.getCase(this.nextPosX+1,this.nextPosY)==0 && (this.nextPosX+1 != this.currentPosX || nextPosY != currentPosY) ) {
+			this.currentPosX = this.nextPosX; this.currentPosY = this.nextPosY;
+			this.nextPosX += 1;
 			this.direction=1;
 		}
-		else if ( map.getCase(this.nextPos[0]-1,this.nextPos[1])==0 && (this.nextPos[0]-1 != this.currentPos[0] || nextPos[1] != currentPos[1]) ) {
-			this.currentPos[0] = this.nextPos[0]; this.currentPos[1] = this.nextPos[1];
-			this.nextPos[0] -= 1;
+		else if ( map.getCase(this.nextPosX-1,this.nextPosY)==0 && (this.nextPosX-1 != this.currentPosX || nextPosY != currentPosY) ) {
+			this.currentPosX = this.nextPosX; this.currentPosY = this.nextPosY;
+			this.nextPosX -= 1;
 			this.direction=3;
 		}
-		else if ( map.getCase(this.nextPos[0],this.nextPos[1]+1)==0 && (this.nextPos[0] != this.currentPos[0] || nextPos[1]+1 != currentPos[1]) ) {
-			this.currentPos[0] = this.nextPos[0]; this.currentPos[1] = this.nextPos[1];
-			this.nextPos[1] += 1;
+		else if ( map.getCase(this.nextPosX,this.nextPosY+1)==0 && (this.nextPosX != this.currentPosX || nextPosY+1 != currentPosY) ) {
+			this.currentPosX = this.nextPosX; this.currentPosY = this.nextPosY;
+			this.nextPosY += 1;
 			this.direction=2;
 		}
-		else if ( map.getCase(this.nextPos[0],this.nextPos[1]-1)==0 && (this.nextPos[0] != this.currentPos[0] || nextPos[1]-1 != currentPos[1]) ) {
-			this.currentPos[0] = this.nextPos[0]; this.currentPos[1] = this.nextPos[1];
-			this.nextPos[1] -= 1;
+		else if ( map.getCase(this.nextPosX,this.nextPosY-1)==0 && (this.nextPosX != this.currentPosX || nextPosY-1 != currentPosY) ) {
+			this.currentPosX = this.nextPosX; this.currentPosY = this.nextPosY;
+			this.nextPosY -= 1;
 			this.direction=4;
 		}
 		else {
-			this.currentPos[0] = this.nextPos[0]; this.currentPos[1] = this.nextPos[1];
+			this.currentPosX = this.nextPosX; this.currentPosY = this.nextPosY;
 		}
-		if ( map.getCase(currentPos[0],currentPos[1]) == 3) {
+		if ( map.getCase(currentPosX,currentPosY) == 3) {
 			// giveDamage(attack);
 			World.enemies.remove(this);
 		}
