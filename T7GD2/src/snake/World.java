@@ -29,17 +29,6 @@ public class World extends BasicGameState {
         menu.init(container, game);
 
 
-        ArrayList<Point> points = new ArrayList<Point>();
-        points.add(new Point(30,30));
-        points.add(new Point(30,31));
-        points.add(new Point(30,32));
-        points.add(new Point(30,33));
-        points.add(new Point(30,34));
-        points.add(new Point(30,35));
-        points.add(new Point(30,36));
-        points.add(new Point(30,37));
-        points.add(new Point(30,38));
-
 
         snakes = new ArrayList<Snake>();
 
@@ -85,9 +74,9 @@ public class World extends BasicGameState {
         for(int i=0;i<snakes.size();i++){
             snakes.get(i).update(container, game,delta);
             for(int j = i;j<snakes.size();j++){
-
                 if(collide(snakes.get(i).body.get(0),snakes.get(j))){
-                    
+                    //snakes.remove(j);
+                    //j--;
                 }
             }
         }
@@ -111,10 +100,15 @@ public class World extends BasicGameState {
     }
 
     public void keyReleased(int key, char c){
+        for(int i=0;i<snakes.size();i++){
+            snakes.get(i).keyReleased(key,c);
+        }
     }
 
     public void keyPressed(int key, char c){
-
+        for(int i=0;i<snakes.size();i++){
+            snakes.get(i).keyPressed(key,c);
+        }
     }
 
     public static void reset() {
