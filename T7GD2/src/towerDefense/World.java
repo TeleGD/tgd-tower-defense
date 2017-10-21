@@ -19,6 +19,7 @@ public class World extends BasicGameState {
 	private Level l;
 	private Tower t;
 	private ChooseTower c;
+
 	private Enemy e;
 	private Projectile p;
 	

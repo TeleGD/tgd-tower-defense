@@ -14,29 +14,33 @@ import snake.Point;
 
 
 public class Snake {
-	public static int nbcasesh=60;
-	public static int nbcasesl=100;
+	public static int nbcasesh=72;
+	public static int nbcasesl=128;
 	public int horizontal=World.longueur/nbcasesl;
 	public int vertical=World.hauteur/nbcasesh;
-	public ArrayList<Point> body=new ArrayList<Point>(4); 
-	public int dir;
+	public ArrayList<Point> body=new ArrayList<Point>(); 
 	public Color couleur;
 	public int TDroite;
 	public int TGauche; 
 	protected boolean rightPress,leftPress;
 	public String nom;
-	public int score;
 	public int speed;
+	public int dir;
+	public int score;
 	
-	public Snake(Color couleur, int TDroite, int TGauche, int dir, ArrayList<Point> list, String nom,int score,int speed) {
+	
+	public Snake(Color couleur,int x_init, int TDroite, int TGauche,int taille_init, String nom,int speed) {
 		this.couleur = couleur;
-		this.dir = dir;
+		this.dir = 0;
 		this.TDroite = TDroite;
 		this.TGauche = TGauche;
-		this.body = list;
+		this.body = new ArrayList<Point>();
 		this.nom = nom;
-		this.score = score;
+		this.score = 0;
 		this.speed = speed;
+		for (int i = 0;i<taille_init;i++){
+			body.add(new Point(x_init,(nbcasesh-i)));
+		}
 	}
 	
 	public void move() {
@@ -49,7 +53,7 @@ public class Snake {
 				ajout = new Point((body.get(0).x) , nbcasesh);}
 		}
 		if (dir == 1) { 
-			if (body.get(0).x != nbcasesl ) {
+			if (body.get(0).x != nbcasesl-28 ) {
 				ajout = new Point((body.get(0).x + 1) , (body.get(0).y));
 			}else {
 				ajout = new Point(0 , body.get(0).y) ;
@@ -67,7 +71,7 @@ public class Snake {
 				ajout = new Point((body.get(0).x-1) , (body.get(0).y));
 				}
 			else {
-				ajout = new Point(nbcasesl , (body.get(0).y));}
+				ajout = new Point(nbcasesl-28 , (body.get(0).y));}
 		}
 		body.remove((body.size()-1)); 
 		body.add(0,ajout);
@@ -115,6 +119,13 @@ public class Snake {
 		}
 	}
 	
+	public void grandir(){
+		
+	}
+		
+	
+	
+	
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		for  (int i = 0 ; i<body.size(); i++) {
@@ -125,7 +136,7 @@ public class Snake {
 	int compteur = 0;
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		compteur += speed;
-		if (compteur == 20){	
+		if (compteur >= 20){	
 			move();
 			compteur =0;
 		}
