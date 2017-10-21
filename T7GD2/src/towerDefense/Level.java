@@ -1,5 +1,7 @@
 package towerDefense;
 
+import java.util.Arrays;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -38,7 +40,12 @@ public class Level {
 	public void genereMap() {
 		// Generer la carte du jeu
 		map = new int[lenY][lenX];
-		for (int i=0; i < (int)(lenY / 4); i++)
+		
+		int [] line1 = new int[lenX];
+		Arrays.fill(line1, 1);
+		map[0] = line1;
+		
+		for (int i=1; i < (int)(lenY - 4); i+=4)
 		{
 			map[i] = genereLine(0,1,1,2);
 			map[i+1] = genereLine(0,1,1,lenX - 1);
@@ -46,15 +53,18 @@ public class Level {
 			map[i+3] = genereLine(0,1,1,lenX - 1);
 		}
 		
+		map[lenY-1] = line1;	
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
 		g.setColor(Color.green);
 		for ( int i = 0; i < lenY; i++)
 		{
-			for(int j = 0; j < lenX; i++)
+			for(int j = 0; j < lenX; j++)
 			{
-				g.fillRect((float)(32*j), (float)(720-32*(i+1)),(float) width, (float)height);
+				if (map[i][j] == 1) {
+					g.fillRect((float)(32*j), (float)(720-32*(i+1)),(float) width, (float)height);
+				}
 			}
 		}
 
