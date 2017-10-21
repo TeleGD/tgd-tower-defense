@@ -27,7 +27,7 @@ public class Player {
 	
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-		g.setColor(Color.black);
+		g.setColor(Color.white);
 		g.drawString("Or : "+this.gold, 800, 656);
 		g.drawString("Vies : "+this.lives, 1000, 656);
 		g.drawString("Vagues : "+this.wave, 1150, 656);
@@ -35,6 +35,9 @@ public class Player {
 		g.drawImage(new Image("images/TowerDefense/Heart.png"), 930, 640);
 	}
 	
+	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+		
+	}
 	
 	public void buyTower(int price) {
 		// Vérifier si on a l'argent puis la retirer
