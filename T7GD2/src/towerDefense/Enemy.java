@@ -24,18 +24,18 @@ public class Enemy {
 	private double speed;
 	private Image sprite;
 	private Level map;
-	private int cx;
-	private int cy;
+
 	
 	public Enemy(int posX, int posY,Level map) {
-		this.x= 32*posX;
-		this.y= 32*posY;
+		this.map=map;
+		this.x= (int) map.getX(posY);
+		this.y= (int) map.getY(posX);
 		this.currentPosX=posX;
 		this.currentPosY=posY;
 		this.nextPosX=posX;
 		this.nextPosY=posY;
-		this.speed = 0.25;
-		this.life=10;
+		this.speed = 0.15;
+		this.life=1;
 		this.attack=1;
 		this.direction=0;
 		try {
@@ -44,9 +44,6 @@ public class Enemy {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.cx=x;
-		this.cy=y;
-		this.map=map;
 		World.enemies.add(this);
 		
 		shape=new Rectangle((float)(x),(float)(y),(float) 32, (float) 32);
@@ -55,9 +52,6 @@ public class Enemy {
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		g.drawImage(sprite, (float)x, (float)y);
-		g.drawString("dir : "+direction, 1, 600);
-		g.drawString("X : "+nextPosX, 1, 620);
-		g.drawString("Y : "+nextPosY, 1, 640);
 	}
 	
 
@@ -83,9 +77,6 @@ public class Enemy {
 
 	
 	public void calcNextPos() {
-		
-		this.cx = this.x;
-		this.cy = this.y;
 		
 		if ( (map.getCase(this.nextPosX-1,this.nextPosY)==0 || map.getCase(this.nextPosX-1,this.nextPosY)==3 ) && (this.nextPosX-1 != this.currentPosX || this.nextPosY != this.currentPosY) ) {
 			this.currentPosX = this.nextPosX; this.currentPosY = this.nextPosY;
