@@ -12,6 +12,7 @@ public class World extends BasicGameState {
 	public MenuMulti menu;
 	public static int longueur=1280;
 	public static int hauteur=720;
+	//dfsipfjef
 	
 	public static int ID=1;
 	
