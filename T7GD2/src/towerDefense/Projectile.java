@@ -23,6 +23,7 @@ public class Projectile {
 		this.y = y;
 		this.damage = damage;
 		this.target = target;
+		faceTarget();
 		this.speedX = 0;
 		this.speedY = 0;
 		this.collisionBox = new Rectangle((float)x,(float)y,(float)8,(float)8);
@@ -52,15 +53,33 @@ public class Projectile {
 		}
 	}
 	
+	public void faceTarget(){
+		double tempX = target.getX();
+		if(x < tempX){
+			dirX = 1;
+		}else if(x == tempX){
+			dirX = 0;
+		}else{
+			dirX = -1;
+		}
+		double tempY = target.getY();
+		if(y < tempY){
+			dirX = 1;
+		}else if(y == tempY){
+			dirX = 0;
+		}else{
+			dirX = -1;
+		}
+	}
+	
 	public void move(int dt){
 		if(target != null){
-			
-		}else{
-			x += speedX*dt;
-			y += speedY*dt;
-			if(x > Main.longueur || y > Main.hauteur || x < 0 || y < 0){
-				die();
-			}
+			faceTarget();
+		}
+		x += dirX*speedX*dt;
+		y += dirY*speedY*dt;
+		if(x > Main.longueur || y > Main.hauteur || x < 0 || y < 0){
+			die();
 		}
 	}
 	
