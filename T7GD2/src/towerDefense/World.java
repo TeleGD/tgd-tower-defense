@@ -10,7 +10,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class World extends BasicGameState {
-	static int ID = 2;
+	public static int ID = 2;
 	static ArrayList<Enemy> enemies;
 
 	public int getID(){

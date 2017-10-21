@@ -35,6 +35,8 @@ public class Main extends StateBasedGame{
 	public void initStatesList(GameContainer container) throws SlickException {
 		addState(new WelcomeMenu());
 		addState(new MainMenu());
+		addState(new snake.World());
+		addState(new towerDefense.World());
 
 		
 		this.enterState(WelcomeMenu.ID);

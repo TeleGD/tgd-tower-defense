@@ -6,7 +6,6 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 
 //import towerDefense.World;
-//import snake.World;
 
 
 public class MainMenu extends Menu{
@@ -14,7 +13,7 @@ public class MainMenu extends Menu{
 	public static int ID = -3;	
 	
 	public MainMenu(){
-		super.setTitrePrincipal("MULTIGAME DESIGN");
+		super.setTitrePrincipal("MULTIGAME 2 DESIGN");
 		super.setTitreSecondaire("Menu Principal");
 		//super.setItems(World1.GAME_NAME,World2.GAME_NAME,World3.GAME_NAME,"Scores", "Quitter");
 		super.setItems("Snake","Tower Defense", "Quitter");
@@ -33,14 +32,14 @@ public class MainMenu extends Menu{
 	public void onOptionItemSelected(int position) {
 		switch (position) {
 		case 0:
-			//snake.World.reset();
-			//game.enterState(snake.World.ID, new FadeOutTransition(),
-			//		new FadeInTransition());
+			snake.World.reset();
+			game.enterState(snake.World.ID, new FadeOutTransition(),
+					new FadeInTransition());
 			break;
 		case 1:
-			//towerDefense.World.reset();
-			//game.enterState(towerDefense.World.ID, new FadeOutTransition(),
-			//		new FadeInTransition());
+			towerDefense.World.reset();
+			game.enterState(towerDefense.World.ID, new FadeOutTransition(),
+					new FadeInTransition());
 			break;
 		case 2:
 			System.out.println("exit");
