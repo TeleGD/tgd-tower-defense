@@ -45,9 +45,9 @@ public class World extends BasicGameState {
 		c = new ChooseTower();
 		
 		towers.add(t);
-		e = new Enemy(20, 1, l);
+		e = new Enemy(1, 1, l);
 		enemies.add(e);
-		p = new Projectile(10,10,e,1);
+		p = new Projectile(32*20,32*4,e,1);
 		projectiles.add(p);
 	}
 
@@ -65,9 +65,6 @@ public class World extends BasicGameState {
 		for(Projectile p : projectiles){
 			p.render(container,game,g);
 		}
-		g.setColor(Color.cyan);
-		g.fillRect(32*3, 32*2, 32, 32);
-
 		
 		/*
 		boolean ok = false;		
