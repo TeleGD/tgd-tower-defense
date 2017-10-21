@@ -14,8 +14,8 @@ import snake.Point;
 
 
 public class Snake {
-	public int nbcasesh=60;
-	public int nbcasesl=100;
+	public static int nbcasesh=60;
+	public static int nbcasesl=100;
 	public int horizontal=World.longueur/nbcasesl;
 	public int vertical=World.hauteur/nbcasesh;
 	public ArrayList<Point> body=new ArrayList<Point>(4); 
@@ -28,9 +28,7 @@ public class Snake {
 	public int score;
 	public int speed;
 	
-	public Snake(int nbcasesh,int nbcasesl,Color couleur, int TDroite, int TGauche, int dir, ArrayList<Point> list, String nom,int score,int speed) {
-		this.nbcasesh = nbcasesh;
-		this.nbcasesl = nbcasesl;
+	public Snake(Color couleur, int TDroite, int TGauche, int dir, ArrayList<Point> list, String nom,int score,int speed) {
 		this.couleur = couleur;
 		this.dir = dir;
 		this.TDroite = TDroite;

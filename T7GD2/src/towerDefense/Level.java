@@ -53,6 +53,8 @@ public class Level {
 			map[i+3] = genereLine(0,1,1,lenX - 1);
 		}
 		
+		map[1][1] = 2;
+		map[lenY - 2][1] = 3;				
 		map[lenY-1] = line1;	
 	}
 	
@@ -78,5 +80,14 @@ public class Level {
 		return map[ligne][colonne];
 	}
 	
+	public double getX(int colonne) {
+		//Donne le x du point en haut à gauche de la case à la colonne 'colonne'
+		return 32*colonne;
+	}
+	
+	public double getY(int ligne) {
+		//Donne le y du point en haut à gauche de la case à la ligne 'ligne'
+		return (720- 32*(ligne+1));
+	}
 
 }

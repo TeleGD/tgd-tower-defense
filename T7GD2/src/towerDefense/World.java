@@ -19,6 +19,9 @@ public class World extends BasicGameState {
 	private Level l;
 	private Tower t;
 	private ChooseTower c;
+
+	private Enemy e;
+	private Projectile p;
 	
 	public int getID(){
 		return ID;
@@ -38,6 +41,10 @@ public class World extends BasicGameState {
 		c = new ChooseTower();
 		
 		towers.add(t);
+		e = new Enemy(10, 10, l);
+		enemies.add(e);
+		p = new Projectile(10,10,e,1);
+		projectiles.add(p);
 		//System.out.println("Level created");
 	}
 
