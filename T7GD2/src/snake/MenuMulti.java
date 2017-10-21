@@ -29,7 +29,8 @@ public class MenuMulti {
 	public int debutNom = World.longueur/2 - longueurMenu/10;
 	private Button boutonStart;
 	private Snake[] joueurs;
-	private int[] touchesDefaut = {Input.KEY_LEFT,Input.KEY_RIGHT,Input.KEY_A, Input.KEY_Z};
+	private boolean enleve=false;
+	private int[] touchesDefaut = {Input.KEY_RIGHT,Input.KEY_LEFT, Input.KEY_Z, Input.KEY_A};
 	
 	public MenuMulti() {
 		
@@ -75,28 +76,31 @@ public class MenuMulti {
 					joueurs[i] = new Snake(Color.white,20+20*i,touchesDefaut[2*i],touchesDefaut[2*i+1],10,fieldNomsJoueurs[i].getText(),10);
 				}
 				World.setSnakes(joueurs);
+				enleve = true;
 			}});
 		
 		
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-		g.setColor(new Color(0,0,255));
-		g.fillRect((World.longueur-longueurMenu)/2, (World.hauteur-hauteurMenu)/2, longueurMenu, hauteurMenu);
-		g.setColor(new Color(0,0,0));
-		g.drawString("nombre de joueurs : ", debutx, debuty);
-		nbrJoueurs.render(container, game, g);
-		
-		for (int i = 1;i<=nJoueur;i+=1) {
-			yn = debuty + i*pas;
+		if (!enleve) {
+			g.setColor(new Color(0,0,255));
+			g.fillRect((World.longueur-longueurMenu)/2, (World.hauteur-hauteurMenu)/2, longueurMenu, hauteurMenu);
 			g.setColor(new Color(0,0,0));
-			if (fieldNomsJoueurs[i-1]!=null) {
-				g.drawString("nom joueur "+i+" :",debutx,yn);
-				fieldNomsJoueurs[i-1].render(container, game, g);
+			g.drawString("nombre de joueurs : ", debutx, debuty);
+			nbrJoueurs.render(container, game, g);
+			
+			for (int i = 1;i<=nJoueur;i+=1) {
+				yn = debuty + i*pas;
+				g.setColor(new Color(0,0,0));
+				if (fieldNomsJoueurs[i-1]!=null) {
+					g.drawString("nom joueur "+i+" :",debutx,yn);
+					fieldNomsJoueurs[i-1].render(container, game, g);
+				}
 			}
+			
+			boutonStart.render(container, game, g);
 		}
-		
-		boutonStart.render(container, game, g);
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {

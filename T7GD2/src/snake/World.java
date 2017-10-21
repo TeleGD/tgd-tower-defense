@@ -32,7 +32,7 @@ public class World extends BasicGameState {
 
         snakes = new ArrayList<Snake>();
 
-        replay = new Button(container,widthBandeau*World.longueur+20, World.hauteur-100,(1-widthBandeau)*World.longueur-40,40);
+        replay = new Button(container,World.longueur - widthBandeau+20, World.hauteur-100,widthBandeau-40,40);
         replay.setText("RETOUR AU MENU");
         replay.setBackgroundColor(Color.black);
         replay.setBackgroundColorEntered(Color.white);
@@ -73,11 +73,14 @@ public class World extends BasicGameState {
 
         for(int i=0;i<snakes.size();i++){
             snakes.get(i).update(container, game,delta);
-            for(int j = i;j<snakes.size();j++){
+
+            for(int j = i+1;j<snakes.size();j++){
+
                 if(collide(snakes.get(i).body.get(0),snakes.get(j))){
-                    //snakes.remove(j);
-                    //j--;
+                    snakes.remove(j);
+                    j--;
                 }
+
             }
         }
 
@@ -119,4 +122,7 @@ public class World extends BasicGameState {
         snakes = new ArrayList<Snake>(Arrays.asList(snake));
     }
 
+    public static void dead(Snake snake){
+        snakes.remove(snake);
+    }
 }
