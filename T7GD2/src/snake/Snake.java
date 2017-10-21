@@ -51,29 +51,29 @@ public class Snake {
 	
 	public void move() {
 		Point ajout = null;
-		if (dir == 0) { 
+		if (dir == 0) { //haut
 			if (body.get(0).y >= 0) {
 				ajout = new Point((body.get(0).x) , (body.get(0).y - 1));
 				}
 			else {
 				ajout = new Point((body.get(0).x) , nbcasesh);}
 		}
-		if (dir == 1) { 
+		if (dir == 1) { //droite
 			if (body.get(0).x <= nbcasesl-28 ) {
 				ajout = new Point((body.get(0).x + 1) , (body.get(0).y));
 			}else {
 				ajout = new Point(0 , body.get(0).y) ;
 				}
 		}
-		if (dir == 2) { 
-			if (body.get(0).y >= nbcasesh) {
+		if (dir == 2) { //bas
+			if (body.get(0).y <= nbcasesh) {
 				ajout = new Point((body.get(0).x) , (body.get(0).y + 1));}
 			else {
 				ajout = new Point((body.get(0).x) , 0);
 				}
 		}
-		if (dir == 3) { 
-			if (body.get(0).x <= 0) {
+		if (dir == 3) { //gauche
+			if (body.get(0).x >= 0) {
 				ajout = new Point((body.get(0).x-1) , (body.get(0).y));
 				}
 			else {
