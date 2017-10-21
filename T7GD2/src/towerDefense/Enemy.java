@@ -27,7 +27,7 @@ public class Enemy {
 	private int type;
 
 	
-	public Enemy(int posX, int posY,Level map) {
+	public Enemy(int posX, int posY,Level map, int wave) {
 		this.map=map;
 		this.x= (int) map.getX(posY);
 		this.y= (int) map.getY(posX);
@@ -35,20 +35,51 @@ public class Enemy {
 		this.currentPosY=posY;
 		this.nextPosX=posX;
 		this.nextPosY=posY;
-		this.speed = 0.35;
-		this.life=1;
-		this.attack=1;
 		this.direction=0;
-//		this.type=enemyType;
-		try {
-			sprite = new Image("images/TowerDefense/enemy1.png");
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		enemyType(wave);
 		World.enemies.add(this);
 		
 		shape=new Rectangle((float)(x),(float)(y),(float) 32, (float) 32);
+	}
+	
+	
+	public void enemyType(int wave) {
+		if (wave%5 ==0) {
+			this.type=3;
+			this.life=5*wave;
+			this.speed=0.25;
+			this.attack=7;
+			try {
+				sprite = new Image("images/TowerDefense/boss.png");
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (wave%10==1 || wave%10==3 || wave%10==6 || wave%10==8) {
+			this.type=1;
+			this.life=wave*2;
+			this.speed=0.3;
+			this.attack=3;
+			try {
+				sprite = new Image("images/TowerDefense/enemy1.png");
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else {
+			this.type=2;
+			this.life=wave+(Math.abs(wave/5));
+			this.speed=0.4;
+			this.attack=2;
+			try {
+				sprite = new Image("images/TowerDefense/enemy2.png");
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	
@@ -138,6 +169,7 @@ public class Enemy {
 		this.life -= damage;
 		if (this.life<=0) {
 			World.enemies.remove(this);
+			
 		}
 	}
 

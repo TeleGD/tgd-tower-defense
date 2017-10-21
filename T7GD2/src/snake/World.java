@@ -21,6 +21,7 @@ public class World extends BasicGameState {
     public static int hauteur=720;
     public static int ID=1;
     private float widthBandeau = 280;
+    public static boolean jeuDemarre = false;
     private static ArrayList<Bonus> bonus;
 
     private static ArrayList<Snake> snakes;
@@ -149,6 +150,10 @@ public class World extends BasicGameState {
 
             }
         }
+        if(jeuDemarre){
+            addBonus();
+        }
+
     }
 
     private void applyBonus(Bonus bonus, Snake snake) {
@@ -172,7 +177,7 @@ public class World extends BasicGameState {
         }
         return false;
     }
-    
+
     private static void addBonus(){
         Random r =  new Random();
         if(r.nextFloat() >= 0.99){
@@ -203,6 +208,8 @@ public class World extends BasicGameState {
         snakes = new ArrayList<Snake>();
         menu.enleve = false;
         menu.nJoueur = 0;
+        jeuDemarre = false;
+
     }
 
     public static void setSnakes(Snake[] snake){
@@ -211,8 +218,8 @@ public class World extends BasicGameState {
         try {
             soundMusicBackground=new Music("sounds/snake/hymne_russe.ogg");
             soundMusicBackground.loop(1,0.3f);
-            addBonus();
 
+            jeuDemarre = true;
         } catch (SlickException e) {
             e.printStackTrace();
         }
