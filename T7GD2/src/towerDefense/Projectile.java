@@ -32,8 +32,8 @@ public class Projectile {
 		this.target = target;
 
 		//A ADAPTER A LA VITESSE DES ENNEMIS
-		this.speedX = 0.01;
-		this.speedY = 0.01;
+		this.speedX = 0.6;
+		this.speedY = 0.6;
 		alreadyDead = false;
 		this.collisionBox = new Rectangle((float)x,(float)y,(float)8,(float)8);
 		try {
