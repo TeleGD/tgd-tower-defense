@@ -27,7 +27,7 @@ public class Snake {
 	public int speed;
 	public int dir;
 	public int score;
-	
+	public boolean mort ;
 	
 	public Snake(Color couleur,int x_init, int TDroite, int TGauche,int taille_init, String nom,int speed) {
 		this.couleur = couleur;
@@ -38,14 +38,22 @@ public class Snake {
 		this.nom = nom;
 		this.score = 0;
 		this.speed = speed;
+		this.mort = false;
 		for (int i = 0;i<taille_init;i++){
 			body.add(new Point(x_init,(nbcasesh-i)));
 		}
 	}
 	
-	public void GScore(int x) {
-		score += x; 
+	public void meurt(){
+		mort=true;
 	}
+	
+	public void GScore(int x) {
+
+		if (mort==false){
+		score += x; 
+		}
+		}
 	
 	
 	
@@ -80,7 +88,12 @@ public class Snake {
 				ajout = new Point(nbcasesl-28 , (body.get(0).y));}
 		}
 		body.remove((body.size()-1)); 
-		body.add(0,ajout);
+		if (body.size()==0) {
+			meurt();
+		}
+		if (mort == false){
+			body.add(0,ajout);
+		}
 	}
 	
 	/*public void turn() {
