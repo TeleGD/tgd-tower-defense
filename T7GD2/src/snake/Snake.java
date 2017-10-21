@@ -127,18 +127,18 @@ public class Snake {
 	
 	
 	public void keyPressed(int key, char c) {
-		if (key == TDroite) {
-			rightPress = true;
-			dir += 1;
-			dir = dir%4;
-		}
-		if (key == TGauche) {
-			leftPress = true;
-			dir -= 1;
-			dir+=4;
-			dir = dir%4;
-			
-		}
+        if ((key == TDroite && !inverse) || (key == TGauche && inverse)) {
+            rightPress = true;
+            dir += 1;
+            dir = dir % 4;
+        }
+        if ((key == TDroite && inverse) || (key == TGauche && !inverse)) {
+            leftPress = true;
+            dir -= 1;
+            dir += 4;
+            dir = dir % 4;
+
+        }
 	}
 	
 	public void grandir(){
@@ -176,7 +176,7 @@ public class Snake {
 	
 	public void retrecir(){
 		if(body.size() == 1)
-			World.dead(this);
+			this.meurt();
 		body.remove((body.size()-1)); 
 	}
 	
@@ -185,7 +185,9 @@ public class Snake {
 	}
 	
 	public void plusLent(){
+		if (speed > 2){
 		speed = speed/2;
+		}
 	}
 	
 	
