@@ -14,15 +14,13 @@ import general.Main;
 
 public class Projectile {
 
-	private double x,y,speedX,speedY;
-	private float width, height;
-	private double damage;
-	private int dirX, dirY;
+	private double x,y,speedX,speedY, damage;
+	private float width, height, radius;
+	private int dirX, dirY, type;
 	private Enemy target;
 	private Shape collisionBox;
 	private boolean alreadyDead;
 	private Image sprite;
-	private int type;
 
 	public Projectile (double x, double y, Enemy target, double damage){
 		this.x = x;
@@ -31,7 +29,8 @@ public class Projectile {
 		height = 16;
 		this.damage = damage;
 		this.target = target;
-
+		type = 1;
+		radius = 0;
 		//A ADAPTER A LA VITESSE DES ENNEMIS
 		this.speedX = 0.6;
 		this.speedY = 0.6;
@@ -48,15 +47,16 @@ public class Projectile {
 	
 	public Projectile(double x, double y, Enemy target, double damage, int type){
 		/* Types :
-		 * 0 : normal
-		 * 1 : AOE
-		 * 2 : slowing
+		 * 0 : Normal
+		 * 1 : Powerful but slow
+		 * 2 : AOE
 		 */
 		this.x = x;
 		this.y = y;
 		this.damage = damage;
 		alreadyDead = false;
 		this.type = type;
+		this.radius = 0;
 		
 		switch(type){
 		default:
@@ -65,7 +65,7 @@ public class Projectile {
 			this.target = target;
 			//A ADAPTER A LA VITESSE DES ENNEMIS
 			this.speedX = 0.6;
-			this.speedY = 0.6;
+			this.speedY = 0.6;			
 			try {
 				sprite = new Image("images/towerDefense/Arrow.png");
 			} catch (SlickException e) {
@@ -73,21 +73,22 @@ public class Projectile {
 				e.printStackTrace();
 			}
 			break;
-		case 2:
+		case 3:
 			width = 16;
 			height = 16;	
 			this.target = target;
 			//A ADAPTER A LA VITESSE DES ENNEMIS
 			this.speedX = 0.6;
 			this.speedY = 0.6;
+			this.radius = radius;
 			try {
-				sprite = new Image("images/towerDefense/AOE.png");
+				sprite = new Image("images/towerDefense/Bomb.png");
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
-		case 3:
+		case 2:
 			width = 9;
 			height = 16;	
 			this.target = target;
@@ -95,7 +96,7 @@ public class Projectile {
 			this.speedX = 0.6;
 			this.speedY = 0.6;
 			try {
-				sprite = new Image("images/towerDefense/Arrow.png");
+				sprite = new Image("images/towerDefense/Bolt.png");
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -106,6 +107,32 @@ public class Projectile {
 		this.collisionBox = new Rectangle((float)x,(float)y,(float)width,(float)height);
 		faceTarget();
 	}
+	
+	public Projectile(double x, double y, Enemy target, double damage, float radius){
+	
+		this.x = x;
+		this.y = y;
+		this.damage = damage;
+		alreadyDead = false;
+		this.type = 2;
+		this.radius = radius;
+		width = 16;
+		height = 16;	
+		this.target = target;
+		//A ADAPTER A LA VITESSE DES ENNEMIS
+		this.speedX = 0.6;
+		this.speedY = 0.6;
+		try {
+			sprite = new Image("images/towerDefense/Bomb.png");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		this.collisionBox = new Rectangle((float)x,(float)y,(float)width,(float)height);
+		faceTarget();
+	}
+	
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		checkForCollision();
@@ -121,6 +148,14 @@ public class Projectile {
 		World.projectiles.remove(this);
 	}
 	
+	public float distanceToTarget(Enemy enn){
+		float targetX = (float) target.getX();
+		float targetY = (float) target.getY();
+		float ennX = (float) enn.getX();
+		float ennY = (float) enn.getY();
+		return (float) Math.sqrt((ennX-targetX)*(ennX-targetX)+(ennY-targetY)*(ennY-targetY));
+	}
+	
 	public void checkForCollision(){
 		for(Enemy e : World.enemies){
 			if(collisionBox.intersects(e.getShape())){
@@ -128,11 +163,16 @@ public class Projectile {
 				default:
 					e.takeDamage((int)damage);
 					break;
-				case 2:
-					//AOE
-					break;
 				case 3:
-					//Slow effect
+					//AOE
+					for(Enemy enn:World.enemies){
+						if(distanceToTarget(enn)<=radius){
+							enn.takeDamage((int) damage);
+						}
+					}
+					break;
+				case 2:
+					//Powerful but slow
 					break;
 				}
 				alreadyDead = true;
