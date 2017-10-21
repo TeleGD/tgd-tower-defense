@@ -11,9 +11,9 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class World extends BasicGameState {
 	public static int ID = 2;
-	static ArrayList<Enemy> enemies;
-	static ArrayList<Projectile> projectiles;
-	static ArrayList<Tower> towers;
+	static ArrayList<Enemy> enemies, tempEnemies;
+	static ArrayList<Projectile> projectiles, tempProjectiles;
+	static ArrayList<Tower> towers, tempTowers;
 	
 	//A VIRER
 	private Level l;
@@ -36,6 +36,10 @@ public class World extends BasicGameState {
 		enemies = new ArrayList<Enemy>();
 		projectiles = new ArrayList<Projectile>();
 		towers = new ArrayList<Tower>();
+		tempTowers = new ArrayList<Tower>();
+		tempEnemies = new ArrayList<Enemy>();
+		tempProjectiles = new ArrayList<Projectile>();
+		
 		l = new Level();
 		t = new Tower((double)10, (double)10, (double)1, (double)1, (double)10, 1);
 		c = new ChooseTower();
@@ -63,19 +67,27 @@ public class World extends BasicGameState {
 		}
 	}
 
+	public void updateArrays(){
+		tempTowers.clear();
+		tempTowers.addAll(towers);
+		tempEnemies.clear();
+		tempEnemies.addAll(enemies);
+		tempProjectiles.clear();
+		tempProjectiles.addAll(projectiles);
+	}
+	
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		l.update(container, game, delta);
+		updateArrays();
 		for(Tower t: towers){
 			t.update(container, game, delta);
 		}
-		for(Enemy e : enemies){
+		for(Enemy e : tempEnemies){
 			e.update(container, game, delta);
 		}
-		if(projectiles != null){
-			for(Projectile p : projectiles){
-				p.update(container, game, delta);
-			}
+		for(Projectile p : tempProjectiles){
+			p.update(container, game, delta);
 		}
 		//System.out.println(delta);
 	}

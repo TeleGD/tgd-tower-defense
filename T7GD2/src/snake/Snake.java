@@ -43,6 +43,12 @@ public class Snake {
 		}
 	}
 	
+	public void GScore(int x) {
+		score += x; 
+	}
+	
+	
+	
 	public void move() {
 		Point ajout = null;
 		if (dir == 0) { 
@@ -129,7 +135,7 @@ public class Snake {
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		for  (int i = 0 ; i<body.size(); i++) {
-			g.getColor();
+			g.setColor(couleur);
 			g.fillRect(body.get(i).x*horizontal,body.get(i).y*vertical,horizontal,vertical);
 		}
 	}
