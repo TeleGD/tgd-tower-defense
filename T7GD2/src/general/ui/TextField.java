@@ -125,6 +125,7 @@ public class TextField extends TGDComponent{
 			g.drawString(placeHolder, x+paddingLeft, y+paddingTop);
 			
 		}
+
 		if(cursorEnabled && (System.currentTimeMillis()-timeInit)%800<400 && hasFocus){
 			g.setColor(cursorColor);
 			g.fillRect(x+paddingLeft+Math.min(textFont.getWidth(text),getWidth()-paddingRight-paddingLeft), y+paddingTop,cursorWidth,getHeight()-paddingBottom-paddingTop);
@@ -260,6 +261,16 @@ public class TextField extends TGDComponent{
             else if(key == Input.KEY_7) text += "7";
             else if(key == Input.KEY_8) text += "8";
             else if(key == Input.KEY_9) text += "9";
+            else if(c ==(char)0) text += "0";
+            else if(c ==(char)1) text += "1";
+            else if(c ==(char)2) text += "2";
+            else if(c ==(char)3) text += "3";
+            else if(c ==(char)4) text += "4";
+            else if(c ==(char)5) text += "5";
+            else if(c ==(char)6) text += "6";
+            else if(c ==(char)7) text += "7";
+            else if(c ==(char)8) text += "8";
+            else if(c ==(char)9) text += "9";
             else{
                 if(!onlyFigures)text+=c;
             }
