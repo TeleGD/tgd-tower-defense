@@ -18,12 +18,10 @@ public class ColorPicker extends TGDComponent {
     public ColorPicker(GameContainer container, float x, float y, float width, float height) {
         super(container, x, y, width, height);
 
-        bouton = new Button(container,x,y,width,height-40);
+        bouton = new Button(container,x,y,width,5*(height-(paddingBottom-paddingTop))/6);
         bouton.setBackgroundColor(Color.white);
         bouton.setTextColor(Color.black);
-        bouton.setText("Ok !");
-
-        setPaddingBottom(50);
+        bouton.setText("Ok !");//sez
 
     }
 
@@ -40,7 +38,7 @@ public class ColorPicker extends TGDComponent {
 
         for(int i=0;i<4;i++){
             g.setColor(Color.black);
-            g.fillRect(x+paddingLeft,y+paddingTop+h/5*i,w,h/5);
+            g.fillRect(x+paddingLeft,y+paddingTop+h/6*i,w,h/6);
             if(i == 0)
                 g.setColor(new Color(c[i],0,0,255));
             else if (i==1)
@@ -50,23 +48,21 @@ public class ColorPicker extends TGDComponent {
             else if (i==3)
                 g.setColor(new Color(255,255,255,c[i]));
 
-            g.fillRect(x+paddingLeft+1,y+paddingTop+h/5*i+1,w-2,h/5-2);
+            g.fillRect(x+paddingLeft+1,y+paddingTop+h/6*i+1,w-2,h/6-2);
             g.setColor(Color.black);
-            g.fillRect((float) (x+paddingLeft+1+c[i]*w/255.0)-2, (float) (y+paddingTop+h/5*i+1),4,h/5-2);
+            g.fillRect((float) (x+paddingLeft+1+c[i]*w/255.0)-2, (float) (y+paddingTop+h/6*i+1),4,h/6-2);
             g.setColor(Color.white);
 
-            g.drawString(""+c[i],x+width/2-10,y+paddingTop+h/5*i+20);
+            g.drawString(""+c[i],x+width/2-10,y+paddingTop+h/6*i+20);
 
         }
 
 
         g.setColor(Color.black);
-        g.fillRect(x+paddingLeft,y+paddingTop+4*h/5,w,h/5);
+        g.fillRect(x+paddingLeft,y+paddingTop+4*h/6,w,h/6);
 
         g.setColor(new Color(c[0],c[1],c[2],c[3]));
-        g.fillRect(x+paddingLeft+1,y+paddingTop+4*h/5+1,w-2,h/5-2);
-
-
+        g.fillRect(x+paddingLeft+1,y+paddingTop+4*h/6+1,w-2,h/6-2);
 
         bouton.render(container, game, g);
 
@@ -108,7 +104,7 @@ public class ColorPicker extends TGDComponent {
         if(contains(xM,yM)){
 
             if(xM>x+paddingLeft && xM<x+width-paddingLeft-paddingRight){
-                int row = (int) ((yM-y)/((height-paddingTop-paddingBottom)/5));
+                int row = (int) ((yM-y)/((height-paddingTop-paddingBottom)/6));
                 int etat = (int) (255*((double)(xM-x)/(double)(width-paddingLeft-paddingRight)));
 
                 System.out.println("etat = "+etat);
