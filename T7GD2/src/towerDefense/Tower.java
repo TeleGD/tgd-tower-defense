@@ -16,21 +16,21 @@ public class Tower {
 	private Image sprite;
 	private Image niveau1,niveau2,niveau3,niveau4,niveau5;
 	private double attackSpeed;
-	
+	private double timer;
 	
 	public double getX() {
-		return x;
+		return x;                             
 	}
 	
 	public double getY() {
 		return y;
 	}
 	
-	public Tower(double x,double y,double damage) {
+	public Tower(double x,double y,double damage,double attackSpeed,double range) {
 		this.x=x;
 		this.y=y;
 		this.damage=damage;
-		this.sprite=sprite;
+		this.sprite=niveau1;
 			
 	}
 	
@@ -38,26 +38,24 @@ public class Tower {
 		arg2.drawImage(sprite, (float)x, (float)y);
 	}
 	
-	public void update() {
-		if (ChooseEnemy()) {
-			Attack();
+	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+		timer-=delta;
+		if (ChooseEnemy() && this.timer==0) {
+			World.projectiles.add(new Projectile(x,y,enemy,damage));
+			timer=attackSpeed;                 // exemple si cadence=0,5 sec, attackSpeed=500 (delta=nb de ms entre 2 frames)
 		}
 	}
 	
-	private boolean ChooseEnemy() {
-		for (Enemy e : World.enemies) {
+	private boolean ChooseEnemy() {            // renvoie vrai si un ennemi est à portée
+		for (Enemy e : World.enemies) {        // cherche dans la liste des ennemis triée par ordre d'appartition
 			if (Math.sqrt(Math.pow(this.x-this.y,2)+Math.pow(Enemy.getX()-Enemy.getY(),2))<this.range) {
 				this.enemy = e;
-				break;
+				return true;
 			}
 		}
 	}
 	
-	private void Attack() {
-		
-	}
-	
-	private void upgrade(int n) {
+	public void upgrade(int n) {
 		if (n==2) {
 			this.damage+=1;
 			this.sprite=niveau2;
