@@ -97,7 +97,7 @@ public class MenuMulti {
 				yn = debuty + i*pas;
 				g.setColor(new Color(0,0,0));
 				if (fieldNomsJoueurs[i-1]!=null) {
-					g.drawString("nom joueur "+i+" :",debutx,yn);
+					g.drawString("Nom Joueur n°"+i+" :",debutx,yn+5);
 					fieldNomsJoueurs[i-1].render(container, game, g);
 				}
 			}

@@ -87,12 +87,13 @@ public class World extends BasicGameState {
         g.setFont(font);
         g.setColor(Color.black);
         g.drawString("SNAKE 3000 ! ",World.longueur-widthBandeau+20,20);
+
+        g.setColor(new Color(150,150,150));
+        g.fillRect(World.longueur-widthBandeau+6,60,widthBandeau,5);
         g.resetFont();
 
         for(int i=0;i<snakes.size();i++){
             g.setColor(snakes.get(i).couleur);
-            // g.fillRect(World.longueur-widthBandeau+6,100+50*i,widthBandeau,50);
-            // g.setColor(Color.white);
             g.drawString(snakes.get(i).nom+" : "+snakes.get(i).score,World.longueur-widthBandeau+20,100+50*i+20);
         }
 
