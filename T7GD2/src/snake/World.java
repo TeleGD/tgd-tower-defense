@@ -14,7 +14,6 @@ public class World extends BasicGameState {
     public MenuMulti menu;
     public static int longueur=1280;
     public static int hauteur=720;
-
     public static int ID=1;
     private float widthBandeau = 280;
 
@@ -28,22 +27,9 @@ public class World extends BasicGameState {
         menu = new MenuMulti();
         menu.init(container, game);
 
-
-        ArrayList<Point> points = new ArrayList<Point>();
-        points.add(new Point(30,30));
-        points.add(new Point(30,31));
-        points.add(new Point(30,32));
-        points.add(new Point(30,33));
-        points.add(new Point(30,34));
-        points.add(new Point(30,35));
-        points.add(new Point(30,36));
-        points.add(new Point(30,37));
-        points.add(new Point(30,38));
-
-
         snakes = new ArrayList<Snake>();
 
-        replay = new Button(container,widthBandeau*World.longueur+20, World.hauteur-100,(1-widthBandeau)*World.longueur-40,40);
+        replay = new Button(container,World.longueur - widthBandeau+20, World.hauteur-100,widthBandeau-40,40);
         replay.setText("RETOUR AU MENU");
         replay.setBackgroundColor(Color.black);
         replay.setBackgroundColorEntered(Color.white);
@@ -55,26 +41,33 @@ public class World extends BasicGameState {
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+
+
+        for(int i=0;i<snakes.size();i++){
+            snakes.get(i).render(container, game, g);
+            g.setColor(Color.black);
+        }
+
         g.setColor(new Color(150,150,150));
-        g.fillRect(World.longueur-widthBandeau-2,0,widthBandeau,World.hauteur);
+        g.fillRect(World.longueur-widthBandeau+2,0,widthBandeau,World.hauteur);
         g.setColor(new Color(170,170,170));
-        g.fillRect(World.longueur-widthBandeau-4,0,widthBandeau,World.hauteur);
+        g.fillRect(World.longueur-widthBandeau+4,0,widthBandeau,World.hauteur);
         g.setColor(new Color(200,200,200));
-        g.fillRect(World.longueur-widthBandeau,0,widthBandeau,World.hauteur);
+        g.fillRect(World.longueur-widthBandeau+6,0,widthBandeau,World.hauteur);
 
         g.setFont(font);
         g.setColor(Color.black);
         g.drawString("SNAKE 3000 ! ",World.longueur-widthBandeau+20,20);
         g.resetFont();
 
-
         for(int i=0;i<snakes.size();i++){
-            g.drawString(snakes.get(i).nom+" : ",World.longueur-widthBandeau+20,100+30*i);
-            snakes.get(i).render(container, game, g);
+            g.setColor(snakes.get(i).couleur);
+            g.drawString(snakes.get(i).nom+" : "+snakes.get(i).score,World.longueur-widthBandeau+20,100+30*i);
         }
 
         replay.render(container, game, g);
         menu.render(container, game, g);
+
     }
 
     @Override
@@ -83,12 +76,16 @@ public class World extends BasicGameState {
         replay.update(container, game,delta);
 
         for(int i=0;i<snakes.size();i++){
+            snakes.get(i).GScore(1);
             snakes.get(i).update(container, game,delta);
-            for(int j = i;j<snakes.size();j++){
+
+            for(int j = i+1;j<snakes.size();j++){
 
                 if(collide(snakes.get(i).body.get(0),snakes.get(j))){
-                    
+                    snakes.remove(i);
+                    i--;
                 }
+
             }
         }
 
@@ -98,6 +95,7 @@ public class World extends BasicGameState {
         for(int i=0;i<snake.body.size();i++)
         {
             if(snake.body.get(i).x==point.x && snake.body.get(i).y==point.y){
+                if(i==0)snakes.remove(snake);
                 return true;
             }
         }
@@ -111,10 +109,15 @@ public class World extends BasicGameState {
     }
 
     public void keyReleased(int key, char c){
+        for(int i=0;i<snakes.size();i++){
+            snakes.get(i).keyReleased(key,c);
+        }
     }
 
     public void keyPressed(int key, char c){
-
+        for(int i=0;i<snakes.size();i++){
+            snakes.get(i).keyPressed(key,c);
+        }
     }
 
     public static void reset() {
@@ -125,4 +128,7 @@ public class World extends BasicGameState {
         snakes = new ArrayList<Snake>(Arrays.asList(snake));
     }
 
+    public static void dead(Snake snake){
+        snakes.remove(snake);
+    }
 }

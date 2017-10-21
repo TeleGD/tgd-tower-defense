@@ -13,30 +13,36 @@ import general.Main;
 public class Projectile {
 
 	private double x,y,speedX,speedY;
+	private float width, height;
 	private double damage;
 	private int dirX, dirY;
 	private Enemy target;
 	private Shape collisionBox;
+	private boolean alreadyDead;
 
 	public Projectile (double x, double y, Enemy target, double damage){
 		this.x = x;
 		this.y = y;
+		width = 9;
+		height = 16;
 		this.damage = damage;
 		this.target = target;
 		faceTarget();
-		this.speedX = 0;
-		this.speedY = 0;
+		this.speedX = 0.6;
+		this.speedY = 0.6;
+		alreadyDead = false;
 		this.collisionBox = new Rectangle((float)x,(float)y,(float)8,(float)8);
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		checkForCollision();
 		move(delta);
+		if(alreadyDead) die();
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		g.setColor(Color.orange);
-		g.fillRect((float)x,(float) y,(float) 8.0,(float) 8.0);
+		g.fillRect((float)x,(float) y,width,height);
 	}
 	
 	public void die(){
@@ -47,7 +53,7 @@ public class Projectile {
 		for(Enemy e : World.enemies){
 			if(collisionBox.intersects(e.getShape())){
 				e.takeDamage((int)damage);
-				die();
+				alreadyDead = true;
 				return;
 			}
 		}
@@ -64,11 +70,11 @@ public class Projectile {
 		}
 		double tempY = target.getY();
 		if(y < tempY){
-			dirX = 1;
+			dirY = 1;
 		}else if(y == tempY){
-			dirX = 0;
+			dirY = 0;
 		}else{
-			dirX = -1;
+			dirY = -1;
 		}
 	}
 	
@@ -76,10 +82,17 @@ public class Projectile {
 		if(target != null){
 			faceTarget();
 		}
-		x += dirX*speedX*dt;
-		y += dirY*speedY*dt;
+		x += dirX*speedX*dt/2;
+		y += dirY*speedY*dt/2;
+		collisionBox.setLocation((float)x, (float)y);
+		if(target != null){
+			faceTarget();
+		}
+		x += dirX*speedX*dt/2;
+		y += dirY*speedY*dt/2;
+		collisionBox.setLocation((float)x, (float)y);
 		if(x > Main.longueur || y > Main.hauteur || x < 0 || y < 0){
-			die();
+			alreadyDead = true;
 		}
 	}
 	

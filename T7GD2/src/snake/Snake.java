@@ -43,31 +43,37 @@ public class Snake {
 		}
 	}
 	
+	public void GScore(int x) {
+		score += x; 
+	}
+	
+	
+	
 	public void move() {
 		Point ajout = null;
-		if (dir == 0) { 
-			if (body.get(0).y != 0) {
+		if (dir == 0) { //haut
+			if (body.get(0).y >= 0) {
 				ajout = new Point((body.get(0).x) , (body.get(0).y - 1));
 				}
 			else {
 				ajout = new Point((body.get(0).x) , nbcasesh);}
 		}
-		if (dir == 1) { 
-			if (body.get(0).x != nbcasesl-28 ) {
+		if (dir == 1) { //droite
+			if (body.get(0).x <= nbcasesl-28 ) {
 				ajout = new Point((body.get(0).x + 1) , (body.get(0).y));
 			}else {
 				ajout = new Point(0 , body.get(0).y) ;
 				}
 		}
-		if (dir == 2) { 
-			if (body.get(0).y != nbcasesh) {
+		if (dir == 2) { //bas
+			if (body.get(0).y <= nbcasesh) {
 				ajout = new Point((body.get(0).x) , (body.get(0).y + 1));}
 			else {
 				ajout = new Point((body.get(0).x) , 0);
 				}
 		}
-		if (dir == 3) { 
-			if (body.get(0).x != 0) {
+		if (dir == 3) { //gauche
+			if (body.get(0).x >= 0) {
 				ajout = new Point((body.get(0).x-1) , (body.get(0).y));
 				}
 			else {
@@ -120,16 +126,58 @@ public class Snake {
 	}
 	
 	public void grandir(){
-		
+		Point ajout = null;
+		if (dir == 0) { 
+			if (body.get(0).y != 0) {
+				ajout = new Point((body.get(0).x) , (body.get(0).y - 1));
+				}
+			else {
+				ajout = new Point((body.get(0).x) , nbcasesh);}
+		}
+		if (dir == 1) { 
+			if (body.get(0).x != nbcasesl-28 ) {
+				ajout = new Point((body.get(0).x + 1) , (body.get(0).y));
+			}else {
+				ajout = new Point(0 , body.get(0).y) ;
+				}
+		}
+		if (dir == 2) { 
+			if (body.get(0).y != nbcasesh) {
+				ajout = new Point((body.get(0).x) , (body.get(0).y + 1));}
+			else {
+				ajout = new Point((body.get(0).x) , 0);
+				}
+		}
+		if (dir == 3) { 
+			if (body.get(0).x != 0) {
+				ajout = new Point((body.get(0).x-1) , (body.get(0).y));
+				}
+			else {
+				ajout = new Point(nbcasesl-28 , (body.get(0).y));}
+		}
+		body.add(0,ajout);
 	}
-		
 	
+	public void retrecir(){
+		if(body.size() == 1)
+			//methode mort
+		
+		body.remove((body.size()-1)); 
+	}
+	
+	public void plusRapide(){
+		speed += 5;
+	}
+	
+	public void plusLent(){
+		speed -= 5;
+	}
 	
 	
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		for  (int i = 0 ; i<body.size(); i++) {
-			g.getColor();
+			g.setColor(couleur);
 			g.fillRect(body.get(i).x*horizontal,body.get(i).y*vertical,horizontal,vertical);
 		}
 	}
@@ -138,10 +186,13 @@ public class Snake {
 		compteur += speed;
 		if (compteur >= 20){	
 			move();
-			compteur =0;
+			compteur -=20;
 		}
 			//turn();
 	}	
+	
+	
+	
 	
 }
 
