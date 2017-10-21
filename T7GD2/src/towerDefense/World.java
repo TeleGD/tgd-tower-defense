@@ -33,7 +33,7 @@ public class World extends BasicGameState {
 		projectiles = new ArrayList<Projectile>();
 		towers = new ArrayList<Tower>();
 		l = new Level();
-		t = new Tower(10, 10, 1, 1, 10);
+		t = new Tower((double)10, (double)10, (double)1, (double)1, (double)10, 1);
 		towers.add(t);
 		//System.out.println("Level created");
 	}
