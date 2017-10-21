@@ -34,7 +34,7 @@ public class ChooseTower {
 		
 		try{
 			sprite = new Image("images/TowerDefense/TowerModel"+type+".png");
-			sprite2 = new Image("image/TowerDefence/rockpng");
+			sprite2 = new Image("images/TowerDefense/rock.png");
 		}catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -46,9 +46,9 @@ public class ChooseTower {
 		g.setColor(Color.yellow);		
 		g.fillRect(0, (float)y-8, (float)1280, (float)(720 - ((float)y-8)));
 		
-		for(i = 0; 700 + i*32 < 1280; i++){
-			for(int j = 0; y + j * 32 < 720; j++){
-				g.drawImage(sprite2, (float)700 + i*32, (float)y +j*32);
+		for(i = 0; 700 + i*32 - 8 < 1280; i++){
+			for(int j = 0; y + j * 32 - 8< 720; j++){
+				g.drawImage(sprite2, (float)700 + i*32 - 8, (float)y - 8 +j*32);
 			}
 		}
 
