@@ -88,7 +88,7 @@ public class Bonus {
 			
 		break;
 		case bInverseBonus:
-			
+			s.inverse = !s.inverse;
 		break;
 		}
 	}
