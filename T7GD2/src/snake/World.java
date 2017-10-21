@@ -145,7 +145,7 @@ public class World extends BasicGameState {
 
             }
         }
-
+        addBonus();
     }
 
     private boolean collide(Point point, Snake snake) {
@@ -161,7 +161,7 @@ public class World extends BasicGameState {
     private void addBonus(){
         Random r =  new Random();
         if(r.nextFloat() >= 0.99){
-            bonus.add(new Bonus(new Point(r.nextInt(nbcasesl),r.nextInt(nbcasesh))));
+            bonus.add(Bonus.RandomBonus(new Point(r.nextInt(nbcasesl)-28,r.nextInt(nbcasesh))));
         }
     }
 
