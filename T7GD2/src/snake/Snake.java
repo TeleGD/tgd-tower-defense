@@ -60,32 +60,32 @@ public class Snake {
 		
 		Point ajout = null;
 		if (dir == 0) { //haut
-			if (body.get(0).y >= 0) {
+			if (body.get(0).y > 0) {
 				ajout = new Point((body.get(0).x) , (body.get(0).y - 1));
 				}
 			else {
-				ajout = new Point((body.get(0).x) , nbcasesh);}
+				ajout = new Point((body.get(0).x) , nbcasesh-1);}
 		}
 		if (dir == 1) { //droite
-			if (body.get(0).x <= nbcasesl-28 ) {
+			if (body.get(0).x < nbcasesl-29 ) {
 				ajout = new Point((body.get(0).x + 1) , (body.get(0).y));
 			}else {
 				ajout = new Point(0 , body.get(0).y) ;
 				}
 		}
 		if (dir == 2) { //bas
-			if (body.get(0).y <= nbcasesh) {
+			if (body.get(0).y < nbcasesh-1) {
 				ajout = new Point((body.get(0).x) , (body.get(0).y + 1));}
 			else {
 				ajout = new Point((body.get(0).x) , 0);
 				}
 		}
 		if (dir == 3) { //gauche
-			if (body.get(0).x >= 0) {
+			if (body.get(0).x > 0) {
 				ajout = new Point((body.get(0).x-1) , (body.get(0).y));
 				}
 			else {
-				ajout = new Point(nbcasesl-28 , (body.get(0).y));}
+				ajout = new Point(nbcasesl-29 , (body.get(0).y));}
 		}
 		body.remove((body.size()-1)); 
 		if (body.size()==0) {
@@ -122,6 +122,7 @@ public class Snake {
 
 		}
 	}
+	
 	
 	public void keyPressed(int key, char c) {
 		if (key == TDroite) {
@@ -199,6 +200,7 @@ public class Snake {
 		if (compteur >= 20){	
 			move();
 			compteur -=20;
+		System.out.println(body.get(0).y);
 		}
 			//turn();
 	}	

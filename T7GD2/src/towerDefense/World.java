@@ -26,7 +26,6 @@ public class World extends BasicGameState {
 	
 	int ab;
 	int or;
-	boolean change;
 	Input input;
 	
 	public int getID(){
@@ -58,7 +57,6 @@ public class World extends BasicGameState {
 		
 		ab = 0;
 		or = 0;
-		change = false;
 		input = container.getInput();
 	}
 
@@ -102,17 +100,12 @@ public class World extends BasicGameState {
 			p.update(container, game, delta);
 		}
 		//System.out.println(delta);
-		
-		change = false;
-		
+				
 		
 		if(input.isMousePressed(0)){
 			
 			changeMouse();
-			change = c.clik(ab, or);
-			if(change){
-				System.out.println("chhhhhhhhhhhhhhhhhhhhhhhhhaaaaaaaaaaaaaatttttt");
-			}
+			c.update(ab, or);
 		}
 		
 	}

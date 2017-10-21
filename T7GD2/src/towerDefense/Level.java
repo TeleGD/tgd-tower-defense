@@ -5,6 +5,8 @@ import java.util.Arrays;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Level {
@@ -12,12 +14,23 @@ public class Level {
 	int[][] map;
 	float width, height;
 	int lenX, lenY;
+	private Image sprite0,sprite1,sprite2;
 	
+
 	public Level() {
 		width = 32;
 		height = 32;
 		lenX = (int)(1280 / width);
 		lenY = (int)(616 / height);
+		try {
+			sprite0 = new Image("images/TowerDefense/chemin.png");
+			sprite1 = new Image("images/TowerDefense/mur.png");
+			sprite2 = new Image("images/TowerDefense/spawn.png");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		genereMap();
 		
 	}
@@ -60,8 +73,8 @@ public class Level {
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
-		g.setColor(Color.green);
 		double x,y;
+		
 		for ( int i = 0; i < lenY; i++)
 		{
 			for(int j = 0; j < lenX; j++)
@@ -69,9 +82,11 @@ public class Level {
 				x = 32*j;
 				y = 32*i;						
 				switch (map[i][j]) {
-				case 1 : g.setColor(Color.green);g.fillRect((float)(x), (float)(y),(float) width, (float)height);
+				case 0 :  g.drawImage(sprite0, (float)x, (float)y);
 				break;
-				case 2 :  g.setColor(Color.red);g.fillRect((float)(x), (float)(y),(float) width, (float)height);
+				case 1 :  g.drawImage(sprite1, (float)x, (float)y);
+				break;
+				case 2 :  g.drawImage(sprite2, (float)x, (float)y);
 				break;
 				case 3 :  g.setColor(Color.blue);g.fillRect((float)(x), (float)(y),(float) width, (float)height);
 				break;
@@ -92,6 +107,8 @@ public class Level {
 			return map[ligne][colonne];
 		}
 	}
+	
+	
 	
 	public double getX(int colonne) {
 		//Donne le x du point en haut à gauche de la case à la colonne 'colonne'

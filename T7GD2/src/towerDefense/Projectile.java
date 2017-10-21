@@ -14,10 +14,9 @@ import general.Main;
 
 public class Projectile {
 
-	private double x,y,speedX,speedY;
-	private float width, height;
-	private double damage;
-	private int dirX, dirY;
+	private double x,y,speedX,speedY, damage;
+	private float width, height, radius;
+	private int dirX, dirY, type;
 	private Enemy target;
 	private Shape collisionBox;
 	private boolean alreadyDead;
@@ -30,7 +29,8 @@ public class Projectile {
 		height = 16;
 		this.damage = damage;
 		this.target = target;
-
+		type = 1;
+		radius = 0;
 		//A ADAPTER A LA VITESSE DES ENNEMIS
 		this.speedX = 0.6;
 		this.speedY = 0.6;
@@ -44,6 +44,95 @@ public class Projectile {
 		}
 		faceTarget();
 	}
+	
+	public Projectile(double x, double y, Enemy target, double damage, int type){
+		/* Types :
+		 * 0 : Normal
+		 * 1 : Powerful but slow
+		 * 2 : AOE
+		 */
+		this.x = x;
+		this.y = y;
+		this.damage = damage;
+		alreadyDead = false;
+		this.type = type;
+		this.radius = 0;
+		
+		switch(type){
+		default:
+			width = 9;
+			height = 16;	
+			this.target = target;
+			//A ADAPTER A LA VITESSE DES ENNEMIS
+			this.speedX = 0.6;
+			this.speedY = 0.6;			
+			try {
+				sprite = new Image("images/towerDefense/Arrow.png");
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		case 3:
+			width = 16;
+			height = 16;	
+			this.target = target;
+			//A ADAPTER A LA VITESSE DES ENNEMIS
+			this.speedX = 0.6;
+			this.speedY = 0.6;
+			this.radius = radius;
+			try {
+				sprite = new Image("images/towerDefense/Bomb.png");
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		case 2:
+			width = 9;
+			height = 16;	
+			this.target = target;
+			//A ADAPTER A LA VITESSE DES ENNEMIS
+			this.speedX = 0.6;
+			this.speedY = 0.6;
+			try {
+				sprite = new Image("images/towerDefense/Bolt.png");
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		}
+		
+		this.collisionBox = new Rectangle((float)x,(float)y,(float)width,(float)height);
+		faceTarget();
+	}
+	
+	public Projectile(double x, double y, Enemy target, double damage, float radius){
+	
+		this.x = x;
+		this.y = y;
+		this.damage = damage;
+		alreadyDead = false;
+		this.type = 2;
+		this.radius = radius;
+		width = 16;
+		height = 16;	
+		this.target = target;
+		//A ADAPTER A LA VITESSE DES ENNEMIS
+		this.speedX = 0.6;
+		this.speedY = 0.6;
+		try {
+			sprite = new Image("images/towerDefense/Bomb.png");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		this.collisionBox = new Rectangle((float)x,(float)y,(float)width,(float)height);
+		faceTarget();
+	}
+	
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		checkForCollision();
@@ -59,10 +148,33 @@ public class Projectile {
 		World.projectiles.remove(this);
 	}
 	
+	public float distanceToTarget(Enemy enn){
+		float targetX = (float) target.getX();
+		float targetY = (float) target.getY();
+		float ennX = (float) enn.getX();
+		float ennY = (float) enn.getY();
+		return (float) Math.sqrt((ennX-targetX)*(ennX-targetX)+(ennY-targetY)*(ennY-targetY));
+	}
+	
 	public void checkForCollision(){
 		for(Enemy e : World.enemies){
 			if(collisionBox.intersects(e.getShape())){
-				e.takeDamage((int)damage);
+				switch(type){
+				default:
+					e.takeDamage((int)damage);
+					break;
+				case 3:
+					//AOE
+					for(Enemy enn:World.enemies){
+						if(distanceToTarget(enn)<=radius){
+							enn.takeDamage((int) damage);
+						}
+					}
+					break;
+				case 2:
+					//Powerful but slow
+					break;
+				}
 				alreadyDead = true;
 				return;
 			}
