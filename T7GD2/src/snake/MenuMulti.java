@@ -76,7 +76,7 @@ public class MenuMulti {
 				// TODO Auto-generated method stub
 				joueurs = new Snake[nJoueur];
 				for (int i = 0;i<nJoueur;i+=1) {
-					joueurs[i] = new Snake(couleursDefaut[i],20+20*i,touchesDefaut[2*i],touchesDefaut[2*i+1],10,fieldNomsJoueurs[i].getText(),10);
+					joueurs[i] = new Snake(couleursDefaut[i],(100-nJoueur)/(nJoueur+1) + i*((100-nJoueur)/(nJoueur+1)+1),touchesDefaut[2*i],touchesDefaut[2*i+1],10,fieldNomsJoueurs[i].getText(),10);
 				}
 				World.setSnakes(joueurs);
 				enleve = true;
@@ -97,7 +97,7 @@ public class MenuMulti {
 				yn = debuty + i*pas;
 				g.setColor(new Color(0,0,0));
 				if (fieldNomsJoueurs[i-1]!=null) {
-					g.drawString("Nom Joueur nÂ°"+i+" :",debutx,yn+5);
+					g.drawString("Nom Joueur n°"+i+" :",debutx,yn+5);
 					fieldNomsJoueurs[i-1].render(container, game, g);
 				}
 			}
