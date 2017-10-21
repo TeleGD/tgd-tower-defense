@@ -3,10 +3,13 @@ package snake;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import general.ui.Button;
+import general.ui.TGDComponent;
+import general.ui.TGDComponent.OnClickListener;
 import general.ui.TextField;
 import general.ui.TextField.EnterActionListener;
 
@@ -25,6 +28,8 @@ public class MenuMulti {
 	public TextField[] fieldNomsJoueurs;
 	public int debutNom = World.longueur/2 - longueurMenu/10;
 	private Button boutonStart;
+	private Snake[] joueurs;
+	private int[] touchesDefaut = {Input.KEY_LEFT,Input.KEY_RIGHT,Input.KEY_A, Input.KEY_Z};
 	
 	public MenuMulti() {
 		
@@ -35,25 +40,42 @@ public class MenuMulti {
 		nbrJoueurs.setPlaceHolder("");
 		nbrJoueurs.setText("0");
 		nbrJoueurs.setPadding(5, 5, 0, 23);
+		nbrJoueurs.setOnlyFigures(true);
 		nbrJoueurs.setMaxNumberOfLetter(1);
 		nbrJoueurs.setEnterActionListener(new EnterActionListener() {
 
 			@Override
 			public void onEnterPressed() {
-				nJoueur = Integer.parseInt(nbrJoueurs.getText());
+				if (nbrJoueurs.getText().length() ==1) {
+					nJoueur = Integer.parseInt(nbrJoueurs.getText());
+				}
 				nomsJoueurs=new String[nJoueur];
 				fieldNomsJoueurs=new TextField[nJoueur];
 				for (int i = 0;i<nJoueur;i+=1) {
 					yn = debuty + (i+1)*pas;
 					fieldNomsJoueurs[i] = new TextField(container , debutNom , yn , longueurMenu/2 , hauteurMenu/15 );
 					fieldNomsJoueurs[i].setText("Joueur "+(i+1));
+					fieldNomsJoueurs[i].setPlaceHolder("Entrer le nom du joueur");
 					fieldNomsJoueurs[i].setPadding(5, 5, 0, 15);
+					fieldNomsJoueurs[i].setOnlyFigures(false);
 					fieldNomsJoueurs[i].setMaxNumberOfLetter(20);
 				}		
 			}});
 		
+		
 		boutonStart = new Button("START",container,World.longueur/2-longueurMenu/6,(World.hauteur+hauteurMenu)/2-8*hauteurMenu/75,longueurMenu/3,hauteurMenu/15);
 		boutonStart.setBackgroundColor(Color.green);
+		boutonStart.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(TGDComponent componenent) {
+				// TODO Auto-generated method stub
+				joueurs = new Snake[nJoueur];
+				for (int i = 0;i<nJoueur;i+=1) {
+					joueurs[i] = new Snake(Color.white,20+20*i,touchesDefaut[2*i],touchesDefaut[2*i+1],10,fieldNomsJoueurs[i].getText(),10);
+				}
+				World.setSnakes(joueurs);
+			}});
 		
 		
 	}
