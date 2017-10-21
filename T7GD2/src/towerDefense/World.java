@@ -20,6 +20,7 @@ public class World extends BasicGameState {
 	private Level l;
 	private Tower t;
 	private ChooseTower c;
+	int ligne, colonne;
 
 	private Enemy e;
 	private Projectile p;
@@ -27,6 +28,7 @@ public class World extends BasicGameState {
 	int ab;
 	int or;
 	Input input;
+	boolean atarashi;
 	
 	public int getID(){
 		return ID;
@@ -58,6 +60,7 @@ public class World extends BasicGameState {
 		ab = 0;
 		or = 0;
 		input = container.getInput();
+		atarashi = false;
 	}
 
 	@Override
@@ -103,10 +106,17 @@ public class World extends BasicGameState {
 				
 		
 		if(input.isMousePressed(0)){
-			
 			changeMouse();
-			c.update(ab, or);
+			atarashi = c.update(ab, or);
+			
+			if(ab > 0 && ab < 0 && or > 0 && or < 616 && atarashi == true){
+				getTile(ab, or);
+				if(l.getCase(ligne, colonne) != 1){
+					towers.add(new Tower(ligne, colonne, 1));
+				}
+			}
 		}
+		
 		
 	}
 	
@@ -120,5 +130,12 @@ public class World extends BasicGameState {
 	public void changeMouse(){
 		ab = input.getMouseX();
 		or = input.getMouseY();
+	}
+	
+	public void getTile (int X, int Y) {
+		// Indique les coordonn�e ligne colonne dans un tableau de 2 �l�ments
+		ligne = (int)(X / 32);
+		colonne = (int)(Y /32);
+		
 	}
 }
