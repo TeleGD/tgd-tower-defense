@@ -14,7 +14,7 @@ public class Level {
 	int[][] map;
 	float width, height;
 	int lenX, lenY;
-	private Image sprite;
+	private Image sprite0,sprite1,sprite2;
 	
 
 	public Level() {
@@ -23,7 +23,9 @@ public class Level {
 		lenX = (int)(1280 / width);
 		lenY = (int)(616 / height);
 		try {
-			sprite = new Image("images/TowerDefense/cobblestone.png");
+			sprite0 = new Image("images/TowerDefense/chemin.png");
+			sprite1 = new Image("images/TowerDefense/mur.png");
+			sprite2 = new Image("images/TowerDefense/spawn.png");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -80,9 +82,11 @@ public class Level {
 				x = 32*j;
 				y = 32*i;						
 				switch (map[i][j]) {
-				case 1 :  g.drawImage(sprite, (float)x, (float)y);
+				case 0 :  g.drawImage(sprite0, (float)x, (float)y);
 				break;
-				case 2 :  g.setColor(Color.red);g.fillRect((float)(x), (float)(y),(float) width, (float)height);
+				case 1 :  g.drawImage(sprite1, (float)x, (float)y);
+				break;
+				case 2 :  g.drawImage(sprite2, (float)x, (float)y);
 				break;
 				case 3 :  g.setColor(Color.blue);g.fillRect((float)(x), (float)(y),(float) width, (float)height);
 				break;
