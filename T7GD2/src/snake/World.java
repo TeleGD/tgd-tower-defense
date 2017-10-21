@@ -190,8 +190,8 @@ public class World extends BasicGameState {
 
     public static void reset() {
         snakes = new ArrayList<Snake>();
-        menu.enleve=false;
-
+        menu.enleve = false;
+        menu.nJoueur = 0;
     }
 
     public static void setSnakes(Snake[] snake){
@@ -199,7 +199,7 @@ public class World extends BasicGameState {
 
         try {
             soundMusicBackground=new Music("sounds/snake/hymne_russe.ogg");
-            soundMusicBackground.play(1, 0.3f);
+            soundMusicBackground.loop(1,0.3f);
         } catch (SlickException e) {
             e.printStackTrace();
         }
