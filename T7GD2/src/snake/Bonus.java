@@ -16,7 +16,13 @@ public class Bonus {
 	public Image imageBonus;
 	public int rayon;
 	
-	
+	public Bonus(Point pt){
+		double b = Math.random();
+		bonusType bonus;
+		if(b > 0.5)
+			bonus = bonusType.bGrandis;
+		
+	}
 	
 	public Bonus(Point pt,int numBonus){
 		this(pt,bonusType.values()[numBonus]);
@@ -33,7 +39,7 @@ public class Bonus {
 			e.printStackTrace();
 		}
 		
-		this.rayon = 8;
+		this.rayon = 2;
 	}
 	
 	public void applyBonus(Snake s){
@@ -51,6 +57,7 @@ public class Bonus {
 			s.plusLent();
 		break;
 		case bMort:
+			World.dead(s);
 			
 		break;
 		case bInverseBonus:
@@ -89,11 +96,11 @@ public class Bonus {
 	}
 	
 	public Boolean isInBonus(Point p){
-		return(pt.x-p.x <= rayon &&  pt.y - p.y <= rayon);
+		return(this.pt.x-p.x <= rayon && p.x-this.pt.x <= rayon && this.pt.y - p.y <= rayon && p.y-this.pt.y  <= rayon);
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-		imageBonus.draw(pt.x-10*rayon,pt.y-10*rayon,10+20*rayon,10+20*rayon);
+		imageBonus.draw(pt.x*10-10*rayon,pt.y*10-10*rayon,10+20*rayon,10+20*rayon);
 	}
 	
 }

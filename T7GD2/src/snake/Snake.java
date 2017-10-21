@@ -160,7 +160,7 @@ public class Snake {
 	
 	public void retrecir(){
 		if(body.size() == 1)
-			//methode mort
+			World.dead(this);
 		
 		body.remove((body.size()-1)); 
 	}

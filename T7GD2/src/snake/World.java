@@ -2,14 +2,23 @@ package snake;
 
 import general.ui.Button;
 import general.utils.FontUtils;
+import snake.Bonus.bonusType;
+
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Random;
 
 public class World extends BasicGameState {
+	
+	public static int nbcasesh=72;
+	public static int nbcasesl=128;
 
     public MenuMulti menu;
     public static int longueur=1280;
@@ -18,6 +27,8 @@ public class World extends BasicGameState {
     private float widthBandeau = 280;
 
     private static ArrayList<Snake> snakes;
+    
+    private static ArrayList<Bonus> bonus;
 
     private TrueTypeFont font = FontUtils.loadSystemFont("Arial", java.awt.Font.BOLD,20);
     private Button replay;
@@ -28,6 +39,7 @@ public class World extends BasicGameState {
         menu.init(container, game);
 
         snakes = new ArrayList<Snake>();
+        bonus = new ArrayList<Bonus>();
 
         replay = new Button(container,World.longueur - widthBandeau+20, World.hauteur-100,widthBandeau-40,40);
         replay.setText("RETOUR AU MENU");
@@ -47,6 +59,10 @@ public class World extends BasicGameState {
             snakes.get(i).render(container, game, g);
             g.setColor(Color.black);
         }
+        
+        for(int i=0;i<bonus.size();i++){
+        	bonus.get(i).render(container, game, g);
+        }
 
         g.setColor(new Color(150,150,150));
         g.fillRect(World.longueur-widthBandeau+2,0,widthBandeau,World.hauteur);
@@ -64,7 +80,7 @@ public class World extends BasicGameState {
             g.setColor(snakes.get(i).couleur);
             g.drawString(snakes.get(i).nom+" : "+snakes.get(i).score,World.longueur-widthBandeau+20,100+30*i);
         }
-
+        
         replay.render(container, game, g);
         menu.render(container, game, g);
 
@@ -78,6 +94,14 @@ public class World extends BasicGameState {
         for(int i=0;i<snakes.size();i++){
             snakes.get(i).GScore(1);
             snakes.get(i).update(container, game,delta);
+            
+            for (Iterator<Bonus> it = bonus.iterator();it.hasNext();) {
+            	Bonus b = it.next();
+    			if (b.isInBonus(snakes.get(i).body.get(0))) {
+    					b.applyBonus(snakes.get(i));
+    					it.remove();
+    			}
+    		}
 
             for(int j = i+1;j<snakes.size();j++){
 
@@ -88,7 +112,16 @@ public class World extends BasicGameState {
 
             }
         }
+        
+        //addBonus();
 
+    }
+    
+    private void addBonus(){
+    	Random r =  new Random();
+    	if(r.nextFloat() >= 0.99){
+    		bonus.add(new Bonus(new Point(r.nextInt(nbcasesl),r.nextInt(nbcasesh)),bonusType.values()[r.nextInt(bonusType.values().length)]));
+    	}
     }
 
     private boolean collide(Point point, Snake snake) {
