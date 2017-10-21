@@ -136,10 +136,12 @@ public class World extends BasicGameState {
             for(int j = 0;j<snakes.size();j++){
 
                 if(j!=i){
-                    if(collide(snakes.get(i).body.get(0),snakes.get(j))){
-                        snakes.get(i).meurt();
-
+                    if(!snakes.get(i).mort){
+                        if(collide(snakes.get(i).body.get(0),snakes.get(j))){
+                            snakes.get(i).meurt();
+                        }
                     }
+
                 }
 
 
