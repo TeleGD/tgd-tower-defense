@@ -34,7 +34,7 @@ public class Tower {
 		this.range=range;
 		this.level=1;
 		try {
-			sprite = new Image("images/TowerDefense/TowerType"+type+"Level1");
+			sprite = new Image("images/TowerDefense/TowerType"+type+"Level1.png");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -71,7 +71,7 @@ public class Tower {
 			this.level+=1;
 			this.damage+=1;
 			try {
-				sprite = new Image("images/TowerDefense/TowerType"+type+"Level1");
+				sprite = new Image("images/TowerDefense/TowerType"+type+"Level1.png");
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
@@ -80,7 +80,7 @@ public class Tower {
 			this.level+=1;
 			this.damage+=1;
 			try {
-				sprite = new Image("images/TowerDefense/TowerType"+type+"Level"+level);
+				sprite = new Image("images/TowerDefense/TowerType"+type+"Level"+level+".png");
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
@@ -90,7 +90,7 @@ public class Tower {
 			this.level+=1;
 			this.damage+=1;
 			try {
-				sprite = new Image("images/TowerDefense/TowerType"+type+"Level"+level);
+				sprite = new Image("images/TowerDefense/TowerType"+type+"Level"+level+".png");
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
@@ -99,7 +99,7 @@ public class Tower {
 			this.level+=1;
 			this.damage+=1;
 			try {
-				sprite = new Image("images/TowerDefense/TowerType"+type+"Level"+level);
+				sprite = new Image("images/TowerDefense/TowerType"+type+"Level"+level+".png");
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
