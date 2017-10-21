@@ -215,7 +215,9 @@ public class TGDComponent extends Rectangle implements MouseListener, KeyListene
 	
 	@Override
 	public void mouseClicked(int type, int x, int y, int count) {
-		if(hasFocus && listener!=null)listener.onClick(this);
+		if(hasFocus && listener!=null){
+		    if(contains(x,y))listener.onClick(this);
+        }
 	}
 
 	@Override
