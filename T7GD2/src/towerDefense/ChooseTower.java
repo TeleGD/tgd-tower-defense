@@ -15,8 +15,10 @@ public class ChooseTower {
 	int lenY;
 
 	private Image sprite;
+	private Image sprite2;
+	
 	private int type = 1;
-	private int nbTower = 4;
+	private int nbTower = 5;
 	public int choose;
 	private int chooseOld;
 	private boolean deselect;
@@ -32,16 +34,23 @@ public class ChooseTower {
 		
 		try{
 			sprite = new Image("images/TowerDefense/TowerModel"+type+".png");
+			sprite2 = new Image("image/TowerDefence/rockpng");
 		}catch (SlickException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g){
-		g.setColor(Color.yellow);
 		int i;
 		
+		g.setColor(Color.yellow);		
 		g.fillRect(0, (float)y-8, (float)1280, (float)(720 - ((float)y-8)));
+		
+		for(i = 0; 700 + i*32 < 1280; i++){
+			for(int j = 0; y + j * 32 < 720; j++){
+				g.drawImage(sprite2, (float)700 + i*32, (float)y +j*32);
+			}
+		}
 
 		for(i = 0; i < nbTower; i++){
 			if(deselect &&  i == choose -1){
