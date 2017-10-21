@@ -52,7 +52,7 @@ public class World extends BasicGameState {
 		
 		l = new Level();
 		t = new Tower((double)10, (double)10, (double)1, (double)1, (double)10, 1);
-		c = new ChooseTower();
+		c = new ChooseTower(player);
 		
 		towers.add(t);
 		e = new Enemy(1, 1, l, 1);

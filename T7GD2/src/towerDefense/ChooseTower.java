@@ -23,7 +23,9 @@ public class ChooseTower {
 	private int chooseOld;
 	private boolean deselect;
 	
-	public ChooseTower() throws SlickException{
+	Player player;
+	
+	public ChooseTower(Player player) throws SlickException{
 		lenX = 16;
 		x = 0 + 2*lenX;
 		y = 720 - 6*lenX;
@@ -43,12 +45,12 @@ public class ChooseTower {
 	public void render(GameContainer container, StateBasedGame game, Graphics g){
 		int i;
 		
-		g.setColor(Color.yellow);		
+		g.setColor(Color.black);		
 		g.fillRect(0, (float)y-8, (float)1280, (float)(720 - ((float)y-8)));
 		
 		for(i = 0; 700 + i*32 - 8 < 1280; i++){
-			for(int j = 0; y + j * 32 - 8< 720; j++){
-				g.drawImage(sprite2, (float)700 + i*32 - 8, (float)y - 8 +j*32);
+			for(int j = 0; y + j * 32 - 16< 720; j++){
+				g.drawImage(sprite2, (float)700 + i*32 - 8, (float)y - 16 +j*32);
 			}
 		}
 
