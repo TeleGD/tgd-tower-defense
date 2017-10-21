@@ -29,9 +29,9 @@ public class MenuMulti {
 	public int debutNom = World.longueur/2 - longueurMenu/10;
 	private Button boutonStart;
 	private Snake[] joueurs;
-	private boolean enleve=false;
+	public boolean enleve=false;
 	private int[] touchesDefaut = {Input.KEY_RIGHT,Input.KEY_LEFT, Input.KEY_Z, Input.KEY_A, Input.KEY_P, Input.KEY_O, Input.KEY_X, Input.KEY_W, Input.KEY_N, Input.KEY_B};
-	private Color[] couleursDefaut =new Color[] {Color.gray, Color.blue,Color.red,Color.green,Color.pink};
+	private Color[] couleursDefaut =new Color[] {Color.white, Color.blue,Color.red,Color.green,Color.pink};
 	
 	public MenuMulti() {
 		
