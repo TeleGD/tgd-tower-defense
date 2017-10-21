@@ -44,10 +44,6 @@ public class Snake {
 		}
 	}
 	
-	public void meurt(){
-		mort=true;
-	}
-	
 	public void GScore(int x) {
 
 		if (mort==false){
@@ -55,9 +51,13 @@ public class Snake {
 		}
 		}
 	
-	
+	public void meurt(){
+		mort = true;
+	}
 	
 	public void move() {
+		if (body.size()!=0){
+		
 		Point ajout = null;
 		if (dir == 0) { //haut
 			if (body.get(0).y >= 0) {
@@ -89,12 +89,11 @@ public class Snake {
 		}
 		body.remove((body.size()-1)); 
 		if (body.size()==0) {
-			meurt();
 			World.dead(this);
 		}
 		if (mort == false){
 			body.add(0,ajout);
-		}
+		}}
 	}
 	
 	/*public void turn() {
@@ -175,7 +174,6 @@ public class Snake {
 	public void retrecir(){
 		if(body.size() == 1)
 			World.dead(this);
-		
 		body.remove((body.size()-1)); 
 	}
 	
