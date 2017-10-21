@@ -129,7 +129,7 @@ public class World extends BasicGameState {
                 Bonus b = it.next();
                 if (!snakes.get(i).mort){
                 if (b.isInBonus(snakes.get(i).body.get(0))) {
-                    b.applyBonus(snakes.get(i));
+                    applyBonus(b,snakes.get(i));
                     it.remove();
                 	}
                 }
@@ -149,7 +149,17 @@ public class World extends BasicGameState {
 
             }
         }
-        addBonus();
+    }
+
+    private void applyBonus(Bonus bonus, Snake snake) {
+        bonus.applyBonus(snake);
+        if(bonus.type == Bonus.bonusType.bInverseBonus){
+           for(int i=0;i<snakes.size();i++){
+               if(!snakes.get(i).equals(snake)){
+                    snakes.get(i).inverse = !snakes.get(i).inverse;
+               }
+           }
+        }
     }
 
     private boolean collide(Point point, Snake snake) {
@@ -162,7 +172,8 @@ public class World extends BasicGameState {
         }
         return false;
     }
-    private void addBonus(){
+    
+    private static void addBonus(){
         Random r =  new Random();
         if(r.nextFloat() >= 0.99){
             bonus.add(Bonus.RandomBonus(new Point(r.nextInt(nbcasesl)-28,r.nextInt(nbcasesh))));
@@ -200,6 +211,8 @@ public class World extends BasicGameState {
         try {
             soundMusicBackground=new Music("sounds/snake/hymne_russe.ogg");
             soundMusicBackground.loop(1,0.3f);
+            addBonus();
+
         } catch (SlickException e) {
             e.printStackTrace();
         }
