@@ -2,6 +2,7 @@ package towerDefense;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -64,13 +65,5 @@ public class World extends BasicGameState {
 	
 	public void keyPressed(int key, char c){
 
-	}
-	
-	public void chooseTower(){
-		Graphics g;
-		g.setColor(Color.green);
-		for(int i = 0; i < 4; i++){
-			
-		}
 	}
 }
