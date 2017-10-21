@@ -17,7 +17,7 @@ public class ChooseTower {
 	private Image sprite;
 	private int type = 1;
 	private int nbTower = 4;
-	private int choose;
+	public int choose;
 	private int chooseOld;
 	private boolean deselect;
 	
