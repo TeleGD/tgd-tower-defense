@@ -30,7 +30,7 @@ public class MenuMulti {
 	private Button boutonStart;
 	private Snake[] joueurs;
 	public boolean enleve=false;
-	private int[] touchesDefaut = {Input.KEY_RIGHT,Input.KEY_LEFT, Input.KEY_Z, Input.KEY_A, Input.KEY_P, Input.KEY_O, Input.KEY_X, Input.KEY_W, Input.KEY_N, Input.KEY_B, Input.KEY_2,Input.KEY_1,Input.KEY_9,Input.KEY_8};
+	private int[] touchesDefaut = {Input.KEY_RIGHT,Input.KEY_LEFT, Input.KEY_Z, Input.KEY_A, Input.KEY_P, Input.KEY_O, Input.KEY_X, Input.KEY_W, Input.KEY_N, Input.KEY_B, Input.KEY_NUMPAD2,Input.KEY_NUMPAD1,Input.KEY_NUMPAD9,Input.KEY_NUMPAD8};
 	private Color[] couleursDefaut =new Color[] {Color.white, Color.blue,Color.red,Color.green,Color.pink,Color.yellow,Color.cyan};
 	
 	public MenuMulti() {
@@ -73,13 +73,15 @@ public class MenuMulti {
 
 			@Override
 			public void onClick(TGDComponent componenent) {
-				// TODO Auto-generated method stub
-				joueurs = new Snake[nJoueur];
-				for (int i = 0;i<nJoueur;i+=1) {
-					joueurs[i] = new Snake(couleursDefaut[i],(100-nJoueur)/(nJoueur+1) + i*((100-nJoueur)/(nJoueur+1)+1),touchesDefaut[2*i],touchesDefaut[2*i+1],10,fieldNomsJoueurs[i].getText(),10);
+				if (nJoueur!=0) {
+					// TODO Auto-generated method stub
+					joueurs = new Snake[nJoueur];
+					for (int i = 0;i<nJoueur;i+=1) {
+						joueurs[i] = new Snake(couleursDefaut[i],(100-nJoueur)/(nJoueur+1) + i*((100-nJoueur)/(nJoueur+1)+1),touchesDefaut[2*i],touchesDefaut[2*i+1],10,fieldNomsJoueurs[i].getText(),10);
+					}
+					World.setSnakes(joueurs);
+					enleve = true;
 				}
-				World.setSnakes(joueurs);
-				enleve = true;
 			}});
 		
 		
