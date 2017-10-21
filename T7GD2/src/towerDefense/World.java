@@ -118,14 +118,16 @@ public class World extends BasicGameState {
 		
 		if(input.isMousePressed(0)){
 			changeMouse();
-			//atarashi = c.update(ab, or);
-			/*
-			if(ab > 0 && ab < 0 && or > 0 && or < 616 && atarashi == true){
+			atarashi = c.update(ab, or);
+			
+			if(ab > 0 && ab < 1280 && or > 0 && or < 616 && atarashi == true){				
 				getTile(ab, or);
-				if(l.getCase(ligne, colonne) != 1){
-					towers.add(new Tower(ligne, colonne, 1));
+
+				if(l.getCase(ligne, colonne) == 1){
+					towers.add(new Tower(32*colonne, 32*ligne, 1));
+					System.out.println(towers.size());
 				}
-			}*/
+			}
 		}
 		
 		
@@ -145,8 +147,8 @@ public class World extends BasicGameState {
 	
 	public void getTile (int X, int Y) {
 		// Indique les coordonn�e ligne colonne dans un tableau de 2 �l�ments
-		ligne = (int)(X / 32);
-		colonne = (int)(Y /32);
+		ligne = (int)(Y / 32);
+		colonne = (int)(X /32);
 		
 	}
 }
