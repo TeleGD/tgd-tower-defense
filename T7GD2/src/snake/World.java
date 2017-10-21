@@ -124,6 +124,7 @@ public class World extends BasicGameState {
         for(int i=0;i<snakes.size();i++){
             snakes.get(i).GScore(1);
             snakes.get(i).update(container, game,delta);
+
             for (Iterator<Bonus> it = bonus.iterator();it.hasNext();) {
                 Bonus b = it.next();
                 if (b.isInBonus(snakes.get(i).body.get(0))) {
@@ -131,15 +132,16 @@ public class World extends BasicGameState {
                     it.remove();
                 }
             }
-            for(int j = i+1;j<snakes.size();j++){
 
-                if(collide(snakes.get(i).body.get(0),snakes.get(j))){
-                    if(i<snakes.size()){
+            for(int j = 0;j<snakes.size();j++){
 
-                        i--;
+                if(j!=i){
+                    if(collide(snakes.get(i).body.get(0),snakes.get(j))){
+                        snakes.get(i).meurt();
+
                     }
-
                 }
+
 
             }
         }
@@ -150,7 +152,7 @@ public class World extends BasicGameState {
         for(int i=0;i<snake.body.size();i++)
         {
             if(snake.body.get(i).x==point.x && snake.body.get(i).y==point.y){
-                //if(i==0)snakes.get(i).meurt();
+                if(i==0)snakes.get(i).meurt();
                 return true;
             }
         }
@@ -200,6 +202,6 @@ public class World extends BasicGameState {
     }
 
     public static void dead(Snake snake){
-        snakes.remove(snake);
+        //snakes.remove(snake);
     }
 }
