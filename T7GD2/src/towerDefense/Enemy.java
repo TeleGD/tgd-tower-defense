@@ -38,7 +38,12 @@ public class Enemy {
 		this.life=10;
 		this.attack=1;
 		this.direction=0;
-		this.sprite=sprite;
+		try {
+			sprite = new Image("images/TowerDefense/enemy1.png");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.cx=x;
 		this.cy=y;
 		
