@@ -122,4 +122,7 @@ public class World extends BasicGameState {
         snakes = new ArrayList<Snake>(Arrays.asList(snake));
     }
 
+    public static void dead(Snake snake){
+        snakes.remove(snake);
+    }
 }
