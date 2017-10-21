@@ -51,7 +51,9 @@ public class Snake {
 		}
 		}
 	
-	
+	public void meurt(){
+		mort = true;
+	}
 	
 	public void move() {
 		if (body.size()!=0){
