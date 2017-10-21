@@ -252,15 +252,15 @@ public class TextField extends TGDComponent{
 		else if(!unauthorizedKeys.contains(key) && ((int)c)!=0 && (text.length()<maxNumberOfLetter || maxNumberOfLetter==-1) &&  (c+"").length()>0){
 
 		    if(key == Input.KEY_0) text += "0";
-            else if(key == Input.KEY_1) text += "1";
-            else if(key == Input.KEY_2) text += "2";
-            else if(key == Input.KEY_3) text += "3";
-            else if(key == Input.KEY_4) text += "4";
-            else if(key == Input.KEY_5) text += "5";
-            else if(key == Input.KEY_6) text += "6";
-            else if(key == Input.KEY_7) text += "7";
-            else if(key == Input.KEY_8) text += "8";
-            else if(key == Input.KEY_9) text += "9";
+            else if(key == Input.KEY_1 || key == Input.KEY_NUMPAD1) text += "1";
+            else if(key == Input.KEY_2 || key == Input.KEY_NUMPAD2) text += "2";
+            else if(key == Input.KEY_3 || key == Input.KEY_NUMPAD3) text += "3";
+            else if(key == Input.KEY_4 || key == Input.KEY_NUMPAD4) text += "4";
+            else if(key == Input.KEY_5 || key == Input.KEY_NUMPAD5) text += "5";
+            else if(key == Input.KEY_6 || key == Input.KEY_NUMPAD6) text += "6";
+            else if(key == Input.KEY_7 || key == Input.KEY_NUMPAD7) text += "7";
+            else if(key == Input.KEY_8 || key == Input.KEY_NUMPAD8) text += "8";
+            else if(key == Input.KEY_9 || key == Input.KEY_NUMPAD9) text += "9";
             else if(c ==(char)0) text += "0";
             else if(c ==(char)1) text += "1";
             else if(c ==(char)2) text += "2";
