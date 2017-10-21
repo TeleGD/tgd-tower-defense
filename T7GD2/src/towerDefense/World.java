@@ -13,8 +13,12 @@ public class World extends BasicGameState {
 	public static int ID = 2;
 	static ArrayList<Enemy> enemies;
 	static ArrayList<Projectile> projectiles;
+	static ArrayList<Tower> towers;
+	
+	//A VIRER
 	private Level l;
-
+	private Tower t;
+	
 	public int getID(){
 		return ID;
 	}
@@ -27,35 +31,39 @@ public class World extends BasicGameState {
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
 		enemies = new ArrayList<Enemy>();
 		projectiles = new ArrayList<Projectile>();
+		towers = new ArrayList<Tower>();
 		l = new Level();
+		t = new Tower(10, 10, 1, 1, 10);
+		towers.add(t);
 		//System.out.println("Level created");
 	}
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-		//init(container,game,g);
-		//l.render(container,game,g);
-		/*
+		l.render(container,game,g);
+		for(Tower t : towers){
+			t.render(container, game, g);
+		}
 		for(Enemy e : enemies){
 			e.render(container,game,g);
 		}
 		for(Projectile p : projectiles){
 			p.render(container,game,g);
 		}
-		*/
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-		/*
-		l.update()
+		l.update(container, game, delta);
+		for(Tower t: towers){
+			t.update(container, game, delta);
+		}
 		for(Enemy e : enemies){
-			e.update();
+			e.update(container, game, delta);
 		}
 		for(Projectile p : projectiles){
-			p.update();
+			p.update(container, game, delta);
 		}
-		*/
 	}
 	
 	public void keyReleased(int key, char c){
