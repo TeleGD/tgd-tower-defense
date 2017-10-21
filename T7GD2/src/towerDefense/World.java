@@ -107,14 +107,14 @@ public class World extends BasicGameState {
 		
 		if(input.isMousePressed(0)){
 			changeMouse();
-			atarashi = c.update(ab, or);
-			
+			//atarashi = c.update(ab, or);
+			/*
 			if(ab > 0 && ab < 0 && or > 0 && or < 616 && atarashi == true){
 				getTile(ab, or);
 				if(l.getCase(ligne, colonne) != 1){
 					towers.add(new Tower(ligne, colonne, 1));
 				}
-			}
+			}*/
 		}
 		
 		
