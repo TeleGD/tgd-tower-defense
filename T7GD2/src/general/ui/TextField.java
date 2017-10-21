@@ -250,16 +250,16 @@ public class TextField extends TGDComponent{
 		}
 		else if(!unauthorizedKeys.contains(key) && ((int)c)!=0 && (text.length()<maxNumberOfLetter || maxNumberOfLetter==-1) &&  (c+"").length()>0){
 
-		    if(key == Input.KEY_0) text += 0;
-            else if(key == Input.KEY_1) text += 1;
-            else if(key == Input.KEY_2) text += 2;
-            else if(key == Input.KEY_3) text += 3;
-            else if(key == Input.KEY_4) text += 4;
-            else if(key == Input.KEY_5) text += 5;
-            else if(key == Input.KEY_6) text += 6;
-            else if(key == Input.KEY_7) text += 7;
-            else if(key == Input.KEY_8) text += 8;
-            else if(key == Input.KEY_9) text += 9;
+		    if(key == Input.KEY_0) text += "0";
+            else if(key == Input.KEY_1) text += "1";
+            else if(key == Input.KEY_2) text += "2";
+            else if(key == Input.KEY_3) text += "3";
+            else if(key == Input.KEY_4) text += "4";
+            else if(key == Input.KEY_5) text += "5";
+            else if(key == Input.KEY_6) text += "6";
+            else if(key == Input.KEY_7) text += "7";
+            else if(key == Input.KEY_8) text += "8";
+            else if(key == Input.KEY_9) text += "9";
             else{
                 if(!onlyFigures)text+=c;
             }
