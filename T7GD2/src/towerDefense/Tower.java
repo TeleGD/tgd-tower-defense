@@ -26,6 +26,10 @@ public class Tower {
 		return y;
 	}
 	
+	public double getType() {
+		return type;
+	}
+	
 	public Tower(double x,double y,double damage,double attackSpeed,double range,int type) {
 		this.x=x;
 		this.y=y;
@@ -41,7 +45,32 @@ public class Tower {
 	}
 	public Tower(double x,double y,int type) {
 		this.x=x;
-		this.y=y;		
+		this.y=y;
+		this.level=1;
+		switch (type) {
+			case 1: this.damage=1;
+					this.range=100;
+					this.attackSpeed=1000;
+			case 2: this.damage=5;
+					this.range=200;
+					this.attackSpeed=2500;
+			case 3: this.damage=3;
+					this.range=100;
+					this.attackSpeed=2000;
+			case 4:	this.damage=1;
+					this.range=112;
+					this.attackSpeed=1000;
+			case 5: this.damage=1;
+					this.range=150;
+					this.attackSpeed=1000;
+			break;
+		}
+		try {
+			sprite = new Image("images/TowerDefense/TowerType"+type+"Level1.png");
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+
 	}
 	
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
@@ -69,6 +98,7 @@ public class Tower {
 	public void upgrade(int n) {               // n correspond au niveau
 		if (n==2) {
 			this.level+=1;
+			this.range+=25;
 			this.damage+=1;
 			try {
 				sprite = new Image("images/TowerDefense/TowerType"+type+"Level1.png");
@@ -78,17 +108,9 @@ public class Tower {
 		}
 		if (n==3) {
 			this.level+=1;
+			this.range+=25;
 			this.damage+=1;
-			try {
-				sprite = new Image("images/TowerDefense/TowerType"+type+"Level"+level+".png");
-			} catch (SlickException e) {
-				e.printStackTrace();
-			}
-			this.attackSpeed+=1;
-		}
-		if (n==4) {
-			this.level+=1;
-			this.damage+=1;
+			this.attackSpeed-=300;
 			try {
 				sprite = new Image("images/TowerDefense/TowerType"+type+"Level"+level+".png");
 			} catch (SlickException e) {
@@ -97,13 +119,24 @@ public class Tower {
 		}
 		if (n==4) {
 			this.level+=1;
+			this.range+=25;
 			this.damage+=1;
 			try {
 				sprite = new Image("images/TowerDefense/TowerType"+type+"Level"+level+".png");
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
-			this.attackSpeed+=1;
+		}
+		if (n==4) {
+			this.level+=1;
+			this.range+=25;
+			this.damage+=1;
+			this.attackSpeed-=300;
+			try {
+				sprite = new Image("images/TowerDefense/TowerType"+type+"Level"+level+".png");
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
