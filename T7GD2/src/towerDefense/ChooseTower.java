@@ -23,7 +23,7 @@ public class ChooseTower {
 		x = 0 + 2*lenX;
 		y = 720 - 6*lenX;
 		try{
-			sprite = new Image("images/TowerDefense/TowerType"+type+"Level1.png");
+			sprite = new Image("images/TowerDefense/TowerModel"+type+".png");
 		}catch (SlickException e) {
 			e.printStackTrace();
 		}
