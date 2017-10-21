@@ -28,9 +28,11 @@ public class Player {
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		g.setColor(Color.black);
-		g.drawString("Or : "+this.gold, 1100, 628);
-		g.drawString("Vies : "+this.lives, 1100, 656);
-		g.drawString("Vagues : "+this.wave, 1100, 684);
+		g.drawString("Or : "+this.gold, 800, 656);
+		g.drawString("Vies : "+this.lives, 1000, 656);
+		g.drawString("Vagues : "+this.wave, 1150, 656);
+		g.drawImage(new Image("images/TowerDefense/bitcoincoin.png"), 730, 640);
+		g.drawImage(new Image("images/TowerDefense/Heart.png"), 930, 640);
 	}
 	
 	
