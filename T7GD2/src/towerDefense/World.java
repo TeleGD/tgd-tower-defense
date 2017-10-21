@@ -18,6 +18,7 @@ public class World extends BasicGameState {
 	//A VIRER
 	private Level l;
 	private Tower t;
+	private ChooseTower c;
 	
 	public int getID(){
 		return ID;
@@ -34,6 +35,8 @@ public class World extends BasicGameState {
 		towers = new ArrayList<Tower>();
 		l = new Level();
 		t = new Tower((double)10, (double)10, (double)1, (double)1, (double)10, 1);
+		c = new ChooseTower();
+		
 		towers.add(t);
 		//System.out.println("Level created");
 	}
@@ -41,6 +44,8 @@ public class World extends BasicGameState {
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		l.render(container,game,g);
+		c.render(container, game, g);
+		
 		for(Tower t : towers){
 			t.render(container, game, g);
 		}
