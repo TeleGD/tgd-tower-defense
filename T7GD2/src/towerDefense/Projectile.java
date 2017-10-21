@@ -22,6 +22,7 @@ public class Projectile {
 	private Shape collisionBox;
 	private boolean alreadyDead;
 	private Image sprite;
+	private int type;
 
 	public Projectile (double x, double y, Enemy target, double damage){
 		this.x = x;
@@ -45,6 +46,67 @@ public class Projectile {
 		faceTarget();
 	}
 	
+	public Projectile(double x, double y, Enemy target, double damage, int type){
+		/* Types :
+		 * 0 : normal
+		 * 1 : AOE
+		 * 2 : slowing
+		 */
+		this.x = x;
+		this.y = y;
+		this.damage = damage;
+		alreadyDead = false;
+		this.type = type;
+		
+		switch(type){
+		default:
+			width = 9;
+			height = 16;	
+			this.target = target;
+			//A ADAPTER A LA VITESSE DES ENNEMIS
+			this.speedX = 0.6;
+			this.speedY = 0.6;
+			try {
+				sprite = new Image("images/towerDefense/Arrow.png");
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		case 2:
+			width = 16;
+			height = 16;	
+			this.target = target;
+			//A ADAPTER A LA VITESSE DES ENNEMIS
+			this.speedX = 0.6;
+			this.speedY = 0.6;
+			try {
+				sprite = new Image("images/towerDefense/AOE.png");
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		case 3:
+			width = 9;
+			height = 16;	
+			this.target = target;
+			//A ADAPTER A LA VITESSE DES ENNEMIS
+			this.speedX = 0.6;
+			this.speedY = 0.6;
+			try {
+				sprite = new Image("images/towerDefense/Arrow.png");
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		}
+		
+		this.collisionBox = new Rectangle((float)x,(float)y,(float)width,(float)height);
+		faceTarget();
+	}
+	
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		checkForCollision();
 		move(delta,2);
@@ -62,7 +124,17 @@ public class Projectile {
 	public void checkForCollision(){
 		for(Enemy e : World.enemies){
 			if(collisionBox.intersects(e.getShape())){
-				e.takeDamage((int)damage);
+				switch(type){
+				default:
+					e.takeDamage((int)damage);
+					break;
+				case 2:
+					//AOE
+					break;
+				case 3:
+					//Slow effect
+					break;
+				}
 				alreadyDead = true;
 				return;
 			}

@@ -115,8 +115,8 @@ public class World extends BasicGameState {
         Collections.sort(snakes, new Comparator<Snake>() {
             @Override
             public int compare(Snake s1, Snake s2) {
-                if(s1.score<s2.score)return -1;
-                else if(s1.score>s2.score)return 1;
+                if(s1.score>s2.score)return -1;
+                else if(s1.score<s2.score)return 1;
                 return 0;
             }
         });
@@ -136,10 +136,12 @@ public class World extends BasicGameState {
             for(int j = 0;j<snakes.size();j++){
 
                 if(j!=i){
-                    if(collide(snakes.get(i).body.get(0),snakes.get(j))){
-                        snakes.get(i).meurt();
-
+                    if(!snakes.get(i).mort){
+                        if(collide(snakes.get(i).body.get(0),snakes.get(j))){
+                            snakes.get(i).meurt();
+                        }
                     }
+
                 }
 
 
