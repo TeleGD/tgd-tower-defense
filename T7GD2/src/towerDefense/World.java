@@ -50,7 +50,7 @@ public class World extends BasicGameState {
 		tempProjectiles = new ArrayList<Projectile>();
 		player = new Player(20, 200);
 		
-		l = new Level();
+		l = new Level(player);
 		c = new ChooseTower(player);
 		e = new Enemy(1, 1, l, 1, player);
 		enemies.add(e);
@@ -92,7 +92,6 @@ public class World extends BasicGameState {
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		l.update(container, game, delta);
-		System.out.println(enemies.size()+" enemies");
 		player.update(container, game, delta);
 		tempTowers.clear();
 		tempTowers.addAll(towers);
@@ -125,6 +124,7 @@ public class World extends BasicGameState {
 					Tower newtour = new Tower(32*colonne, 32*ligne, c.choose);
 					if(!(newtour.existeDeja(towers))){
 						towers.add(newtour);
+						player.earnGold(-(c.choose*50));
 					}
 				}
 			}
