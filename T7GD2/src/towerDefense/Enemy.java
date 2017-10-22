@@ -138,6 +138,7 @@ public class Enemy {
 		}
 		if ( map.getCase(this.currentPosX,this.currentPosY) == 3) {
 			player.damaged(attack);
+			System.out.println("DMG taken : "+attack);
 			World.enemies.remove(this);
 		}
 	}
