@@ -1,6 +1,5 @@
 package towerDefense;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -168,9 +167,6 @@ public class Projectile {
 							enn.takeDamage((int) damage);
 						}
 					}
-					break;
-				case 2:
-					//Powerful but slow
 					break;
 				}
 				alreadyDead = true;

@@ -29,6 +29,8 @@ public class World extends BasicGameState {
     private TrueTypeFont font = FontUtils.loadSystemFont("Arial", java.awt.Font.BOLD,20);
     private TrueTypeFont fontScore = FontUtils.loadSystemFont("Arial", java.awt.Font.BOLD,15);
 
+    static Sound sonMouette;
+    
     private Button replay,backMenu;
     private static Music soundMusicBackground;
     private static  boolean jeuTermine = false;
@@ -39,6 +41,9 @@ public class World extends BasicGameState {
         menu = new MenuMulti();
         menu.init(container, game);
 
+        sonMouette = new Sound("sounds/snake/seagulls-chatting.ogg");
+        
+        
         replay = new Button(container,World.longueur - widthBandeau+20, World.hauteur-150,widthBandeau-40,40);
         replay.setText("REJOUER");
         replay.setBackgroundColor(Color.black);
