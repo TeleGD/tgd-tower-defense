@@ -200,9 +200,10 @@ public class MenuMulti {
 					//g.drawString(valTouchesDefaut[2*i-1]+" - "+valTouchesDefaut[2*i-2], longueurJeu/2+longueurMenu/3, yn+5);
 					fieldNomsJoueurs[i-1].render(container, game, g);
 					choixCouleur[i-1].render(container, game, g);
-                    picker.render(container, game, g);
                     touchesClavier[2*(i-1)].render(container, game, g);
                     touchesClavier[2*(i-1)+1].render(container, game, g);
+                    picker.render(container, game, g);
+
                 }
 				
 				
