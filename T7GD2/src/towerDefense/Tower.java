@@ -38,7 +38,8 @@ public class Tower {
 		this.x=x;
 		this.y=y;
 		this.damage=damage;
-		this.attackSpeed=attackSpeed;
+		this.attackSpeed=0;
+		timer = attackSpeed;
 		this.range=range;
 		this.level=1;
 		try {
@@ -75,6 +76,7 @@ public class Tower {
 					this.factor=1;
 			break;
 		}
+		timer = 0;
 		try {
 			sprite = new Image("images/TowerDefense/TowerType"+type+"Level1.png");
 		} catch (SlickException e) {
@@ -89,7 +91,7 @@ public class Tower {
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		timer-=delta;
-		if (ChooseEnemy() && this.timer==0) {
+		if (ChooseEnemy() && timer<=0) {
 			World.projectiles.add(new Projectile(x,y,enemy,damage));
 			timer=attackSpeed;                 // exemple si cadence=0,5 sec, attackSpeed=500 (delta=nb de ms entre 2 frames)
 		}
