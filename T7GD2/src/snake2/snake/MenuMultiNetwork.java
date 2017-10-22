@@ -123,7 +123,7 @@ public class MenuMultiNetwork implements Client.SocketListener {
             g.drawString("nombre de joueurs : "+nJoueur, debutx, debuty+40);
 
 
-            for (int i = 1;i<=snakes.size();i+=1) {
+            for (int i = 0;i<snakes.size();i+=1) {
                 yn = debuty+40 + i*pas;
                 g.setColor(new Color(0,0,0));
                 g.drawString("Nom Joueur n "+i+" : "+snakes.get(i).nom,debutx,yn+5);
@@ -168,6 +168,8 @@ public class MenuMultiNetwork implements Client.SocketListener {
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
                 }
+
+                snakes.add(new Snake(Color.white,0,Input.KEY_RIGHT,Input.KEY_LEFT,10,nomJoueursField.getText(),2));
 
                 serveur =new Serveur(8887);
                 serveur.addOnClientConnectedListener(new Serveur.OnClientConnectedListener() {
