@@ -15,6 +15,7 @@ public class ColorPicker extends TGDComponent {
 
     private Button bouton ;
     private String s ="";
+    private int rowSelected=0;
 
     public ColorPicker(GameContainer container, float x, float y, float width, float height) {
         super(container, x, y, width, height);
@@ -119,7 +120,12 @@ public class ColorPicker extends TGDComponent {
     @Override
     public void mousePressed(int arg0, int xM, int yM) {
         super.mousePressed(arg0, xM, yM);
+        int row = (int) ((yM-y)/((height-paddingTop-paddingBottom)/6));
+        if(row<4 && row>=0 && contains(xM,yM)) {
+            rowSelected = row;
+        }
         changeColor(xM,yM);
+
     }
 
     @Override
@@ -129,27 +135,19 @@ public class ColorPicker extends TGDComponent {
     }
 
     private void changeColor(int xM, int yM) {
+        int etat = (int) (255*((double)(xM-x)/(double)(width-paddingLeft-paddingRight)));
+
         if(contains(xM,yM)){
 
             if(xM>x+paddingLeft && xM<x+width-paddingLeft-paddingRight){
-                int row = (int) ((yM-y)/((height-paddingTop-paddingBottom)/6));
-                int etat = (int) (255*((double)(xM-x)/(double)(width-paddingLeft-paddingRight)));
-                if(row<4 && row>=0){
-                    c[row] = etat;
-                }
+                c[rowSelected] = etat;
             }
 
         }else if(xM>x+width){
-            int row = (int) ((yM-y)/((height-paddingTop-paddingBottom)/6));
-            if(row<4 && row>=0){
-                c[row] = 255;
-            }
+            c[rowSelected] = 255;
 
         }else if(xM<x){
-            int row = (int) ((yM-y)/((height-paddingTop-paddingBottom)/6));
-            if(row<4 && row>=0){
-                c[row] = 0;
-            }
+            c[rowSelected] = 0;
 
         }
     }
