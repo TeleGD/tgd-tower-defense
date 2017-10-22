@@ -27,7 +27,7 @@ public class MenuMultiNetwork implements Client.SocketListener {
     public int debutdroiteansx=(longueurJeu+longueurMenu)/2-longueurMenu/10-longueurMenu/8;
     public int nJoueur=0;
     public int pas = World.hauteur/20;
-    public int yn;
+    public int yn=debuty+pas;
     public int debutNom = longueurJeu/2 - longueurMenu/10;
     private Button boutonStart;
     public boolean enleve=false;
@@ -51,6 +51,7 @@ public class MenuMultiNetwork implements Client.SocketListener {
     public void init(final GameContainer container, StateBasedGame game) throws SlickException {
 
         final Snake snake = findSnakeByIpAdress(World.ipAdress);
+
         nomJoueursField= new TextField(container , debutNom , yn , longueurMenu/3 , hauteurMenu/15 );
         nomJoueursField.setBackgroundColor(Color.black);
         nomJoueursField.setTextColor(snake.couleur);
@@ -177,7 +178,6 @@ public class MenuMultiNetwork implements Client.SocketListener {
 
         }else if(i == Input.KEY_C){
 
-            if(World.isServer == true){
                 World.isServer = false;
 
                 DiscoveryThread thread = new DiscoveryThread();
@@ -201,7 +201,6 @@ public class MenuMultiNetwork implements Client.SocketListener {
                 });
 
                 thread.start();
-            }
         }
     }
 
