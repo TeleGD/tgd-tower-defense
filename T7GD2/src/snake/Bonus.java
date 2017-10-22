@@ -86,6 +86,7 @@ public class Bonus {
 			s.grandir();
 			s.grandir();
 			World.sonMartien.play();
+			s.GScore(100);
 			break;
 		case bRetrecis:
 			if(s.body.size() >= 1)
@@ -95,25 +96,31 @@ public class Bonus {
 			if(s.body.size() >= 1)
 				s.retrecir();
 			World.sonMagic.play();
+			s.GScore(200);
 			break;
 		case bRapide:
 			s.plusRapide();
 			World.sonSncf.play();
+			s.GScore(500);
 			break;
 		case bLent:
 			s.plusLent();
 			World.sonCheval.play();
+			s.GScore(50);
 			break;
 		case bMort:
 			s.meurt();
+			s.GScore(1500);
 			World.sonChute.play();
 		break;
 		case bInverseMalus:
 			s.inverse = !s.inverse;
 			World.sonEclair.play();
+			s.GScore(250);
 			break;
 		case bRemis:
 			World.sonPerdu.play();
+			s.GScore(2000);
 			s.invincible = 30;
 			for(int i=-1;i<1;i++)
 				for(int j=-1;j<2;j++)
@@ -121,6 +128,7 @@ public class Bonus {
 		break;
 		case bInvincible:
 			s.invincible = 150;
+			s.GScore(100);
 			World.sonMouette.play();
 		break;
 		}
