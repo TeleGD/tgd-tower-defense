@@ -15,7 +15,7 @@ public class Level {
 	int[][] map;
 	float width, height;
 	int lenX, lenY, nbEnemies,nVague;
-	private Image sprite0,sprite1,sprite2;
+	private Image sprite0,sprite1,sprite2,base;
 	int spawnX,spawnY;
 	double timer;
 
@@ -29,13 +29,14 @@ public class Level {
 			sprite0 = new Image("images/TowerDefense/chemin.png");
 			sprite1 = new Image("images/TowerDefense/mur.png");
 			sprite2 = new Image("images/TowerDefense/spawn.png");
+			base = new Image("images/TowerDefense/Base.png");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		genereMap();
-		newVague(0);
+		newVague();
 		
 	}
 	
@@ -79,10 +80,10 @@ public class Level {
 	}
 	
 	
-	public void newVague(int nb) {
+	public void newVague() {
 		nVague += 1;
 		timer = 0;
-		nbEnemies = Math.max(15 - nb,5);
+		nbEnemies = 10 + nVague / 5;
 	}
 	
 	
@@ -107,18 +108,19 @@ public class Level {
 				}
 			}
 		}
-
+		g.drawImage(base, (float)1205, (float)520);
+		
 	}
 
 	protected void update(GameContainer container, StateBasedGame game, int delta) {
 		timer += delta;
-		if ((timer > 500) && (nbEnemies > 0)) {
+		if ((timer > 800) && (nbEnemies > 0)) {
 			Enemy e = new Enemy(spawnX, spawnY,this,nVague,pl);
 			nbEnemies -= 1;
 			timer = 0;					
 		}
 		else if ((nbEnemies == 0) && (World.enemies.isEmpty())) {
-			newVague(1);  // nouvelle vague avec un ennemis de moins qu'avant
+			newVague();  // nouvelle vague avec un ennemis de moins qu'avant
 			if (nVague % 5 == 0)  {
 				nbEnemies = 2;  //Si c'est une vague de boss on ne prévoit que 2 ennemis
 			}
