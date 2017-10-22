@@ -127,7 +127,7 @@ public class Bonus {
 					CreeRemi(new Point(pt.x+5*i,pt.y+5*j), i, j);
 		break;
 		case bInvincible:
-			s.invincible = 150;
+			s.invincible = 300;
 			s.GScore(100);
 			World.sonMouette.play();
 		break;
