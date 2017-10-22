@@ -232,7 +232,7 @@ public class MenuMultiNetwork implements Client.SocketListener {
 
             message = "received_connected_players;"+snakes.size();
             for(int i=0;i<snakes.size();i++){
-                message += snakes.get(i).nom+";"+snakes.get(i).couleur.r+";"+snakes.get(i).couleur.g+";"+snakes.get(i).couleur.b+";"+snakes.get(i).couleur.a;
+                message += snakes.get(i).nom+";"+snakes.get(i).couleur.getRed()+";"+snakes.get(i).couleur.getGreen()+";"+snakes.get(i).couleur.getBlue()+";"+snakes.get(i).couleur.getAlpha();
             }
 
             serveur.sendStringToAllClients(message);
