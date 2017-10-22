@@ -181,12 +181,12 @@ public class Snake {
 	}
 	
 	public void plusRapide(){
-		speed = speed * 2;
+		speed += 7;
 	}
 	
 	public void plusLent(){
-		if (speed > 2){
-		speed = speed/2;
+		if (speed > 4){
+		speed -= 4;
 		}
 	}
 	
@@ -201,9 +201,9 @@ public class Snake {
 	int compteur = 0;
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		compteur += speed;
-		if (compteur >= 20){	
+		while(compteur >= 15){
 			move();
-			compteur -=20;
+			compteur -=15;
 		}
 			//turn();
 	}	

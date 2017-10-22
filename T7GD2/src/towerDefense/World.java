@@ -21,8 +21,9 @@ public class World extends BasicGameState {
 	private Tower t;
 	private ChooseTower c;
 	private Player player;
+	
 	int ligne, colonne;
-
+	private int incomeDelay;
 	private Enemy e;
 	private Projectile p;
 	
@@ -51,18 +52,20 @@ public class World extends BasicGameState {
 		
 		l = new Level();
 		t = new Tower((double)10, (double)10, (double)1, (double)1, (double)10, 1);
-		c = new ChooseTower();
+		c = new ChooseTower(player);
 		
 		towers.add(t);
-		e = new Enemy(1, 1, l);
+		//e = new Enemy(1, 1, l, 1);
 		enemies.add(e);
-		p = new Projectile(32*20,32*0,e,1);
-		projectiles.add(p);
-		projectiles.add(new Projectile(32*25,32*10,e,1,3));
+		//p = new Projectile(32*20,32*0,e,1);
+		//projectiles.add(p);
+		//projectiles.add(new Projectile(32*25,32*10,e,1,3));
 		ab = 0;
 		or = 0;
 		input = container.getInput();
 		atarashi = false;
+		incomeDelay = 1000;
+		
 	}
 
 	@Override
@@ -124,20 +127,17 @@ public class World extends BasicGameState {
 				getTile(ab, or);
 
 				if(l.getCase(ligne, colonne) == 1){
-					towers.add(new Tower(32*colonne, 32*ligne, 1));
+					towers.add(new Tower(32*colonne, 32*ligne, c.choose));
 					System.out.println(towers.size());
 				}
 			}
 		}
 		
-		
-	}
-	
-	public void keyReleased(int key, char c){
-	}
-	
-	public void keyPressed(int key, char c){
-
+		incomeDelay -= delta;
+		if(incomeDelay <=0){
+			incomeDelay = 1000;
+			player.earnGold(10);
+		}
 	}
 	
 	public void changeMouse(){
