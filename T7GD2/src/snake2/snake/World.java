@@ -379,7 +379,9 @@ public class World extends BasicGameState {
                     snake.body = new ArrayList<>();
 
                     for(int i=0;i<split.length/2;i++){
-                        snakes.get(i).body.add(new Point(Integer.parseInt(split[2*i]),Integer.parseInt(split[2*i+1])));
+                        if(2*i+2<split.length){
+                            snakes.get(i).body.add(new Point(Integer.parseInt(split[2*i+1]),Integer.parseInt(split[2*i+2])));
+                        }
                     }
 
                 }
