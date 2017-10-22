@@ -34,6 +34,7 @@ public class Player {
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+		
 	}
 	
 	public void buyTower(int price) {
@@ -51,6 +52,7 @@ public class Player {
 	
 	public void damaged(int damage) {
 		lives -= damage;
+		System.out.println(lives);
 		if (lives <= 0) {
 			lives = 0;
 		}

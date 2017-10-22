@@ -14,7 +14,7 @@ public class World extends BasicGameState {
 	public static ArrayList<Enemy> enemies, tempEnemies;
 	public static ArrayList<Projectile> projectiles, tempProjectiles;
 	public static ArrayList<Tower> towers, tempTowers;
-	private static Player player;
+	private Player player;
 	
 	//A VIRER
 	private Level l;
@@ -37,7 +37,6 @@ public class World extends BasicGameState {
 	}
 	
 	public static void reset(){
-		player = new Player(20,200);
 		enemies = new ArrayList<Enemy>();
 		projectiles = new ArrayList<Projectile>();
 		towers = new ArrayList<Tower>();
@@ -49,6 +48,7 @@ public class World extends BasicGameState {
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
 		reset();		
+		player = new Player(20,200);
 		l = new Level(player);
 		c = new ChooseTower(player);
 		ab = 0;
@@ -137,6 +137,7 @@ public class World extends BasicGameState {
 		}
 		
 		if(player.getLives() == 0) {
+			((TowerEnd) game.getState(20)).changeWave(l.getnVague());
 			game.enterState(TowerEnd.ID);
 		}
 
