@@ -160,12 +160,13 @@ public class World extends BasicGameState {
                     snakes.get(i).GScore(1);
                     snakes.get(i).update(container, game, delta);
 
-                    for (Iterator<Bonus> it = bonus.iterator(); it.hasNext(); ) {
-                        Bonus b = it.next();
+                    for (int j = 0; j < bonus.size(); j++) {
+                    	bonus.get(j).update(container, game, delta);
                         if (!snakes.get(i).mort) {
-                            if (b.isInBonus(snakes.get(i).body.get(0))) {
-                                applyBonus(b, snakes.get(i));
-                                it.remove();
+                            if (bonus.get(j).isInBonus(snakes.get(i).body.get(0))) {
+                                applyBonus(bonus.get(j), snakes.get(i));
+                                bonus.remove(j);
+                                j--;
                             }
                         }
                     }
