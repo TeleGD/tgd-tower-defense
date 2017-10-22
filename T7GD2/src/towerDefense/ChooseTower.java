@@ -1,6 +1,8 @@
 package towerDefense;
 
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -14,10 +16,10 @@ public class ChooseTower {
 	int lenX;
 	int lenY;
 
-	private Image sprite;
 	private Image sprite2;
 	
-	private int type = 1;
+	private ArrayList<Image> sprite;
+	
 	private int nbTower = 5;
 	public int choose;
 	private int chooseOld;
@@ -34,8 +36,12 @@ public class ChooseTower {
 		chooseOld = 0;
 		deselect = false;
 		
+		sprite = new ArrayList<Image>();
+		
 		try{
-			sprite = new Image("images/TowerDefense/TowerModel"+type+".png");
+			for(int i = 1; i <= nbTower; i++){
+				sprite.add(new Image("images/TowerDefense/TowerModel"+i+".png"));
+			}
 			sprite2 = new Image("images/TowerDefense/rock.png");
 		}catch (SlickException e) {
 			e.printStackTrace();
@@ -64,7 +70,7 @@ public class ChooseTower {
 		}
 		
 		for(i = 0; i < nbTower; i++){
-			g.drawImage(sprite, (float)x + i*7*lenX + 8, (float)y + 8);
+			g.drawImage(sprite.get(i), (float)x + i*7*lenX + 8, (float)y + 8);
 		}
 	}
 	
