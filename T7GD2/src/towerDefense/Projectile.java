@@ -34,7 +34,7 @@ public class Projectile {
 		this.speedX = 0.6;
 		this.speedY = 0.6;
 		alreadyDead = false;
-		this.collisionBox = new Rectangle((float)x,(float)y,(float)width,(float)height);
+		this.collisionBox = new Rectangle((float)x,(float)y,width,height);
 		try {
 			sprite = new Image("images/TowerDefense/Arrow.png");
 		} catch (SlickException e) {
@@ -100,7 +100,7 @@ public class Projectile {
 			break;
 		}
 		
-		this.collisionBox = new Rectangle((float)x,(float)y,(float)width,(float)height);
+		this.collisionBox = new Rectangle((float)x,(float)y,width,height);
 		faceTarget();
 	}
 	
@@ -124,7 +124,7 @@ public class Projectile {
 			e.printStackTrace();
 		}
 		
-		this.collisionBox = new Rectangle((float)x,(float)y,(float)width,(float)height);
+		this.collisionBox = new Rectangle((float)x,(float)y,width,height);
 		faceTarget();
 	}
 	

@@ -1,6 +1,5 @@
 package towerDefense;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -41,7 +40,7 @@ public class Enemy {
 		enemyType(wave);
 		World.enemies.add(this);
 		
-		shape=new Rectangle((float)(x),(float)(y),(float) 32, (float) 32);
+		shape=new Rectangle((x),(y),32, 32);
 	}
 	
 	
@@ -86,7 +85,7 @@ public class Enemy {
 	
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-		g.drawImage(sprite, (float)x, (float)y);
+		g.drawImage(sprite, x, y);
 	}
 	
 
@@ -147,19 +146,19 @@ public class Enemy {
 		switch (this.direction) {
 			case 1 :
 				this.y-=speed*delta;
-				shape.setY((float) this.y);
+				shape.setY(this.y);
 				break;
 			case 2 :
 				this.x+=speed*delta;
-				shape.setX((float) this.x);
+				shape.setX(this.x);
 				break;
 			case 3 :
 				this.y+=speed*delta;
-				shape.setY((float) this.y);
+				shape.setY(this.y);
 				break;
 			case 4 :
 				this.x-=speed*delta;
-				shape.setX((float) this.x);
+				shape.setX(this.x);
 				break;
 			default :
 				calcNextPos();
