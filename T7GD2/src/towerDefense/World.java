@@ -50,7 +50,7 @@ public class World extends BasicGameState {
 		tempProjectiles = new ArrayList<Projectile>();
 		player = new Player(20, 200);
 		
-		l = new Level();
+		l = new Level(player);
 		c = new ChooseTower(player);
 		e = new Enemy(1, 1, l, 1, player);
 		enemies.add(e);
