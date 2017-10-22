@@ -108,7 +108,6 @@ public class World extends BasicGameState {
 		for(Projectile p : tempProjectiles){
 			p.update(container, game, delta);
 		}
-		//System.out.println(delta);
 				
 		
 		if(input.isMousePressed(0)){
