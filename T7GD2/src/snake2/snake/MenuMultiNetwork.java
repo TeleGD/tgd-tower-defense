@@ -236,7 +236,7 @@ public class MenuMultiNetwork implements Client.SocketListener {
 
             message = "received_connected_players;"+snakes.size()+";";
             for(int i=0;i<snakes.size();i++){
-                message += snakes.get(i).nom+";"+snakes.get(i).couleur.getRed()+";"+snakes.get(i).couleur.getGreen()+";"+snakes.get(i).couleur.getBlue()+";"+snakes.get(i).couleur.getAlpha()+";";
+                message += snakes.get(i).nom+";"+snakes.get(i).ipAdress+";"+snakes.get(i).couleur.getRed()+";"+snakes.get(i).couleur.getGreen()+";"+snakes.get(i).couleur.getBlue()+";"+snakes.get(i).couleur.getAlpha()+";";
             }
 
             World.serveur.sendStringToAllClients(message);
@@ -251,13 +251,16 @@ public class MenuMultiNetwork implements Client.SocketListener {
             snakes.removeAll(snakes);
 
             for(int i=0;i<nJoueur;i++){
-                String nom =split[2+5*i];
-                int r = Integer.parseInt(split[2+5*i+1]);
-                int g = Integer.parseInt(split[2+5*i+2]);
-                int b = Integer.parseInt(split[2+5*i+3]);
-                int a = Integer.parseInt(split[2+5*i+4]);
+                String nom =split[2+6*i];
+                String adresse =split[2+6*i+1];
+                int r = Integer.parseInt(split[2+6*i+2]);
+                int g = Integer.parseInt(split[2+6*i+3]);
+                int b = Integer.parseInt(split[2+6*i+4]);
+                int a = Integer.parseInt(split[2+6*i+5]);
                 Color c = new Color(r,g,b,a);
-                snakes.add(new Snake(c,12+12*i,Input.KEY_RIGHT,Input.KEY_LEFT,10,nom,10));
+                Snake s = new Snake(c,12+12*i,Input.KEY_RIGHT,Input.KEY_LEFT,10,nom,10);
+                s.ipAdress = adresse;
+                snakes.add(s);
             }
         }else if(message.startsWith("add_joueur")){
 
