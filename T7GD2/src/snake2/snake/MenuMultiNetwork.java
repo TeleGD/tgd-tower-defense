@@ -12,7 +12,9 @@ import snake2.snake.network_tcp.DiscoverServerThread;
 import snake2.snake.network_tcp.DiscoveryThread;
 import snake2.snake.network_tcp.Serveur;
 
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
@@ -161,6 +163,12 @@ public class MenuMultiNetwork implements Client.SocketListener {
                 discoverServerThread = new DiscoverServerThread(5000,15);
                 discoverServerThread.start();
 
+                try {
+                    ipServer = InetAddress.getLocalHost().getHostAddress();
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }
+
                 serveur =new Serveur(8887);
                 serveur.addOnClientConnectedListener(new Serveur.OnClientConnectedListener() {
                     @Override
@@ -217,6 +225,7 @@ public class MenuMultiNetwork implements Client.SocketListener {
 
     @Override
     public void onMessageReceived(Socket socket, String message) {
+        System.out.println("message = "+message);
         if(message.equals("get_connected_players")){
 
             message = "received_connected_players;"+snakes.size();

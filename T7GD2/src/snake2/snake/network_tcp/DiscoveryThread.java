@@ -5,7 +5,7 @@ import java.net.*;
 
 public class DiscoveryThread extends Thread implements Runnable{
 
-	private static final String MESSAGE_TO_DETECT = "SomeResponseData";
+	private static final String MESSAGE_TO_DETECT = "SomeRequestData";
 	private static final String MESSAGE_DETECTED = "oui c'est moi !";
 	private static final int PORT = 8889;
 

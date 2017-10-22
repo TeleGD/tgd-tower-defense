@@ -6,7 +6,7 @@ import java.net.*;
 public class DiscoverServerThread extends Thread implements Runnable{
 
 	private static final String MESSAGE_TO_DETECT = "SomeRequestData";
-	private static final String MESSAGE_DETECTED = "SomeRequestData";
+	private static final String MESSAGE_DETECTED = "oui c'est moi !";
 
 	private static final int PORT = 8889;
 	private int timeout;
