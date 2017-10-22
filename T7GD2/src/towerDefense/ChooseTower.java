@@ -93,12 +93,10 @@ public class ChooseTower {
 						chooseOld = choose;
 						choose = i+1;
 						if(choose != chooseOld || deselect == false){
-							System.out.println("Vous avez choisi la tour n°"+choose);
 							deselect = true;
 							return true;
 						}else{
 							deselect = false;
-							System.out.println("Vous avez déselectionné une tour");
 							return false;
 						}
 					}

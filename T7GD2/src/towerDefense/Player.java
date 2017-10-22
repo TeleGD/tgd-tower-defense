@@ -34,6 +34,7 @@ public class Player {
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+		
 	}
 	
 	public void buyTower(int price) {
