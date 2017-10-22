@@ -3,6 +3,7 @@ package menus;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
+import snake2.snake.Snake;
 
 
 //import towerDefense.World;
@@ -16,7 +17,7 @@ public class MainMenu extends Menu{
 		super.setTitrePrincipal("MULTIGAME 2 DESIGN");
 		super.setTitreSecondaire("Menu Principal");
 		//super.setItems(World1.GAME_NAME,World2.GAME_NAME,World3.GAME_NAME,"Scores", "Quitter");
-		super.setItems("Snake","Tower Defense", "Quitter");
+		super.setItems("Snake","Tower Defense", "Quitter","SnakeReseau");
 
 		super.setEnableClignote(false);
 		super.setCouleurClignote(Color.red);
@@ -45,6 +46,10 @@ public class MainMenu extends Menu{
 			System.out.println("exit");
 			System.exit(0);
 			break;
+		case 3:
+			snake2.snake.World.reset();
+			game.enterState(snake.World.ID, new FadeOutTransition(), new FadeInTransition());
+		break;
 		}
 	}
 	

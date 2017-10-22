@@ -1,4 +1,4 @@
-package snake;
+package snake2.snake;
 
 import general.ui.Button;
 import general.ui.TGDComponent;
@@ -9,17 +9,24 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
+import snake2.snake.network_tcp.Client;
+import snake2.snake.network_tcp.Serveur;
 
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.*;
 
-public class World extends BasicGameState {
+public class World extends BasicGameState implements Client.SocketListener {
 
     public static int nbcasesh=72;
     public static int nbcasesl=128;
-    public static MenuMulti menu;
+    public static MenuMultiNetwork menu;
     public static int longueur=1280;
     public static int hauteur=720;
-    public static int ID=1;
+    public static int ID=3;
+    public static boolean isServer = false;
+
     private float widthBandeau = 280;
     public static boolean jeuDemarre = false;
     private static ArrayList<Bonus> bonus;
@@ -29,38 +36,28 @@ public class World extends BasicGameState {
     private TrueTypeFont font = FontUtils.loadSystemFont("Arial", java.awt.Font.BOLD,20);
     private TrueTypeFont fontScore = FontUtils.loadSystemFont("Arial", java.awt.Font.BOLD,15);
 
-    static Sound sonMouette;
-    static Sound sonSncf;
-    static Sound sonChute;
-    static Sound sonCheval;
-    static Sound sonEclair;
-    static Sound sonMagic;
-    static Sound sonMartien;
-    static Sound sonPerdu;
-    
-    
     private Button replay,backMenu;
     private static Music soundMusicBackground;
     private static  boolean jeuTermine = false;
 
+    private Serveur serveur;
+    public static String ipAdress;
+
     @Override
     public void init(final GameContainer container, final StateBasedGame game) throws SlickException {
 
-        menu = new MenuMulti();
-        menu.init(container, game);
+
+        try {
+            ipAdress = InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
 
         
-        sonMouette = new Sound("sounds/snake/seagulls-chatting.ogg");
-        sonSncf = new Sound("sounds/snake/0564.ogg");
-        sonChute = new Sound("sounds/snake/0477.ogg");
-        sonCheval = new Sound("sounds/snake/horse-whinnies.ogg");
-        sonEclair = new Sound("sounds/snake/ChargedLightningAttack8-Bit.ogg");
-        sonMagic = new Sound("sounds/snake/FreezeMagic.ogg");
-        sonMartien = new Sound("sounds/snake/martian-gun.ogg");
-        sonPerdu = new Sound("sounds/snake/perdu.ogg");
-        
-        
-        replay = new Button(container,World.longueur - widthBandeau+20, World.hauteur-150,widthBandeau-40,40);
+        menu = new MenuMultiNetwork();
+        menu.init(container, game);
+
+        replay = new Button(container, World.longueur - widthBandeau+20, World.hauteur-150,widthBandeau-40,40);
         replay.setText("REJOUER");
         replay.setBackgroundColor(Color.black);
         replay.setBackgroundColorEntered(Color.white);
@@ -71,7 +68,7 @@ public class World extends BasicGameState {
             @Override
             public void onClick(TGDComponent componenent) {
                 if(soundMusicBackground!=null)soundMusicBackground.stop();
-                menu = new MenuMulti();
+                menu = new MenuMultiNetwork();
                 try {
                     menu.init(container, game);
                 } catch (SlickException e) {
@@ -81,7 +78,7 @@ public class World extends BasicGameState {
             }
         });
 
-        backMenu = new Button(container,World.longueur - widthBandeau+20, World.hauteur-100,widthBandeau-40,40);
+        backMenu = new Button(container, World.longueur - widthBandeau+20, World.hauteur-100,widthBandeau-40,40);
         backMenu.setText("RETOUR AU MENU");
         backMenu.setBackgroundColor(Color.black);
         backMenu.setBackgroundColorEntered(Color.white);
@@ -110,15 +107,15 @@ public class World extends BasicGameState {
         }
 
         g.setColor(new Color(150,150,150));
-        g.fillRect(World.longueur-widthBandeau+2,0,widthBandeau,World.hauteur);
+        g.fillRect(World.longueur-widthBandeau+2,0,widthBandeau, World.hauteur);
         g.setColor(new Color(170,170,170));
-        g.fillRect(World.longueur-widthBandeau+4,0,widthBandeau,World.hauteur);
+        g.fillRect(World.longueur-widthBandeau+4,0,widthBandeau, World.hauteur);
         g.setColor(new Color(200,200,200));
-        g.fillRect(World.longueur-widthBandeau+6,0,widthBandeau,World.hauteur);
+        g.fillRect(World.longueur-widthBandeau+6,0,widthBandeau, World.hauteur);
 
         g.setFont(font);
         g.setColor(Color.black);
-        g.drawString("SNAKE 3000 ! ",World.longueur-widthBandeau+20,20);
+        g.drawString("SNAKE 3000 ! ", World.longueur-widthBandeau+20,20);
 
         g.setColor(new Color(150,150,150));
         g.fillRect(World.longueur-widthBandeau+6,60,widthBandeau,5);
@@ -128,12 +125,12 @@ public class World extends BasicGameState {
 
         if(jeuTermine){
             g.setColor(Color.black);
-            g.fillRoundRect(World.longueur/2-75,World.hauteur/2-50,150,100,20);
+            g.fillRoundRect(World.longueur/2-75, World.hauteur/2-50,150,100,20);
             g.setColor(Color.white);
-            g.fillRoundRect(World.longueur/2-75+4,World.hauteur/2-50+4,150-8,92,20);
+            g.fillRoundRect(World.longueur/2-75+4, World.hauteur/2-50+4,150-8,92,20);
             g.setColor(Color.black);
             g.setFont(font);
-            g.drawString("Perdu !", World.longueur/2-30,World.hauteur/2-30);
+            g.drawString("Perdu !", World.longueur/2-30, World.hauteur/2-30);
         }else{
 
 
@@ -141,7 +138,7 @@ public class World extends BasicGameState {
 
         for(int i=0;i<snakes.size();i++){
             g.setColor(snakes.get(i).couleur);
-            g.drawString(snakes.get(i).nom+" : "+snakes.get(i).score,World.longueur-widthBandeau+20,100+50*i+20);
+            g.drawString(snakes.get(i).nom+" : "+snakes.get(i).score, World.longueur-widthBandeau+20,100+50*i+20);
         }
 
         for(int i=0;i<bonus.size();i++){
@@ -175,7 +172,6 @@ public class World extends BasicGameState {
             if(!jeuTermine){
                 jeuTermine = isFini();
                 addBonus();
-              
 
 
                 for(int i=0;i<snakes.size();i++) {
@@ -185,7 +181,7 @@ public class World extends BasicGameState {
                     snake.update(container, game, delta);
 
                     for (int j = 0; j < bonus.size(); j++) {
-                    	bonus.get(j).update(container, game, delta);
+                        bonus.get(j).update(container, game, delta);
                         if (!snakes.get(i).mort) {
                             if (bonus.get(j).isInBonus(snakes.get(i).body.get(0))) {
                                 applyBonus(bonus.get(j), snakes.get(i));
@@ -224,19 +220,20 @@ public class World extends BasicGameState {
         }
 
 
+
     }
 
     private void applyBonus(Bonus bonus, Snake snake ) {
         bonus.applyBonus(snake);
 
         if(bonus.type == Bonus.bonusType.bInverseBonus){
-           for(int i= 0;i<snakes.size();i++){
-               if(!snakes.get(i).equals(snake)){
+            for(int i= 0;i<snakes.size();i++){
+                if(!snakes.get(i).equals(snake)){
                     snakes.get(i).inverse = !snakes.get(i).inverse;
-               }
+                }
 
 
-           }
+            }
         }
     }
 
@@ -288,7 +285,6 @@ public class World extends BasicGameState {
         snakes = new ArrayList<Snake>();
         bonus = new ArrayList<>();
         menu.enleve = false;
-        menu.nJoueur = 0;
         jeuDemarre = false;
         jeuTermine = false;
 
@@ -327,5 +323,26 @@ public class World extends BasicGameState {
         if(compt<=1)return true;
 
         return false;
+    }
+
+
+    @Override
+    public void onMessageSend(Socket socket, String message) {
+
+    }
+
+    @Override
+    public void onMessageReceived(Socket socket, String message) {
+        String[] split =  message.split(";");
+        int id = Integer.parseInt(split[0]);
+
+        snakes.get(id).body = new ArrayList<>();
+        for(int i=0;i<split.length/2;i++){
+            snakes.get(id).body.add(new Point(Integer.parseInt(split[2*i]),Integer.parseInt(split[2*i+1])));
+        }
+
+        if(World.isServer){
+            serveur.sendStringToAllClients(message);
+        }
     }
 }
