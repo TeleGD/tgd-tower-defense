@@ -30,6 +30,14 @@ public class World extends BasicGameState {
     private TrueTypeFont fontScore = FontUtils.loadSystemFont("Arial", java.awt.Font.BOLD,15);
 
     static Sound sonMouette;
+    static Sound sonSncf;
+    static Sound sonChute;
+    static Sound sonCheval;
+    static Sound sonEclair;
+    static Sound sonMagic;
+    static Sound sonMartien;
+    static Sound sonPerdu;
+    
     
     private Button replay,backMenu;
     private static Music soundMusicBackground;
@@ -41,7 +49,15 @@ public class World extends BasicGameState {
         menu = new MenuMulti();
         menu.init(container, game);
 
+        
         sonMouette = new Sound("sounds/snake/seagulls-chatting.ogg");
+        sonSncf = new Sound("sounds/snake/0564.ogg");
+        sonChute = new Sound("sounds/snake/0477.ogg");
+        sonCheval = new Sound("sounds/snake/horse-whinnies.ogg");
+        sonEclair = new Sound("sounds/snake/ChargedLightningAttack8-Bit.ogg");
+        sonMagic = new Sound("sounds/snake/FreezeMagic.ogg");
+        sonMartien = new Sound("sounds/snake/martian-gun.ogg");
+        sonPerdu = new Sound("sounds/snake/perdu.ogg");
         
         
         replay = new Button(container,World.longueur - widthBandeau+20, World.hauteur-150,widthBandeau-40,40);
@@ -159,6 +175,7 @@ public class World extends BasicGameState {
             if(!jeuTermine){
                 jeuTermine = isFini();
                 addBonus();
+              
 
 
                 for(int i=0;i<snakes.size();i++) {

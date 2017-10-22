@@ -85,7 +85,8 @@ public class Bonus {
 			s.grandir();
 			s.grandir();
 			s.grandir();
-		break;
+			World.sonMartien.play();
+			break;
 		case bRetrecis:
 			if(s.body.size() >= 1)
 				s.retrecir();
@@ -93,21 +94,26 @@ public class Bonus {
 				s.retrecir();
 			if(s.body.size() >= 1)
 				s.retrecir();
-		break;
+			World.sonMagic.play();
+			break;
 		case bRapide:
 			s.plusRapide();
-		break;
+			World.sonSncf.play();
+			break;
 		case bLent:
 			s.plusLent();
-		break;
+			World.sonCheval.play();
+			break;
 		case bMort:
 			s.meurt();
-			
+			World.sonChute.play();
 		break;
 		case bInverseMalus:
 			s.inverse = !s.inverse;
-		break;
+			World.sonEclair.play();
+			break;
 		case bRemis:
+			World.sonPerdu.play();
 			s.invincible = 30;
 			for(int i=-1;i<1;i++)
 				for(int j=-1;j<2;j++)
@@ -125,7 +131,7 @@ public class Bonus {
 		switch(type){
 		case bGrandis:
 			path+="Grand";
-		break;
+			break;
 		case bRetrecis:
 			path+="Petit";
 		break;
