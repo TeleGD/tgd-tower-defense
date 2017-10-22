@@ -1,6 +1,8 @@
 package towerDefense;
 
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -14,10 +16,10 @@ public class ChooseTower {
 	int lenX;
 	int lenY;
 
-	private Image sprite;
 	private Image sprite2;
+	private Image sprite3;
+	private ArrayList<Image> sprite;
 	
-	private int type = 1;
 	private int nbTower = 5;
 	public int choose;
 	private int chooseOld;
@@ -34,9 +36,14 @@ public class ChooseTower {
 		chooseOld = 0;
 		deselect = false;
 		
+		sprite = new ArrayList<Image>();
+		
 		try{
-			sprite = new Image("images/TowerDefense/TowerModel"+type+".png");
+			for(int i = 1; i <= nbTower; i++){
+				sprite.add(new Image("images/TowerDefense/TowerModel"+i+".png"));
+			}
 			sprite2 = new Image("images/TowerDefense/rock.png");
+			sprite3 = new Image("images/TowerDefense/wood.png");
 		}catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -45,8 +52,14 @@ public class ChooseTower {
 	public void render(GameContainer container, StateBasedGame game, Graphics g){
 		int i;
 		
-		g.setColor(Color.black);		
-		g.fillRect(0, (float)y-8, (float)1280, (float)(720 - ((float)y-8)));
+		//g.setColor(Color.black);		
+		//g.fillRect(0, (float)y-8, (float)1280, (float)(720 - ((float)y-8)));
+		
+		for(i = 0; 0 + i*32 - 8 < 700; i++){
+			for(int j = 0; y + j * 32 - 16< 720; j++){
+				g.drawImage(sprite3, (float)0 + i*32 - 8, (float)y - 16 +j*32);
+			}
+		}
 		
 		for(i = 0; 700 + i*32 - 8 < 1280; i++){
 			for(int j = 0; y + j * 32 - 16< 720; j++){
@@ -64,7 +77,7 @@ public class ChooseTower {
 		}
 		
 		for(i = 0; i < nbTower; i++){
-			g.drawImage(sprite, (float)x + i*7*lenX + 8, (float)y + 8);
+			g.drawImage(sprite.get(i), (float)x + i*7*lenX + 8, (float)y + 8);
 		}
 	}
 	

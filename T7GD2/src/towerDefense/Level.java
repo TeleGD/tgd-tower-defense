@@ -11,17 +11,20 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class Level {
 	
+	Player pl;
 	int[][] map;
 	float width, height;
-	int lenX, lenY;
+	int lenX, lenY, nbEnemies,nVague;
 	private Image sprite0,sprite1,sprite2;
-	
+	int spawnX,spawnY;
+	double timer;
 
 	public Level() {
 		width = 32;
 		height = 32;
 		lenX = (int)(1280 / width);
 		lenY = (int)(616 / height);
+		nVague = 0;
 		try {
 			sprite0 = new Image("images/TowerDefense/chemin.png");
 			sprite1 = new Image("images/TowerDefense/mur.png");
@@ -32,6 +35,7 @@ public class Level {
 		}
 		
 		genereMap();
+		newVague(0);
 		
 	}
 	
@@ -68,9 +72,19 @@ public class Level {
 
 		map[lenY -2] = genereLine(0,1,1,lenX - 1); //avant dernière ligne
 		map[1][1] = 2;    //spawn
+		spawnX = 1;
+		spawnY = 1;
 		map[lenY - 2][lenX - 2 ] = 3;  //fin
 		map[lenY-1] = line1;	//Murs du bas
 	}
+	
+	
+	public void newVague(int nb) {
+		nVague += 1;
+		timer = 0;
+		nbEnemies = Math.max(15 - nb,5);
+	}
+	
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
 		double x,y;
@@ -97,7 +111,18 @@ public class Level {
 	}
 
 	protected void update(GameContainer container, StateBasedGame game, int delta) {
-
+		timer += delta;
+		if ((timer > 500) && (nbEnemies > 0)) {
+			Enemy e = new Enemy(spawnX, spawnY,this,nVague,pl);
+			nbEnemies -= 1;
+			timer = 0;					
+		}
+		else if ((nbEnemies == 0) && (World.enemies.isEmpty())) {
+			newVague(1);  // nouvelle vague avec un ennemis de moins qu'avant
+			if (nVague % 5 == 0)  {
+				nbEnemies = 2;  //Si c'est une vague de boss on ne prévoit que 2 ennemis
+			}
+		}
 	}
 	
 	public int getCase(int ligne, int colonne) {

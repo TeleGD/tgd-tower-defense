@@ -34,6 +34,7 @@ public class MenuMulti {
 	private Snake[] joueurs;
 	public boolean enleve=false;
 	private int[] touchesDefaut = {Input.KEY_RIGHT,Input.KEY_LEFT, Input.KEY_Z, Input.KEY_A, Input.KEY_P, Input.KEY_O, Input.KEY_X, Input.KEY_W, Input.KEY_N, Input.KEY_B, Input.KEY_NUMPAD2,Input.KEY_NUMPAD1,Input.KEY_NUMPAD9,Input.KEY_NUMPAD8,Input.KEY_U,Input.KEY_Y,Input.KEY_G,Input.KEY_F};
+	private String[] valTouchesDefaut = {"->","<-","Z","A","P","O","X","W","N","B","2","1","9","8","U","Y","G","F"};
 	private Color[] couleursDefaut =new Color[] {Color.white, Color.blue,Color.red,Color.green,Color.pink,Color.yellow,Color.cyan,Color.orange,Color.magenta};
 	private Color[] couleursJoueurs = couleursDefaut;
 	private Button[] choixCouleur;
@@ -135,6 +136,7 @@ public class MenuMulti {
 				g.setColor(new Color(0,0,0));
 				if (fieldNomsJoueurs[i-1]!=null) {
 					g.drawString("Nom Joueur n°"+i+" :",debutx,yn+5);
+					g.drawString(valTouchesDefaut[2*i-1]+" - "+valTouchesDefaut[2*i-2], longueurJeu/2+longueurMenu/3, yn+5);
 					fieldNomsJoueurs[i-1].render(container, game, g);
 					choixCouleur[i-1].render(container, game, g);
 					if (affPicker) {
