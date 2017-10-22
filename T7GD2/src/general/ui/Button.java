@@ -64,6 +64,7 @@ public class Button extends TGDComponent{
 		setBackgroundColorPressed(new Color(125,5,5));
 		
 		setUpperCaseLock(false);
+		setVisible(true);
 	}
 	
 	//SLICK METHOD
@@ -76,6 +77,7 @@ public class Button extends TGDComponent{
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		super.render(container, game, g);
+		if(!visible)return;
 
 		if(mousePressed)g.setColor(textColorPressed);
 		else if(mouseEntered)g.setColor(textColorEntered);
@@ -83,7 +85,8 @@ public class Button extends TGDComponent{
 
 		g.setFont(textFont);
 		g.drawString(text, x+paddingLeft+(getWidth()-paddingLeft-paddingRight)/2-textFont.getWidth(text)/2, y+paddingTop+(getHeight()-paddingTop-paddingBottom)/2-textFont.getHeight(text)/2);
-	
+		g.resetFont();
+
 	}
 	
 	//GETTERS AND SETTERS
@@ -122,8 +125,16 @@ public class Button extends TGDComponent{
 		this.textFont = textFont;
 	}
 
-	
-	public int getTextSize() {
+
+    @Override
+    public void mouseMoved(int ox, int oy, int x, int y) {
+        super.mouseMoved(ox, oy, x, y);
+        if(contains(x,y) && visible){
+            hasFocus = true;
+        }
+    }
+
+    public int getTextSize() {
 		return textSize;
 	}
 

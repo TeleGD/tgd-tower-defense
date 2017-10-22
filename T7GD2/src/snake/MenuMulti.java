@@ -1,10 +1,7 @@
 package snake;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
+import general.utils.FontUtils;
+import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 
 import general.ui.Button;
@@ -18,17 +15,18 @@ public class MenuMulti {
 	
 	private int longueurJeu=(int)(World.longueur*0.8);
 	
-	public int hauteurMenu=(int)(World.hauteur/1.5);
+	public int hauteurMenu=(int)(World.hauteur/1.45);
 	public int longueurMenu=World.longueur/2;
 	public int debutx=(longueurJeu-longueurMenu)/2+longueurMenu/15;
-	public int debuty=(World.hauteur-hauteurMenu)/2+hauteurMenu/10;
-	public int debutdroiteansx=(longueurJeu+longueurMenu)/2-longueurMenu/10-longueurMenu/8;
+	public int debuty=(World.hauteur-hauteurMenu)/2+hauteurMenu/15;
+	public int debutdroiteansx=(longueurJeu+longueurMenu)/2-longueurMenu/10-longueurMenu/16;
 	public TextField nbrJoueurs;
-	public int nJoueur=0;
+	public int nJoueur=9;
 	public int pas = World.hauteur/20;
 	public int yn;
 	public String[] nomsJoueurs;
 	public TextField[] fieldNomsJoueurs;
+
 	public int debutNom = longueurJeu/2 - longueurMenu/10;
 	private Button boutonStart;
 	private Snake[] joueurs;
@@ -39,21 +37,21 @@ public class MenuMulti {
 	private Color[] couleursJoueurs = couleursDefaut;
 	private Button[] choixCouleur;
 	private ColorPicker picker;
-	private boolean affPicker=false;
-	
-	public MenuMulti() {
+    private TrueTypeFont fontTitle = FontUtils.loadSystemFont("Arial", java.awt.Font.BOLD,25);
+    private TrueTypeFont fontNbJoueurs = FontUtils.loadSystemFont("Arial", java.awt.Font.BOLD,20);
+
+    public MenuMulti() {
 		
 	}
 	
 	public void init(final GameContainer container, StateBasedGame game) throws SlickException {
-		nbrJoueurs = new TextField(container, debutdroiteansx, debuty,longueurMenu/8, hauteurMenu/15);
+		nbrJoueurs = new TextField(container, debutdroiteansx, debuty+pas-5,longueurMenu/20, TGDComponent.AUTOMATIC);
 		nbrJoueurs.setPlaceHolder("");
 		nbrJoueurs.setHasFocus(true);
-		nbrJoueurs.setText("0");
-		nbrJoueurs.setPadding(5, 5, 0, 23);
+		nbrJoueurs.setText(""+nJoueur);
+		//nbrJoueurs.setPadding(5, 5, 0, 23);
 		nbrJoueurs.setOnlyFigures(true);
 		nbrJoueurs.setMaxNumberOfLetter(1);
-		picker = new ColorPicker(container,0,0,World.longueur/5,World.hauteur/4);
 		nbrJoueurs.setEnterActionListener(new EnterActionListener() {
 
 			@Override
@@ -61,50 +59,14 @@ public class MenuMulti {
 				if (nbrJoueurs.getText().length() ==1) {
 					nJoueur = Integer.parseInt(nbrJoueurs.getText());
 				}
-				nomsJoueurs=new String[nJoueur];
-				fieldNomsJoueurs=new TextField[nJoueur];
-				choixCouleur = new Button[nJoueur];
-				for (int i = 0;i<nJoueur;i+=1) {
-					yn = debuty + (i+1)*pas;
-					fieldNomsJoueurs[i] = new TextField(container , debutNom , yn , longueurMenu/3 , hauteurMenu/15 );
-					fieldNomsJoueurs[i].setBackgroundColor(Color.black);
-					fieldNomsJoueurs[i].setTextColor(couleursJoueurs[i]);
-					fieldNomsJoueurs[i].setText("Joueur "+(i+1));
-					fieldNomsJoueurs[i].setPlaceHolder("Entrer le nom du joueur");
-					fieldNomsJoueurs[i].setPadding(5, 5, 0, 15);
-					fieldNomsJoueurs[i].setOnlyFigures(false);
-					fieldNomsJoueurs[i].setMaxNumberOfLetter(20);
-					final int h=i;
-					choixCouleur[i] = new Button(container,longueurJeu/2+longueurMenu/4,yn,hauteurMenu/15,hauteurMenu/15);
-					choixCouleur[i].setBackgroundColor(couleursJoueurs[i]);
-					choixCouleur[i].setBackgroundColorEntered(new Color(255,255,255,100));
-					choixCouleur[i].setOnClickListener(new OnClickListener() {
 
-						@Override
-						public void onClick(TGDComponent componenent) {
-							// TODO Auto-generated method stub
-							picker.setY(choixCouleur[h].getY());
-							picker.setColorSelected(couleursJoueurs[h]);
-							picker.setX(longueurJeu/2+longueurMenu/3);
-							affPicker = true;
-							picker.setOnClickListener(new OnClickListener() {
-
-								@Override
-								public void onClick(TGDComponent componenent) {
-									// TODO Auto-generated method stub
-									System.out.println("salut");
-									couleursJoueurs[h]=picker.getColorSelected();
-									choixCouleur[h].setBackgroundColor(picker.getColorSelected());
-									fieldNomsJoueurs[h].setTextColor(picker.getColorSelected());
-									affPicker = false;
-								}});
-						}});
-				}		
+				createJoueurs(container);
 			}});
 		
 		
 		boutonStart = new Button("START",container,longueurJeu/2-longueurMenu/6,(World.hauteur+hauteurMenu)/2-8*hauteurMenu/75,longueurMenu/3,hauteurMenu/15);
-		boutonStart.setBackgroundColor(Color.green);
+		boutonStart.setBackgroundColor(new Color(0,200,0));
+		boutonStart.setVisible(true);
 		boutonStart.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -118,31 +80,84 @@ public class MenuMulti {
 					World.setSnakes(joueurs);
 					enleve = true;
 				}
-			}});
-		
-		
-	}
-	
-	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+                boutonStart.setVisible(false);
+
+            }});
+
+        picker = new ColorPicker(container,debutx,0,World.longueur/5,World.hauteur/4);
+        picker.setVisible(false);
+        createJoueurs(container);
+    }
+
+    private void createJoueurs(GameContainer container) {
+        nomsJoueurs=new String[nJoueur];
+        fieldNomsJoueurs=new TextField[nJoueur];
+        choixCouleur = new Button[nJoueur];
+
+        for (int i = 0;i<nJoueur;i+=1) {
+            yn = debuty + (i+2)*pas+10;
+            fieldNomsJoueurs[i] = new TextField(container , debutNom , yn , longueurMenu/3 , TGDComponent.AUTOMATIC );
+            fieldNomsJoueurs[i].setBackgroundColor(Color.black);
+            fieldNomsJoueurs[i].setTextColor(couleursJoueurs[i]);
+            fieldNomsJoueurs[i].setText("Joueur "+(i+1));
+            fieldNomsJoueurs[i].setPlaceHolder("Entrer le nom du joueur");
+            fieldNomsJoueurs[i].setMaxNumberOfLetter(20);
+
+            final int h=i;
+            choixCouleur[i] = new Button(container,longueurJeu/2+longueurMenu/4,yn,hauteurMenu/15,hauteurMenu/15);
+            choixCouleur[i].setBackgroundColor(couleursJoueurs[i]);
+            choixCouleur[i].setBackgroundColorEntered(new Color(255,255,255,100));
+            choixCouleur[i].setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(TGDComponent componenent) {
+
+                    System.out.println("aller  clic");
+                    picker.setY(choixCouleur[h].getY());
+                    picker.setColorSelected(couleursJoueurs[h]);
+                    picker.setX(longueurJeu/2+longueurMenu/3);
+                    picker.setVisible(true);
+                    picker.setOnClickListener(new OnClickListener() {
+
+                        @Override
+                        public void onClick(TGDComponent componenent) {
+
+                            couleursJoueurs[h]=picker.getColorSelected();
+                            choixCouleur[h].setBackgroundColor(picker.getColorSelected());
+                            fieldNomsJoueurs[h].setTextColor(picker.getColorSelected());
+                            picker.setVisible(false);
+                        }});
+                }});
+        }
+    }
+
+    public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		if (!enleve) {
-			g.setColor(new Color(0,0,255));
+
+            g.setColor(new Color(255,255,255));
+            g.fillRect((longueurJeu-longueurMenu)/2-4, (World.hauteur-hauteurMenu)/2-4, longueurMenu+8, hauteurMenu+9);
+            g.setColor(new Color(100,100,200));
 			g.fillRect((longueurJeu-longueurMenu)/2, (World.hauteur-hauteurMenu)/2, longueurMenu, hauteurMenu);
+            g.setColor(new Color(255,255,255));
+            g.setFont(fontTitle);
+            g.drawString("Configuration", longueurJeu/2-g.getFont().getWidth("Configuration")/2, debuty-pas/2);
+            g.setFont(fontNbJoueurs);
+
 			g.setColor(new Color(0,0,0));
-			g.drawString("nombre de joueurs : ", debutx, debuty);
+			g.drawString("Nombre de joueurs : ", debutx, debuty+pas);
 			nbrJoueurs.render(container, game, g);
-			
+			g.resetFont();
 			for (int i = 1;i<=nJoueur;i+=1) {
-				yn = debuty + i*pas;
+				yn = debuty + (i+1)*pas+10;
 				g.setColor(new Color(0,0,0));
 				if (fieldNomsJoueurs[i-1]!=null) {
-					g.drawString("Nom Joueur n°"+i+" :",debutx,yn+5);
+					g.drawString("Nom Joueur "+i+" :",debutx,yn+5);
 					g.drawString(valTouchesDefaut[2*i-1]+" - "+valTouchesDefaut[2*i-2], longueurJeu/2+longueurMenu/3, yn+5);
 					fieldNomsJoueurs[i-1].render(container, game, g);
 					choixCouleur[i-1].render(container, game, g);
-					if (affPicker) {
-						picker.render(container, game, g);
-					}
-				}
+                    picker.render(container, game, g);
+
+                }
 				
 				
 			}
@@ -154,7 +169,7 @@ public class MenuMulti {
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		nbrJoueurs.update(container, game, delta);
 		boutonStart.update(container, game, delta);
-		
+		picker.update(container, game, delta);
 	}
 
 }

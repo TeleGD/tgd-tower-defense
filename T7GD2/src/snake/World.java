@@ -103,6 +103,10 @@ public class World extends BasicGameState {
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 
+        for(int i=0;i<bonus.size();i++){
+            bonus.get(i).render(container, game, g);
+        }
+
 
         for(int i=0;i<snakes.size();i++){
             snakes.get(i).render(container, game, g);
@@ -144,9 +148,8 @@ public class World extends BasicGameState {
             g.drawString(snakes.get(i).nom+" : "+snakes.get(i).score,World.longueur-widthBandeau+20,100+50*i+20);
         }
 
-        for(int i=0;i<bonus.size();i++){
-            bonus.get(i).render(container, game, g);
-        }
+
+
 
 
         replay.render(container, game, g);

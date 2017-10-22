@@ -104,8 +104,9 @@ public class TextField extends TGDComponent{
 
         setHasFocus(false);
         setMaxNumberOfLetter(-1);
-        setOnlyFigures(true);
+        setOnlyFigures(false);
         setUpperCaseLock(false);
+        setVisible(true);
     }
 	
 	//SLICK METHOD
