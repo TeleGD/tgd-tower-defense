@@ -239,12 +239,16 @@ public class Projectile {
 	//Equivalent to move(dt,2)	
 		if(target != null){
 			faceTarget();
+		}else{
+			alreadyDead = true;
 		}
 		x += dirX*speedX*dt/2;
 		y += dirY*speedY*dt/2;
 		collisionBox.setLocation((float)x, (float)y);
 		if(target != null){
 			faceTarget();
+		}else{
+			alreadyDead = true;
 		}
 		x += dirX*speedX*dt/2;
 		y += dirY*speedY*dt/2;
@@ -263,6 +267,8 @@ public class Projectile {
 		for(int i = 0; i < subdivision; i++){
 			if(target != null){
 				faceTarget();
+			}else{
+				alreadyDead = true;
 			}
 			x += dirX*speedX*dt/subdivision;
 			y += dirY*speedY*dt/subdivision;

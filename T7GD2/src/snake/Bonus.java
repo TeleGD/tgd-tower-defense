@@ -14,33 +14,45 @@ public class Bonus {
 	
 	public Point pt;
 	
-	public static enum bonusType {bGrandis,bRetrecis,bRapide,bLent,bMort,bInverseBonus,bInverseMalus};
+	public static enum bonusType {bGrandis,bRetrecis,bRapide,bLent,bMort,bInverseBonus,bInverseMalus,bRemis};
 	
 	
 	public bonusType type;
 	public Image imageBonus;
 	public int rayon;
 	
+	public int nextX=0;
+	public int nextY=0;
+	
 	public static Bonus RandomBonus(Point pt){
 		Random r = new Random();
 		double b = r.nextFloat();
 		bonusType bonus;
-		if(b < 0.5)
+		if(b < 0.40)
 			bonus = bonusType.bGrandis;
-		else if(b < 0.55)
+		else if(b < 0.50)
 			bonus = bonusType.bRetrecis;
-		else if(b < 0.70)
+		else if(b < 0.65)
 			bonus = bonusType.bRapide;
-		else if(b < 0.85)
+		else if(b < 0.75)
 			bonus = bonusType.bLent;
-		else if(b < 0.90)
+		else if(b < 0.80)
 			bonus = bonusType.bInverseBonus;
-		else if(b < 0.95)
+		else if(b < 0.90)
 			bonus = bonusType.bInverseMalus;
+		else if(b < 0.95)
+			bonus = bonusType.bRemis;
 		else
 			bonus = bonusType.bMort;
 		
 		return new Bonus(pt,bonus,r.nextInt(2)+1);
+	}
+	
+	public void CreeRemi(Point pt,int nx, int ny){
+		Bonus b = new Bonus(pt,bonusType.bMort,1);
+		b.nextX = nx;
+		b.nextY = ny;
+		World.addBonus(b);
 	}
 	
 	public Bonus(Point pt,int numBonus,int rayon){
@@ -90,6 +102,11 @@ public class Bonus {
 		case bInverseMalus:
 			s.inverse = !s.inverse;
 		break;
+		case bRemis:
+			for(int i=-1;i<1;i++)
+				for(int j=-1;j<2;j++)
+					CreeRemi(pt, i, j);
+		break;
 		}
 	}
 	
@@ -117,6 +134,9 @@ public class Bonus {
 		case bInverseMalus:
 			path+="InverseMalus";
 		break;
+		case bRemis:
+			path+="clown";
+		break;
 		}
 		
 		return path+".png";
@@ -128,6 +148,17 @@ public class Bonus {
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		imageBonus.draw(pt.x*10-10*rayon,pt.y*10-10*rayon,10+20*rayon,10+20*rayon);
+	}
+	
+	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+		if(type == bonusType.bMort){
+			this.pt.x = pt.x + nextX %128;
+			this.pt.y = pt.y + nextY %72;
+		}
+	}	
+	
+	public int getScore(){
+		return 0;
 	}
 	
 }
