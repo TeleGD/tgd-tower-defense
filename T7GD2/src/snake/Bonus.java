@@ -171,6 +171,8 @@ public class Bonus {
 				this.pt.y = (pt.y + nextY) %72;
 				if(pt.y < 0)
 					pt.y+= 72;
+				
+				timer--;
 			}
 		}
 	}	
