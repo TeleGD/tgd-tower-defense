@@ -17,7 +17,7 @@ public class ChooseTower {
 	int lenY;
 
 	private Image sprite2;
-	
+	private Image sprite3;
 	private ArrayList<Image> sprite;
 	
 	private int nbTower = 5;
@@ -43,6 +43,7 @@ public class ChooseTower {
 				sprite.add(new Image("images/TowerDefense/TowerModel"+i+".png"));
 			}
 			sprite2 = new Image("images/TowerDefense/rock.png");
+			sprite3 = new Image("images/TowerDefense/wood.png");
 		}catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -51,8 +52,14 @@ public class ChooseTower {
 	public void render(GameContainer container, StateBasedGame game, Graphics g){
 		int i;
 		
-		g.setColor(Color.black);		
-		g.fillRect(0, (float)y-8, (float)1280, (float)(720 - ((float)y-8)));
+		//g.setColor(Color.black);		
+		//g.fillRect(0, (float)y-8, (float)1280, (float)(720 - ((float)y-8)));
+		
+		for(i = 0; 0 + i*32 - 8 < 700; i++){
+			for(int j = 0; y + j * 32 - 16< 720; j++){
+				g.drawImage(sprite3, (float)0 + i*32 - 8, (float)y - 16 +j*32);
+			}
+		}
 		
 		for(i = 0; 700 + i*32 - 8 < 1280; i++){
 			for(int j = 0; y + j * 32 - 16< 720; j++){
