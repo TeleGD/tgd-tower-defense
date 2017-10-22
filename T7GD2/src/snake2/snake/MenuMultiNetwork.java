@@ -66,6 +66,8 @@ public class MenuMultiNetwork implements Client.SocketListener {
 
             @Override
             public void onClick(TGDComponent componenent) {
+                enleve=true;
+                World.serveur.sendStringToAllClients("demarrer");
                 World.setSnakes(snakes.toArray(new Snake[snakes.size()]));
             }});
 
@@ -276,6 +278,9 @@ public class MenuMultiNetwork implements Client.SocketListener {
             snakes.add(new Snake(c,snakes.size()*12+12,Input.KEY_RIGHT,Input.KEY_LEFT,10,nom,10));
             snakes.get(snakes.size()-1).ipAdress = adresse;
 
+        }else if(message.startsWith("demarrer")){
+            enleve=true;
+            World.setSnakes(snakes.toArray(new Snake[snakes.size()]));
         }
     }
 }

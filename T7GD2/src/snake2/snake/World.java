@@ -202,7 +202,7 @@ public class World extends BasicGameState {
                     }
 
                 }
-                
+
                 jeuTermine = isFini();
                 addBonus();
 
