@@ -107,12 +107,12 @@ public class World extends BasicGameState {
 
         if(jeuTermine){
             g.setColor(Color.black);
-            g.fillRect(World.longueur/2-170,World.hauteur/2-130,340,260);
+            g.fillRoundRect(World.longueur/2-75,World.hauteur/2-50,150,100,20);
             g.setColor(Color.white);
-            g.fillRect(World.longueur/2-170+4,World.hauteur/2-130+2,340-4,256);
+            g.fillRoundRect(World.longueur/2-75+4,World.hauteur/2-50+4,150-8,92,20);
             g.setColor(Color.black);
             g.setFont(font);
-            g.drawString("Perdu !", World.longueur/2-50,World.hauteur/2-50);
+            g.drawString("Perdu !", World.longueur/2-20,World.hauteur/2-20);
         }else{
 
 
@@ -280,6 +280,7 @@ public class World extends BasicGameState {
 
         if(snakes.size()==1){
             if(snakes.get(0).mort)return true;
+            else return false;
         }
 
         for(int i=0;i<snakes.size();i++){
