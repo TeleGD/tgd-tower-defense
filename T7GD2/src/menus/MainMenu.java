@@ -48,7 +48,7 @@ public class MainMenu extends Menu{
 			break;
 		case 3:
 			snake2.snake.World.reset();
-			game.enterState(snake.World.ID, new FadeOutTransition(), new FadeInTransition());
+			game.enterState(snake2.snake.World.ID, new FadeOutTransition(), new FadeInTransition());
 		break;
 		}
 	}
