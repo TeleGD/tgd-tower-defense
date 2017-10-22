@@ -21,6 +21,8 @@ public class Bonus {
 	public Image imageBonus;
 	public int rayon;
 	
+	public int timer=0;
+	
 	public int nextX=0;
 	public int nextY=0;
 	
@@ -29,7 +31,7 @@ public class Bonus {
 		double b = r.nextFloat();
 		bonusType bonus;
 		if(b < 0.40)
-			bonus = bonusType.bRemis;
+			bonus = bonusType.bGrandis;
 		else if(b < 0.50)
 			bonus = bonusType.bRetrecis;
 		else if(b < 0.65)
@@ -41,9 +43,11 @@ public class Bonus {
 		else if(b < 0.90)
 			bonus = bonusType.bInverseMalus;
 		else if(b < 0.95)
-			bonus = bonusType.bRemis;
-		else
+			bonus = bonusType.bInvincible;
+		else if(b < 0.98)
 			bonus = bonusType.bMort;
+		else
+			bonus = bonusType.bRemis;
 		
 		return new Bonus(pt,bonus,r.nextInt(2)+1);
 	}
@@ -52,6 +56,7 @@ public class Bonus {
 		Bonus b = new Bonus(pt,bonusType.bMort,1);
 		b.nextX = nx;
 		b.nextY = ny;
+		b.timer =300;
 		World.addBonus(b);
 	}
 	
@@ -103,9 +108,13 @@ public class Bonus {
 			s.inverse = !s.inverse;
 		break;
 		case bRemis:
+			s.invincible = 30;
 			for(int i=-1;i<1;i++)
 				for(int j=-1;j<2;j++)
 					CreeRemi(new Point(pt.x+5*i,pt.y+5*j), i, j);
+		break;
+		case bInvincible:
+			s.invincible = 150;
 		break;
 		}
 	}
@@ -137,6 +146,9 @@ public class Bonus {
 		case bRemis:
 			path+="clown";
 		break;
+		case bInvincible:
+			path+="mouette";
+		break;
 		}
 		
 		return path+".png";
@@ -152,8 +164,14 @@ public class Bonus {
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		if(type == bonusType.bMort){
-			this.pt.x = pt.x + nextX %128;
-			this.pt.y = pt.y + nextY %72;
+			if(timer > 0){
+				this.pt.x = (pt.x + nextX) %128;
+				if (pt.x < 0)
+					pt.x += 128;
+				this.pt.y = (pt.y + nextY) %72;
+				if(pt.y < 0)
+					pt.y+= 72;
+			}
 		}
 	}	
 	
