@@ -131,7 +131,7 @@ public class MenuMultiNetwork implements Client.SocketListener {
                 g.drawString("Nom Joueur n "+i+" : "+snakes.get(i).nom,debutx,yn+35);
 
             }
-            
+
             if (affPicker) {
                 picker.render(container, game, g);
             }
@@ -171,7 +171,7 @@ public class MenuMultiNetwork implements Client.SocketListener {
                     e.printStackTrace();
                 }
 
-                snakes.add(new Snake(Color.white,0,Input.KEY_RIGHT,Input.KEY_LEFT,10,nomJoueursField.getText(),2));
+                snakes.add(new Snake(choixCouleur.getBackgroundColor(),0,Input.KEY_RIGHT,Input.KEY_LEFT,10,nomJoueursField.getText(),2));
 
                 serveur =new Serveur(8887);
                 serveur.addOnClientConnectedListener(new Serveur.OnClientConnectedListener() {
