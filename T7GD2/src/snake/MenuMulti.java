@@ -19,7 +19,7 @@ public class MenuMulti {
 	public int longueurMenu=World.longueur/2;
 	public int debutx=(longueurJeu-longueurMenu)/2+longueurMenu/15;
 	public int debuty=(World.hauteur-hauteurMenu)/2+hauteurMenu/15;
-	public int debutdroiteansx=(longueurJeu+longueurMenu)/2-longueurMenu/10-longueurMenu/16;
+	public int debutdroiteansx=(longueurJeu+longueurMenu)/2-longueurMenu/10-longueurMenu/8;
 	public TextField nbrJoueurs;
 	public int nJoueur=9;
 	public int pas = World.hauteur/20;
@@ -28,7 +28,7 @@ public class MenuMulti {
 	public TextField[] fieldNomsJoueurs;
 
 	public int debutNom = longueurJeu/2 - longueurMenu/10;
-	private Button boutonStart;
+	private Button boutonStart,boutonNbJoueurs;
 	private Snake[] joueurs;
 	public boolean enleve=false;
 	private int[] touchesDefaut = {Input.KEY_RIGHT,Input.KEY_LEFT, Input.KEY_Z, Input.KEY_A, Input.KEY_P, Input.KEY_O, Input.KEY_X, Input.KEY_W, Input.KEY_N, Input.KEY_B, Input.KEY_NUMPAD2,Input.KEY_NUMPAD1,Input.KEY_NUMPAD9,Input.KEY_NUMPAD8,Input.KEY_U,Input.KEY_Y,Input.KEY_G,Input.KEY_F};
@@ -49,21 +49,28 @@ public class MenuMulti {
 		nbrJoueurs.setPlaceHolder("");
 		nbrJoueurs.setHasFocus(true);
 		nbrJoueurs.setText(""+nJoueur);
-		//nbrJoueurs.setPadding(5, 5, 0, 23);
 		nbrJoueurs.setOnlyFigures(true);
 		nbrJoueurs.setMaxNumberOfLetter(1);
 		nbrJoueurs.setEnterActionListener(new EnterActionListener() {
 
 			@Override
 			public void onEnterPressed() {
-				if (nbrJoueurs.getText().length() ==1) {
-					nJoueur = Integer.parseInt(nbrJoueurs.getText());
-				}
-
 				createJoueurs(container);
 			}});
-		
-		
+
+        boutonNbJoueurs = new Button("OK",container,nbrJoueurs.getX()+5+nbrJoueurs.getWidth(),debuty+pas-5,TGDComponent.AUTOMATIC, nbrJoueurs.getHeight());
+        boutonNbJoueurs.setBackgroundColor(new Color(255,255,255));
+        boutonNbJoueurs.setTextColor(Color.black);
+        boutonNbJoueurs.setVisible(true);
+        boutonNbJoueurs.setPadding(7,10,7,10);
+        boutonNbJoueurs.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(TGDComponent componenent) {
+                createJoueurs(container);
+
+            }});
+
 		boutonStart = new Button("START",container,longueurJeu/2-longueurMenu/6,(World.hauteur+hauteurMenu)/2-8*hauteurMenu/75,longueurMenu/3,hauteurMenu/15);
 		boutonStart.setBackgroundColor(new Color(0,200,0));
 		boutonStart.setVisible(true);
@@ -71,16 +78,7 @@ public class MenuMulti {
 
 			@Override
 			public void onClick(TGDComponent componenent) {
-				if (nJoueur!=0) {
-					// TODO Auto-generated method stub
-					joueurs = new Snake[nJoueur];
-					for (int i = 0;i<nJoueur;i+=1) {
-						joueurs[i] = new Snake(couleursJoueurs[i],(100-nJoueur)/(nJoueur+1) + i*((100-nJoueur)/(nJoueur+1)+1),touchesDefaut[2*i],touchesDefaut[2*i+1],10,fieldNomsJoueurs[i].getText(),10);
-					}
-					World.setSnakes(joueurs);
-					enleve = true;
-				}
-                boutonStart.setVisible(false);
+				startGame();
 
             }});
 
@@ -89,7 +87,24 @@ public class MenuMulti {
         createJoueurs(container);
     }
 
+    public void startGame() {
+        if (nJoueur!=0) {
+            // TODO Auto-generated method stub
+            joueurs = new Snake[nJoueur];
+            for (int i = 0;i<nJoueur;i+=1) {
+                joueurs[i] = new Snake(couleursJoueurs[i],(100-nJoueur)/(nJoueur+1) + i*((100-nJoueur)/(nJoueur+1)+1),touchesDefaut[2*i],touchesDefaut[2*i+1],10,fieldNomsJoueurs[i].getText(),10);
+            }
+            World.setSnakes(joueurs);
+            enleve = true;
+        }
+        boutonStart.setVisible(false);
+    }
+
     private void createJoueurs(GameContainer container) {
+        if (nbrJoueurs.getText().length() ==1) {
+            nJoueur = Integer.parseInt(nbrJoueurs.getText());
+        }
+
         nomsJoueurs=new String[nJoueur];
         fieldNomsJoueurs=new TextField[nJoueur];
         choixCouleur = new Button[nJoueur];
@@ -163,12 +178,14 @@ public class MenuMulti {
 			}
 			
 			boutonStart.render(container, game, g);
+            boutonNbJoueurs.render(container, game, g);
 		}
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		nbrJoueurs.update(container, game, delta);
 		boutonStart.update(container, game, delta);
+		boutonNbJoueurs.update(container, game, delta);
 		picker.update(container, game, delta);
 	}
 

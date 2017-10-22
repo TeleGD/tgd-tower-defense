@@ -42,6 +42,7 @@ public class World extends BasicGameState {
     private Button replay,backMenu;
     private static Music soundMusicBackground;
     private static  boolean jeuTermine = false;
+    private Button config;
 
     @Override
     public void init(final GameContainer container, final StateBasedGame game) throws SlickException {
@@ -71,6 +72,22 @@ public class World extends BasicGameState {
             @Override
             public void onClick(TGDComponent componenent) {
                 if(soundMusicBackground!=null)soundMusicBackground.stop();
+                reset();
+                menu.startGame();
+            }
+        });
+
+        config = new Button(container,World.longueur - widthBandeau+20, World.hauteur-100,widthBandeau-40,40);
+        config.setText("CONFIGURATION");
+        config.setBackgroundColor(Color.black);
+        config.setBackgroundColorEntered(Color.white);
+        config.setTextColor(Color.white);
+        config.setTextColorEntered(Color.black);
+        config.setCornerRadius(25);
+        config.setOnClickListener(new TGDComponent.OnClickListener() {
+            @Override
+            public void onClick(TGDComponent componenent) {
+                if(soundMusicBackground!=null)soundMusicBackground.stop();
                 menu = new MenuMulti();
                 try {
                     menu.init(container, game);
@@ -81,7 +98,7 @@ public class World extends BasicGameState {
             }
         });
 
-        backMenu = new Button(container,World.longueur - widthBandeau+20, World.hauteur-100,widthBandeau-40,40);
+        backMenu = new Button(container,World.longueur - widthBandeau+20, World.hauteur-50,widthBandeau-40,40);
         backMenu.setText("RETOUR AU MENU");
         backMenu.setBackgroundColor(Color.black);
         backMenu.setBackgroundColorEntered(Color.white);
@@ -151,7 +168,7 @@ public class World extends BasicGameState {
 
 
 
-
+        config.render(container, game, g);
         replay.render(container, game, g);
         backMenu.render(container, game, g);
         menu.render(container, game, g);
@@ -162,6 +179,7 @@ public class World extends BasicGameState {
         menu.update(container, game, delta);
         replay.update(container, game,delta);
         backMenu.update(container, game,delta);
+        config.update(container,game,delta);
         Collections.sort(snakes, new Comparator<Snake>() {
             @Override
             public int compare(Snake s1, Snake s2) {
