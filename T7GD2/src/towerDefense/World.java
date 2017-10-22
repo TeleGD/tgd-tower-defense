@@ -2,7 +2,6 @@ package towerDefense;
 
 import java.util.ArrayList;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -12,15 +11,16 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class World extends BasicGameState {
 	public static int ID = 2;
-	static ArrayList<Enemy> enemies, tempEnemies;
-	static ArrayList<Projectile> projectiles, tempProjectiles;
-	static ArrayList<Tower> towers, tempTowers;
+	public static ArrayList<Enemy> enemies, tempEnemies;
+	public static ArrayList<Projectile> projectiles, tempProjectiles;
+	public static ArrayList<Tower> towers, tempTowers;
+	private static Player player;
 	
 	//A VIRER
 	private Level l;
 	private Tower t;
 	private ChooseTower c;
-	private Player player;
+	
 	
 	int ligne, colonne;
 	private int incomeDelay;
@@ -37,23 +37,20 @@ public class World extends BasicGameState {
 	}
 	
 	public static void reset(){
-		
-	}
-	
-	@Override
-	public void init(GameContainer container, StateBasedGame game) throws SlickException {
+		player = new Player(20,200);
 		enemies = new ArrayList<Enemy>();
 		projectiles = new ArrayList<Projectile>();
 		towers = new ArrayList<Tower>();
 		tempTowers = new ArrayList<Tower>();
 		tempEnemies = new ArrayList<Enemy>();
 		tempProjectiles = new ArrayList<Projectile>();
-		player = new Player(20, 200);
-		
+	}
+	
+	@Override
+	public void init(GameContainer container, StateBasedGame game) throws SlickException {
+		reset();		
 		l = new Level(player);
 		c = new ChooseTower(player);
-		e = new Enemy(1, 1, l, 1, player);
-		enemies.add(e);
 		ab = 0;
 		or = 0;
 		input = container.getInput();
@@ -136,8 +133,13 @@ public class World extends BasicGameState {
 		incomeDelay -= delta;
 		if(incomeDelay <=0){
 			incomeDelay = 1000;
-			player.earnGold(10);
+			player.earnGold(5);
 		}
+		
+		if(player.getLives() == 0) {
+			game.enterState(TowerEnd.ID);
+		}
+
 	}
 	
 	public void changeMouse(){

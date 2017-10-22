@@ -34,7 +34,6 @@ public class Player {
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-		
 	}
 	
 	public void buyTower(int price) {
@@ -53,16 +52,17 @@ public class Player {
 	public void damaged(int damage) {
 		lives -= damage;
 		if (lives <= 0) {
-			endGame();
+			lives = 0;
 		}
-	}
-	
-	
-	public void endGame() {
-		// Pop-up : or total, vagues, nb de tours construites/upgrades, 
 	}
 
 	public int getGold() {
 		return gold;
+	}
+
+
+	public int getLives() {
+		// TODO Auto-generated method stub
+		return lives;
 	}
 }
