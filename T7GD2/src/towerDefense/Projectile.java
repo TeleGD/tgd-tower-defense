@@ -54,6 +54,7 @@ public class Projectile {
 		this.x = x;
 		this.y = y;
 		this.damage = damage;
+		this.target = target;
 		alreadyDead = false;
 		this.type = type;
 		this.radius = 0;
@@ -61,7 +62,6 @@ public class Projectile {
 		default:
 			width = 9;
 			height = 16;	
-			this.target = target;
 			//A ADAPTER A LA VITESSE DES ENNEMIS
 			this.speedX = 0.6;
 			this.speedY = 0.6;			
@@ -75,7 +75,6 @@ public class Projectile {
 		case 3:
 			width = 16;
 			height = 16;	
-			this.target = target;
 			//A ADAPTER A LA VITESSE DES ENNEMIS
 			this.speedX = 0.6;
 			this.speedY = 0.6;
@@ -90,7 +89,6 @@ public class Projectile {
 		case 2:
 			width = 9;
 			height = 16;	
-			this.target = target;
 			//A ADAPTER A LA VITESSE DES ENNEMIS
 			this.speedX = 0.6;
 			this.speedY = 0.6;
