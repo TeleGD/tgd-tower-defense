@@ -38,8 +38,9 @@ public class Tower {
 		this.x=x;
 		this.y=y;
 		this.damage=damage;
-		this.attackSpeed=0;
-		timer = attackSpeed;
+		this.attackSpeed=attackSpeed;
+		timer = 0;
+		this.type = type;
 		this.range=range;
 		this.level=1;
 		try {
@@ -52,29 +53,51 @@ public class Tower {
 		this.x=x;
 		this.y=y;
 		this.level=1;
+		this.type = type;
 		switch (type) {
-			case 1: this.damage=1;
-					this.range=100;
-					this.attackSpeed=1000;
-					this.factor=1;
-			case 2: this.damage=5;
-					this.range=200;
-					this.attackSpeed=2500;
-					this.factor=2;
-			case 3: this.damage=3;
-					this.range=100;
-					this.attackSpeed=2000;
-					this.radius=64;
-					this.factor=1;
-			case 4:	this.damage=1;             //damage = damageboost (type4)
-					this.range=112;
-					this.attackSpeed=1000;
-					this.factor=1;
-			case 5: this.damage=1;             //damage = slow (type5)
-					this.range=150;
-					this.attackSpeed=1000;
-					this.factor=1;
-			break;
+			case 1: 
+				this.damage=1;
+				this.range=100;
+				this.attackSpeed=1000;
+				this.factor=1;
+				break;
+				
+			case 2: 
+				this.damage=5;
+				this.range=200;
+				this.attackSpeed=2500;
+				this.factor=2;
+				break;
+				
+			case 3: 
+				this.damage=3;
+				this.range=100;
+				this.attackSpeed=2000;
+				this.radius=64;
+				this.factor=1;
+				break;
+				
+			case 4:	
+				this.damage=1;             //damage = damageboost (type4)
+				this.range=112;
+				this.attackSpeed=1000;
+				this.factor=1;
+				break;
+				
+			case 5: 
+				this.damage=1;             //damage = slow (type5)
+				this.range=150;
+				this.attackSpeed=1000;
+				this.factor=1;
+				break;
+				
+			default:
+				this.damage=1;
+				this.range=100;
+				this.attackSpeed=1000;
+				this.factor=1;
+				break;
+				
 		}
 		timer = 0;
 		try {
@@ -91,15 +114,16 @@ public class Tower {
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		timer-=delta;
-		if (ChooseEnemy() && timer<=0) {
-			World.projectiles.add(new Projectile(x,y,enemy,damage));
+		boolean c = ChooseEnemy();
+		if (c && timer<=0) {
+			World.projectiles.add(new Projectile(x,y,enemy,damage,type));
 			timer=attackSpeed;                 // exemple si cadence=0,5 sec, attackSpeed=500 (delta=nb de ms entre 2 frames)
 		}
 	}
 	
-	private boolean ChooseEnemy() {            // renvoie vrai si un ennemi est � port�e
-		for (Enemy e : World.enemies) {        // cherche dans la liste des ennemis tri�e par ordre d'appartition
-			if (Math.sqrt(Math.pow(this.x-this.y,2)+Math.pow(e.getX()-e.getY(),2))<this.range) {
+	private boolean ChooseEnemy() {// renvoie vrai si un ennemi est � port�e
+		for (Enemy e : World.tempEnemies) {        // cherche dans la liste des ennemis tri�e par ordre d'appartition
+			if (Math.sqrt(Math.pow(this.x-e.getX(),2)+Math.pow(e.getY()-this.y,2))<this.range) {
 				this.enemy = e;
 				return true;
 			}
@@ -141,7 +165,7 @@ public class Tower {
 				e.printStackTrace();
 			}
 		}
-		if (n==4) {
+		if (n==5) {
 			this.level+=1;
 			this.range+=25;
 			this.damage+=factor;

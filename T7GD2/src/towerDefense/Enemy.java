@@ -170,8 +170,8 @@ public class Enemy {
 	public void takeDamage(int damage) {
 		this.life -= damage;
 		if (this.life<=0) {
-			World.enemies.remove(this);
 			player.earnGold(1);
+			World.enemies.remove(this);
 		}
 	}
 
