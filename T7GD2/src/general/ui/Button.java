@@ -1,20 +1,12 @@
 package general.ui;
 
-import java.awt.Font;
-import java.util.ArrayList;
-
+import general.utils.FontUtils;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.KeyListener;
-import org.newdawn.slick.MouseListener;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 
-import general.utils.FontUtils;
+import java.awt.Font;
 
 
 public class Button extends TGDComponent{
