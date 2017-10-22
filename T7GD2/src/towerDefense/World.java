@@ -92,7 +92,6 @@ public class World extends BasicGameState {
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		l.update(container, game, delta);
-		System.out.println(enemies.size()+" enemies");
 		player.update(container, game, delta);
 		tempTowers.clear();
 		tempTowers.addAll(towers);
