@@ -38,10 +38,8 @@ public class MenuMultiNetwork implements Client.SocketListener {
 
     private DiscoverServerThread discoverServerThread;
     private String ipServer;
-    private Serveur serveur;
     private TextField nomJoueursField;
     private Button choixCouleur;
-    private Client client;
 
     private ArrayList<Snake> snakes =new ArrayList<>();
     private String nomsJoueurs;
@@ -103,7 +101,7 @@ public class MenuMultiNetwork implements Client.SocketListener {
 
     }
 
-    public Snake findSnakeByIpAdress(String ipAdress){
+    public  Snake findSnakeByIpAdress(String ipAdress){
 
         for(int i=0;i<snakes.size();i++){
             if(snakes.get(i).ipAdress.equals(ipAdress)){
@@ -111,7 +109,6 @@ public class MenuMultiNetwork implements Client.SocketListener {
             }
         }
         return new Snake(Color.white,0,Input.KEY_RIGHT,Input.KEY_RIGHT,10,"default",2);
-
     }
 
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
@@ -172,9 +169,10 @@ public class MenuMultiNetwork implements Client.SocketListener {
                 }
 
                 snakes.add(new Snake(choixCouleur.getBackgroundColor(),0,Input.KEY_RIGHT,Input.KEY_LEFT,10,nomJoueursField.getText(),2));
+                snakes.get(snakes.size()-1).ipAdress =ipServer;
 
-                serveur =new Serveur(8887);
-                serveur.addOnClientConnectedListener(new Serveur.OnClientConnectedListener() {
+                        World.serveur =new Serveur(8887);
+                World.serveur.addOnClientConnectedListener(new Serveur.OnClientConnectedListener() {
                     @Override
                     public void onConnected(Socket socket) {
 
@@ -185,8 +183,8 @@ public class MenuMultiNetwork implements Client.SocketListener {
 
                     }
                 });
-                serveur.addSocketListener(MenuMultiNetwork.this);
-                serveur.start();
+                World.serveur.addSocketListener(MenuMultiNetwork.this);
+                World.serveur.start();
             }
 
         }else if(i == Input.KEY_C){
@@ -198,7 +196,7 @@ public class MenuMultiNetwork implements Client.SocketListener {
                 @Override
                 public void onServerDetected(String ipAdress) {
                     ipServer = ipAdress;
-                    client= new Client(ipAdress,8887);
+                    World.client= new Client(ipAdress,8887);
 
                     String message = "add_joueur;";
                     message += ipAdress+";";
@@ -207,9 +205,9 @@ public class MenuMultiNetwork implements Client.SocketListener {
                     message += nomJoueursField.getText()+";"+c.getRed()+";"+c.getGreen()+";"+c.getBlue()+";"+c.getAlpha();
 
 
-                    client.sendString(message);
-                    client.sendString("get_connected_players");
-                    client.addSocketListener(MenuMultiNetwork.this);
+                    World.client.sendString(message);
+                    World.client.sendString("get_connected_players");
+                    World.client.addSocketListener(MenuMultiNetwork.this);
                 }
             });
 
@@ -239,7 +237,7 @@ public class MenuMultiNetwork implements Client.SocketListener {
                 message += snakes.get(i).nom+";"+snakes.get(i).couleur.getRed()+";"+snakes.get(i).couleur.getGreen()+";"+snakes.get(i).couleur.getBlue()+";"+snakes.get(i).couleur.getAlpha()+";";
             }
 
-            serveur.sendStringToAllClients(message);
+            World.serveur.sendStringToAllClients(message);
 
         }else if(message.startsWith("received_connected_players")){
 
@@ -258,7 +256,6 @@ public class MenuMultiNetwork implements Client.SocketListener {
                 int a = Integer.parseInt(split[2+5*i+4]);
                 Color c = new Color(r,g,b,a);
                 snakes.add(new Snake(c,12+12*i,Input.KEY_RIGHT,Input.KEY_LEFT,10,nom,10));
-
             }
         }else if(message.startsWith("add_joueur")){
 
@@ -277,6 +274,7 @@ public class MenuMultiNetwork implements Client.SocketListener {
             int size=  snakes.size();
 
             snakes.add(new Snake(c,snakes.size()*12+12,Input.KEY_RIGHT,Input.KEY_LEFT,10,nom,10));
+            snakes.get(snakes.size()-1).ipAdress = adresse;
 
         }
     }

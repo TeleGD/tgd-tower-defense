@@ -17,7 +17,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.*;
 
-public class World extends BasicGameState implements Client.SocketListener {
+public class World extends BasicGameState {
 
     public static int nbcasesh=72;
     public static int nbcasesl=128;
@@ -40,8 +40,9 @@ public class World extends BasicGameState implements Client.SocketListener {
     private static Music soundMusicBackground;
     private static  boolean jeuTermine = false;
 
-    private Serveur serveur;
     public static String ipAdress;
+    public static Serveur serveur;
+    public static  Client client;
 
     @Override
     public void init(final GameContainer container, final StateBasedGame game) throws SlickException {
@@ -220,6 +221,27 @@ public class World extends BasicGameState implements Client.SocketListener {
         }
 
 
+        if(World.serveur!=null){
+
+            try {
+                Snake snake = findSnakeByIpAdress(ipAdress);;
+                String message = InetAddress.getLocalHost().getHostAddress()+";";
+                for(int i=0;i<snake.body.size();i++)
+                {
+                    message += snake.body.get(i).x+";"+snake.body.get(i).y+";";
+                }
+                client.sendString(message);
+
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
+
+
+        }else if(World.client!=null){
+
+
+        }
+
 
     }
 
@@ -304,6 +326,52 @@ public class World extends BasicGameState implements Client.SocketListener {
         } catch (SlickException e) {
             e.printStackTrace();
         }
+
+
+        if(World.serveur!=null){
+            World.serveur.addSocketListener(new Client.SocketListener() {
+                @Override
+                public void onMessageSend(Socket socket, String message) {
+
+                }
+
+                @Override
+                public void onMessageReceived(Socket socket, String message) {
+                    serveur.sendStringToAllClients(message);
+                    
+                    String[] split =  message.split(";");
+                    String ipAdress = split[0];
+
+                    Snake snake = findSnakeByIpAdress(ipAdress);;
+                    snake.body = new ArrayList<>();
+
+                    for(int i=0;i<split.length/2;i++){
+                        snakes.get(i).body.add(new Point(Integer.parseInt(split[2*i]),Integer.parseInt(split[2*i+1])));
+                    }
+                }
+            });
+        }else if(World.client!=null) {
+            World.client.addSocketListener(new Client.SocketListener() {
+                @Override
+                public void onMessageSend(Socket socket, String message) {
+
+                }
+
+                @Override
+                public void onMessageReceived(Socket socket, String message) {
+                    String[] split =  message.split(";");
+                    String ipAdress = split[0];
+
+                    Snake snake = findSnakeByIpAdress(ipAdress);;
+                    snake.body = new ArrayList<>();
+
+                    for(int i=0;i<split.length/2;i++){
+                        snakes.get(i).body.add(new Point(Integer.parseInt(split[2*i]),Integer.parseInt(split[2*i+1])));
+                    }
+
+                }
+            });
+        }
     }
 
     public static void dead(Snake snake){
@@ -329,23 +397,16 @@ public class World extends BasicGameState implements Client.SocketListener {
     }
 
 
-    @Override
-    public void onMessageSend(Socket socket, String message) {
+    public static Snake findSnakeByIpAdress(String ipAdress){
+
+        for(int i=0;i<snakes.size();i++){
+            if(snakes.get(i).ipAdress.equals(ipAdress)){
+                return snakes.get(i);
+            }
+        }
+        return new Snake(Color.white,0,Input.KEY_RIGHT,Input.KEY_RIGHT,10,"default",2);
 
     }
 
-    @Override
-    public void onMessageReceived(Socket socket, String message) {
-        String[] split =  message.split(";");
-        int id = Integer.parseInt(split[0]);
 
-        snakes.get(id).body = new ArrayList<>();
-        for(int i=0;i<split.length/2;i++){
-            snakes.get(id).body.add(new Point(Integer.parseInt(split[2*i]),Integer.parseInt(split[2*i+1])));
-        }
-
-        if(World.isServer){
-            serveur.sendStringToAllClients(message);
-        }
-    }
 }
