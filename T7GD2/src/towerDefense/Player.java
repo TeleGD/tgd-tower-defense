@@ -10,7 +10,6 @@ import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Player {
-	private int wave;
 	private int gold;
 
 	private int totalGold;
@@ -22,7 +21,6 @@ public class Player {
 		this.gold= startGold;
 		this.totalGold = startGold;
 		boughtTowers = 0;
-		wave = 1;
 		
 	}
 	
@@ -31,7 +29,6 @@ public class Player {
 		g.setColor(Color.white);
 		g.drawString("Or : "+this.gold, 800, 656);
 		g.drawString("Vies : "+this.lives, 1000, 656);
-		g.drawString("Vagues : "+this.wave, 1150, 656);
 		g.drawImage(new Image("images/TowerDefense/bitcoincoin.png"), 730, 640);
 		g.drawImage(new Image("images/TowerDefense/Heart.png"), 930, 640);
 	}

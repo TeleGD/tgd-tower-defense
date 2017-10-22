@@ -76,6 +76,7 @@ public class World extends BasicGameState {
 		for(Projectile p : projectiles){
 			p.render(container,game,g);
 		}
+		g.drawString("Vagues : "+l.getnVague(), 1150, 656);
 
 	}
 
