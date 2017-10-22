@@ -119,14 +119,13 @@ public class MenuMultiNetwork implements Client.SocketListener {
             g.fillRect((longueurJeu-longueurMenu)/2, (World.hauteur-hauteurMenu)/2, longueurMenu, hauteurMenu);
             g.setColor(new Color(0,0,0));
             g.drawString("Nom : "+nJoueur, debutx, debuty);
-
             g.drawString("nombre de joueurs : "+nJoueur, debutx, debuty+40);
 
 
             for (int i = 0;i<snakes.size();i+=1) {
                 yn = debuty+40 + i*pas;
-                g.setColor(new Color(0,0,0));
-                g.drawString("Nom Joueur n "+i+" : "+snakes.get(i).nom,debutx,yn+5);
+                g.setColor(snakes.get(i).couleur);
+                g.drawString("Nom Joueur n "+i+" : "+snakes.get(i).nom,debutx,yn+35);
 
                 if (affPicker) {
                     picker.render(container, game, g);
@@ -234,7 +233,7 @@ public class MenuMultiNetwork implements Client.SocketListener {
 
             message = "received_connected_players;"+snakes.size()+";";
             for(int i=0;i<snakes.size();i++){
-                message += snakes.get(i).nom+";"+snakes.get(i).couleur.getRed()+";"+snakes.get(i).couleur.getGreen()+";"+snakes.get(i).couleur.getBlue()+";"+snakes.get(i).couleur.getAlpha();
+                message += snakes.get(i).nom+";"+snakes.get(i).couleur.getRed()+";"+snakes.get(i).couleur.getGreen()+";"+snakes.get(i).couleur.getBlue()+";"+snakes.get(i).couleur.getAlpha()+";";
             }
 
             serveur.sendStringToAllClients(message);
