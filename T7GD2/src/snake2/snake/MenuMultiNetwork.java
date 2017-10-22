@@ -159,7 +159,7 @@ public class MenuMultiNetwork implements Client.SocketListener {
 
             if(World.isServer ==false){
                 World.isServer = true;
-/*
+
                 discoverServerThread = new DiscoverServerThread(5000,15);
                 discoverServerThread.start();
 
@@ -167,43 +167,49 @@ public class MenuMultiNetwork implements Client.SocketListener {
                     ipServer = InetAddress.getLocalHost().getHostAddress();
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
-                }*/
+                }
 
                 serveur =new Serveur(8887);
+                serveur.addOnClientConnectedListener(new Serveur.OnClientConnectedListener() {
+                    @Override
+                    public void onConnected(Socket socket) {
+
+                    }
+
+                    @Override
+                    public void onDisconnected(Socket socket) {
+
+                    }
+                });
                 serveur.addSocketListener(MenuMultiNetwork.this);
                 serveur.start();
             }
 
         }else if(i == Input.KEY_C){
 
-                World.isServer = false;
+            World.isServer = false;
 
-                /*
-                DiscoveryThread thread = new DiscoveryThread();
-                thread.addOnServerDetectedListener(new DiscoveryThread.OnServerDetectedListener() {
-                    @Override
-                    public void onServerDetected(String ipAdress) {
-                        ipServer = ipAdress;
-                        System.out.println("Ok c'est bon connecte toi :"+ipAdress);
+            DiscoveryThread thread = new DiscoveryThread();
+            thread.addOnServerDetectedListener(new DiscoveryThread.OnServerDetectedListener() {
+                @Override
+                public void onServerDetected(String ipAdress) {
+                    ipServer = ipAdress;
+                    client= new Client(ipAdress,8887);
 
-                    }
-                });
+                    String message = "add_joueur;";
+                    message += ipAdress+";";
 
-                thread.start();*/
+                    Color c = choixCouleur.getBackgroundColor();
+                    message += nomJoueursField.getText()+";"+c.getRed()+";"+c.getGreen()+";"+c.getBlue()+";"+c.getAlpha();
 
-                String ipAdress = "192.168.0.14";
-            client= new Client(ipAdress,8887);
 
-            String message = "add_joueur;";
-            message += ipAdress+";";
-            /*for(int i=0;i<nJoueur;i++){
-                Color c = choixCouleur.getBackgroundColor();
-                message += nomJoueursField.getText()+";"+c.getRed()+";"+c.getGreen()+";"+c.getBlue()+";"+c.getAlpha();
-            }*/
+                    client.sendString(message);
+                    client.sendString("get_connected_players");
+                    client.addSocketListener(MenuMultiNetwork.this);
+                }
+            });
 
-            client.sendString(message);
-            client.sendString("get_connected_players");
-            client.addSocketListener(MenuMultiNetwork.this);
+            thread.start();
         }
     }
 

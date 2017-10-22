@@ -266,7 +266,7 @@ public class World extends BasicGameState implements Client.SocketListener {
 
     @Override
     public int getID() {
-        return 1;
+        return ID;
     }
 
     public void keyReleased(int key, char c){
