@@ -8,7 +8,7 @@ public class DiscoverServerThread extends Thread implements Runnable{
 	private static final String MESSAGE_TO_DETECT = "SomeRequestData";
 	private static final String MESSAGE_DETECTED = "SomeRequestData";
 
-	private static final int PORT = 8888;
+	private static final int PORT = 8889;
 	private int timeout;
 	private int nbRetry;
 	
