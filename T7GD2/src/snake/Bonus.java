@@ -31,7 +31,7 @@ public class Bonus {
 		double b = r.nextFloat();
 		bonusType bonus;
 		if(b < 0.40)
-			bonus = bonusType.bInvincible;
+			bonus = bonusType.bGrandis;
 		else if(b < 0.50)
 			bonus = bonusType.bRetrecis;
 		else if(b < 0.65)
