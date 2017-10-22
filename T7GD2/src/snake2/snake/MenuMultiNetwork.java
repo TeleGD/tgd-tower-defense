@@ -16,7 +16,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-public class MenuMultiNetwork implements KeyListener, Client.SocketListener {
+public class MenuMultiNetwork implements Client.SocketListener {
 
     private int longueurJeu=(int)(World.longueur*0.8);
 
@@ -49,8 +49,6 @@ public class MenuMultiNetwork implements KeyListener, Client.SocketListener {
     }
 
     public void init(final GameContainer container, StateBasedGame game) throws SlickException {
-
-        container.getInput().addKeyListener(this);
 
         final Snake snake = findSnakeByIpAdress(World.ipAdress);
         nomJoueursField= new TextField(container , debutNom , yn , longueurMenu/3 , hauteurMenu/15 );
@@ -152,7 +150,7 @@ public class MenuMultiNetwork implements KeyListener, Client.SocketListener {
     }
 
 
-    @Override
+
     public void keyPressed(int i, char c) {
         if(i == Input.KEY_S){
 
@@ -207,30 +205,11 @@ public class MenuMultiNetwork implements KeyListener, Client.SocketListener {
         }
     }
 
-    @Override
+
     public void keyReleased(int i, char c) {
 
     }
 
-    @Override
-    public void setInput(Input input) {
-
-    }
-
-    @Override
-    public boolean isAcceptingInput() {
-        return false;
-    }
-
-    @Override
-    public void inputEnded() {
-
-    }
-
-    @Override
-    public void inputStarted() {
-
-    }
 
     @Override
     public void onMessageSend(Socket socket, String message) {

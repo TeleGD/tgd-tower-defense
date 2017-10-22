@@ -270,12 +270,15 @@ public class World extends BasicGameState implements Client.SocketListener {
     }
 
     public void keyReleased(int key, char c){
+        menu.keyReleased(key,c);
+
         for(int i=0;i<snakes.size();i++){
             snakes.get(i).keyReleased(key,c);
         }
     }
 
     public void keyPressed(int key, char c){
+        menu.keyPressed(key,c);
         for(int i=0;i<snakes.size();i++){
             snakes.get(i).keyPressed(key,c);
         }
