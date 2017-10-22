@@ -57,7 +57,6 @@ public class MenuMultiNetwork implements Client.SocketListener {
         nomJoueursField.setOnlyFigures(false);
         nomJoueursField.setMaxNumberOfLetter(20);
 
-
         boutonStart = new Button("START",container,longueurJeu/2-longueurMenu/6,(World.hauteur+hauteurMenu)/2-8*hauteurMenu/75,longueurMenu/3,hauteurMenu/15);
         boutonStart.setBackgroundColor(Color.green);
         boutonStart.setOnClickListener(new OnClickListener() {
@@ -221,7 +220,6 @@ public class MenuMultiNetwork implements Client.SocketListener {
     @Override
     public void onMessageSend(Socket socket, String message) {
         System.out.println("message send= "+message);
-
     }
 
     @Override

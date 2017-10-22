@@ -34,8 +34,10 @@ import general.utils.FontUtils;
  *
  */
 public class TextField extends TGDComponent{
-	
-	private String text;
+
+    private static  final TrueTypeFont DEFAULT_TEXT_FOND = FontUtils.loadSystemFont("Verdana", Font.BOLD, 15);
+    private static final TrueTypeFont DEFAULT_PLACE_HOLDER_FONT = FontUtils.loadSystemFont("Verdana", Font.PLAIN, 15);
+    private String text;
 	private String placeHolder;
 	
 	private Color placeHolderColor;
@@ -60,11 +62,12 @@ public class TextField extends TGDComponent{
 	private EnterActionListener listener;
     private boolean onlyFigures;
 
+
     public TextField(GameContainer container,float x,float y,float width,float height){
 		super(container,x,y,width,height);
 
 		
-		unauthorizedKeys=new ArrayList<Integer>();
+		unauthorizedKeys=new ArrayList<>();
 		unauthorizedKeys.add(Input.KEY_RIGHT);
 		unauthorizedKeys.add(Input.KEY_LEFT);
 		unauthorizedKeys.add(Input.KEY_UP);
@@ -80,12 +83,12 @@ public class TextField extends TGDComponent{
         setPlaceHolder("Entrez votre texte...");
         setPlaceHolderTextSize(15);
         setPlaceHolderColor(new Color(140, 140, 140));
-        setPlaceHolderFont(FontUtils.loadSystemFont("Verdana", Font.PLAIN, placeHolderTextSize));
+        setPlaceHolderFont(DEFAULT_PLACE_HOLDER_FONT);
 
         setText("");
         setTextSize(15);
         setTextColor(new Color(255, 255, 255));
-        setTextFont(FontUtils.loadSystemFont("Verdana", Font.BOLD, textSize));
+        setTextFont(DEFAULT_TEXT_FOND);
 
         setPaddingLeft(10);
         setPaddingRight(10);
@@ -107,6 +110,8 @@ public class TextField extends TGDComponent{
         setOnlyFigures(false);
         setUpperCaseLock(false);
         setVisible(true);
+
+        setBackgroundColorFocused(null);
     }
 	
 	//SLICK METHOD
@@ -250,9 +255,9 @@ public class TextField extends TGDComponent{
 			}
 			hasFocus=false;
 		}
-		else if(!unauthorizedKeys.contains(key) && ((int)c)!=0 && (text.length()<maxNumberOfLetter || maxNumberOfLetter==-1) &&  (c+"").length()>0){
+		else if(!unauthorizedKeys.contains(key) && ((int)c)!=0  &&  (c+"").length()>0){
 
-		    if(key == Input.KEY_0) text += "0";
+            if(key == Input.KEY_0) text += "0";
             else if(key == Input.KEY_1 || key == Input.KEY_NUMPAD1) text += "1";
             else if(key == Input.KEY_2 || key == Input.KEY_NUMPAD2) text += "2";
             else if(key == Input.KEY_3 || key == Input.KEY_NUMPAD3) text += "3";
@@ -273,9 +278,22 @@ public class TextField extends TGDComponent{
             else if(c ==(char)8) text += "8";
             else if(c ==(char)9) text += "9";
             else{
-                if(!onlyFigures)text+=c;
+                if(!onlyFigures){
+                    if(key == Input.KEY_LEFT ) text += "<";
+                    else if(key == Input.KEY_RIGHT) text += ">";
+                    else if(key == Input.KEY_UP) text += "|";
+                    else if(key == Input.KEY_DOWN) text += "!";
+                    else{
+                        text+=c;
+                    }
+                }
             }
 
+
+            if(text.length()>maxNumberOfLetter && maxNumberOfLetter!=-1)
+            {
+                text = text.substring(text.length()-maxNumberOfLetter);
+            }
 
 			if(upperCaseLock)text=text.toUpperCase();
 		}
@@ -287,6 +305,7 @@ public class TextField extends TGDComponent{
 			hasFocus=false;
 		}else{
 			hasFocus=true;
+
 		}
 
 		super.mouseClicked(type, x, y, count);
@@ -310,8 +329,10 @@ public class TextField extends TGDComponent{
 		unauthorizedKeys.add(key);
 	}
 	
-	public void removeUnauthorizedKey(int key){
-		unauthorizedKeys.remove((Integer)key);
+	public void removeUnauthorizedKey(int... keys){
+	    for(int key:keys){
+            unauthorizedKeys.remove((Integer)key);
+        }
 	}
 
 	public boolean isCursorEnabled() {
@@ -338,6 +359,8 @@ public class TextField extends TGDComponent{
     public void setOnlyFigures(boolean onlyFigures) {
         this.onlyFigures = onlyFigures;
     }
+
+
 
     public interface EnterActionListener{
 		void onEnterPressed();

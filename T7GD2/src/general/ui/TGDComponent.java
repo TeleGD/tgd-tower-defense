@@ -19,6 +19,7 @@ public class TGDComponent extends Rectangle implements MouseListener, KeyListene
 	protected Color borderColor;
 	protected Color borderColorEntered;
 	protected Color borderColorPressed;
+    private Color backgroundColorFocused;
 
 
 	protected int borderWidth;
@@ -69,7 +70,10 @@ public class TGDComponent extends Rectangle implements MouseListener, KeyListene
 
 		time=System.currentTimeMillis();
 
-		if(mousePressed && backgroundColorPressed!=null)g.setColor(backgroundColorPressed);
+		if(hasFocus && backgroundColorFocused!=null){
+            g.setColor(backgroundColorFocused);
+        }
+		else if(mousePressed && backgroundColorPressed!=null)g.setColor(backgroundColorPressed);
 		else if(mouseEntered  && backgroundColorEntered!=null)g.setColor(backgroundColorEntered);
 		else g.setColor(backgroundColor);
 		
@@ -119,7 +123,9 @@ public class TGDComponent extends Rectangle implements MouseListener, KeyListene
 	public void setBackgroundColorPressed(Color backgroundColorPressed) {
 		this.backgroundColorPressed = backgroundColorPressed;
 	}
-	
+    public void setBackgroundColorFocused(Color backgroundColorFocused) {
+        this.backgroundColorFocused = backgroundColorFocused;
+    }
 
 	public int getCornerRadius() {
 		return cornerRadius;

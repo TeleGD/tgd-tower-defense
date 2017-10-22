@@ -300,6 +300,7 @@ public class World extends BasicGameState {
     }
 
     public void keyPressed(int key, char c){
+
         for(int i=0;i<snakes.size();i++){
             snakes.get(i).keyPressed(key,c);
         }

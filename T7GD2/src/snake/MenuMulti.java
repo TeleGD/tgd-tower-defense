@@ -26,6 +26,7 @@ public class MenuMulti {
 	public int yn;
 	public String[] nomsJoueurs;
 	public TextField[] fieldNomsJoueurs;
+    public TextField[] touchesClavier;
 
 	public int debutNom = longueurJeu/2 - longueurMenu/10;
 	private Button boutonStart,boutonNbJoueurs;
@@ -79,7 +80,6 @@ public class MenuMulti {
 			@Override
 			public void onClick(TGDComponent componenent) {
 				startGame();
-
             }});
 
         picker = new ColorPicker(container,debutx,0,World.longueur/5,World.hauteur/4);
@@ -92,13 +92,14 @@ public class MenuMulti {
             // TODO Auto-generated method stub
             joueurs = new Snake[nJoueur];
             for (int i = 0;i<nJoueur;i+=1) {
-                joueurs[i] = new Snake(couleursJoueurs[i],(100-nJoueur)/(nJoueur+1) + i*((100-nJoueur)/(nJoueur+1)+1),touchesDefaut[2*i],touchesDefaut[2*i+1],10,fieldNomsJoueurs[i].getText(),10);
+                joueurs[i] = new Snake(couleursJoueurs[i],(100-nJoueur)/(nJoueur+1) + i*((100-nJoueur)/(nJoueur+1)+1),getInputValue(touchesClavier[2*i+1].getText()),getInputValue(touchesClavier[2*i].getText()),10,fieldNomsJoueurs[i].getText(),10);
             }
             World.setSnakes(joueurs);
             enleve = true;
         }
         boutonStart.setVisible(false);
     }
+
 
     private void createJoueurs(GameContainer container) {
         if (nbrJoueurs.getText().length() ==1) {
@@ -108,6 +109,7 @@ public class MenuMulti {
         nomsJoueurs=new String[nJoueur];
         fieldNomsJoueurs=new TextField[nJoueur];
         choixCouleur = new Button[nJoueur];
+        touchesClavier = new TextField[nJoueur*2];
 
         for (int i = 0;i<nJoueur;i+=1) {
             yn = debuty + (i+2)*pas+10;
@@ -143,12 +145,40 @@ public class MenuMulti {
                             picker.setVisible(false);
                         }});
                 }});
+
+            touchesClavier[2*i] = new TextField(container,choixCouleur[i].getX()+choixCouleur[i].getWidth()+5,yn,hauteurMenu/15,hauteurMenu/15);
+            touchesClavier[2*i].setText(valTouchesDefaut[2*i]);
+            touchesClavier[2*i].setPlaceHolder("");
+            touchesClavier[2*i].setUpperCaseLock(true);
+            touchesClavier[2*i].setBackgroundColor(new Color(0,0,0));
+            touchesClavier[2*i].setBackgroundColorEntered(new Color(255,255,255,100));
+            touchesClavier[2*i].setBackgroundColorPressed(new Color(255,0,0,0));
+            touchesClavier[2*i].setCursorEnabled(false);
+            touchesClavier[2*i].setTextColor(Color.white);
+            touchesClavier[2*i].setMaxNumberOfLetter(1);
+            touchesClavier[2*i].setBackgroundColorFocused(new Color(255,0,0,0));
+            touchesClavier[2*i].removeUnauthorizedKey(Input.KEY_LEFT,Input.KEY_RIGHT,Input.KEY_UP,Input.KEY_DOWN);
+
+            touchesClavier[2*i+1] = new TextField(container,touchesClavier[2*i].getX()+touchesClavier[2*i].getWidth()+5,yn,hauteurMenu/15,hauteurMenu/15);
+            touchesClavier[2*i+1].setText(valTouchesDefaut[2*i+1]);
+            touchesClavier[2*i+1].setPlaceHolder("");
+            touchesClavier[2*i+1].setBackgroundColorEntered(new Color(255,255,255,100));
+            touchesClavier[2*i+1].setBackgroundColorPressed(new Color(255,0,0,0));
+            touchesClavier[2*i+1].setTextColor(Color.white);
+            touchesClavier[2*i+1].setBackgroundColor(new Color(0,0,0));
+            touchesClavier[2*i+1].setMaxNumberOfLetter(1);
+            touchesClavier[2*i+1].setUpperCaseLock(true);
+            touchesClavier[2*i+1].setCursorEnabled(false);
+            touchesClavier[2*i+1].setBackgroundColorFocused(new Color(255,0,0,0));
+            touchesClavier[2*i+1].removeUnauthorizedKey(Input.KEY_LEFT,Input.KEY_RIGHT,Input.KEY_UP,Input.KEY_DOWN);
+
+
+
         }
     }
 
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		if (!enleve) {
-
             g.setColor(new Color(255,255,255));
             g.fillRect((longueurJeu-longueurMenu)/2-4, (World.hauteur-hauteurMenu)/2-4, longueurMenu+8, hauteurMenu+9);
             g.setColor(new Color(100,100,200));
@@ -167,11 +197,12 @@ public class MenuMulti {
 				g.setColor(new Color(0,0,0));
 				if (fieldNomsJoueurs[i-1]!=null) {
 					g.drawString("Nom Joueur "+i+" :",debutx,yn+5);
-					g.drawString(valTouchesDefaut[2*i-1]+" - "+valTouchesDefaut[2*i-2], longueurJeu/2+longueurMenu/3, yn+5);
+					//g.drawString(valTouchesDefaut[2*i-1]+" - "+valTouchesDefaut[2*i-2], longueurJeu/2+longueurMenu/3, yn+5);
 					fieldNomsJoueurs[i-1].render(container, game, g);
 					choixCouleur[i-1].render(container, game, g);
                     picker.render(container, game, g);
-
+                    touchesClavier[2*(i-1)].render(container, game, g);
+                    touchesClavier[2*(i-1)+1].render(container, game, g);
                 }
 				
 				
@@ -188,5 +219,53 @@ public class MenuMulti {
 		boutonNbJoueurs.update(container, game, delta);
 		picker.update(container, game, delta);
 	}
+
+    private int getInputValue(String s) {
+        s=s.toLowerCase();
+        if(s.equals("a"))return Input.KEY_A;
+        if(s.equals("b"))return Input.KEY_B;
+        if(s.equals("c"))return Input.KEY_C;
+        if(s.equals("d"))return Input.KEY_D;
+        if(s.equals("e"))return Input.KEY_E;
+        if(s.equals("f"))return Input.KEY_F;
+        if(s.equals("h"))return Input.KEY_G;
+        if(s.equals("i"))return Input.KEY_H;
+        if(s.equals("j"))return Input.KEY_I;
+        if(s.equals("k"))return Input.KEY_K;
+        if(s.equals("l"))return Input.KEY_L;
+        if(s.equals("m"))return Input.KEY_M;
+        if(s.equals("n"))return Input.KEY_N;
+        if(s.equals("o"))return Input.KEY_O;
+        if(s.equals("p"))return Input.KEY_P;
+        if(s.equals("q"))return Input.KEY_Q;
+        if(s.equals("r"))return Input.KEY_R;
+        if(s.equals("s"))return Input.KEY_S;
+        if(s.equals("t"))return Input.KEY_T;
+        if(s.equals("u"))return Input.KEY_U;
+        if(s.equals("v"))return Input.KEY_V;
+        if(s.equals("w"))return Input.KEY_W;
+        if(s.equals("x"))return Input.KEY_X;
+        if(s.equals("y"))return Input.KEY_Y;
+        if(s.equals("z"))return Input.KEY_Z;
+        if(s.equals("0"))return Input.KEY_NUMPAD0;
+        if(s.equals("1"))return Input.KEY_NUMPAD1;
+        if(s.equals("2"))return Input.KEY_NUMPAD2;
+        if(s.equals("3"))return Input.KEY_NUMPAD3;
+        if(s.equals("4"))return Input.KEY_NUMPAD4;
+        if(s.equals("5"))return Input.KEY_NUMPAD5;
+        if(s.equals("6"))return Input.KEY_NUMPAD6;
+        if(s.equals("7"))return Input.KEY_NUMPAD7;
+        if(s.equals("8"))return Input.KEY_NUMPAD8;
+        if(s.equals("9"))return Input.KEY_NUMPAD9;
+        if(s.equals("<-"))return Input.KEY_LEFT;
+        if(s.equals("->"))return Input.KEY_RIGHT;
+        if(s.equals("<"))return Input.KEY_LEFT;
+        if(s.equals(">"))return Input.KEY_RIGHT;
+        if(s.equals("|"))return Input.KEY_UP;
+        if(s.equals("!"))return Input.KEY_DOWN;
+
+        return 0;
+    }
+
 
 }
