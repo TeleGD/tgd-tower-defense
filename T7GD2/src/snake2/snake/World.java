@@ -230,7 +230,7 @@ public class World extends BasicGameState {
                 {
                     message += snake.body.get(i).x+";"+snake.body.get(i).y+";";
                 }
-                client.sendString(message);
+                serveur.sendStringToAllClients(message);
 
             } catch (UnknownHostException e) {
                 e.printStackTrace();
@@ -238,7 +238,18 @@ public class World extends BasicGameState {
 
 
         }else if(World.client!=null){
+            try {
+                Snake snake = findSnakeByIpAdress(ipAdress);;
+                String message = InetAddress.getLocalHost().getHostAddress()+";";
+                for(int i=0;i<snake.body.size();i++)
+                {
+                    message += snake.body.get(i).x+";"+snake.body.get(i).y+";";
+                }
+                client.sendString(message);
 
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
 
         }
 
@@ -338,7 +349,7 @@ public class World extends BasicGameState {
                 @Override
                 public void onMessageReceived(Socket socket, String message) {
                     serveur.sendStringToAllClients(message);
-                    
+
                     String[] split =  message.split(";");
                     String ipAdress = split[0];
 
