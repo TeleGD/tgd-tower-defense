@@ -112,7 +112,7 @@ public class World extends BasicGameState {
             g.fillRoundRect(World.longueur/2-75+4,World.hauteur/2-50+4,150-8,92,20);
             g.setColor(Color.black);
             g.setFont(font);
-            g.drawString("Perdu !", World.longueur/2-20,World.hauteur/2-20);
+            g.drawString("Perdu !", World.longueur/2-30,World.hauteur/2-30);
         }else{
 
 
@@ -157,29 +157,39 @@ public class World extends BasicGameState {
 
 
                 for(int i=0;i<snakes.size();i++) {
-                    snakes.get(i).GScore(1);
-                    snakes.get(i).update(container, game, delta);
+                    Snake snake = snakes.get(i);
+
+                    snake.GScore(1);
+                    snake.update(container, game, delta);
 
                     for (Iterator<Bonus> it = bonus.iterator(); it.hasNext(); ) {
                         Bonus b = it.next();
                         if (!snakes.get(i).mort) {
-                            if (b.isInBonus(snakes.get(i).body.get(0))) {
-                                applyBonus(b, snakes.get(i));
+                            if (b.isInBonus(snake.body.get(0))) {
+                                applyBonus(b, snake);
                                 it.remove();
                             }
                         }
                     }
 
+/*
+                    if(!snake.mort){
+                        if(collide(snake.body.get(0),snake,true)){
+                            snake.meurt();
+                        }
+                    }
+*/
+
                     for (int j = 0; j < snakes.size(); j++) {
 
                         if (j != i) {
                             if (!snakes.get(i).mort) {
-                                if (collide(snakes.get(i).body.get(0), snakes.get(j))) {
-                                    snakes.get(i).meurt();
+                                if (collide(snake.body.get(0), snakes.get(j),false)) {
+                                    snake.meurt();
                                 }
                             }
-
                         }
+
 
 
                     }
@@ -193,20 +203,24 @@ public class World extends BasicGameState {
 
     }
 
-    private void applyBonus(Bonus bonus, Snake snake) {
+    private void applyBonus(Bonus bonus, Snake snake ) {
         bonus.applyBonus(snake);
 
         if(bonus.type == Bonus.bonusType.bInverseBonus){
-           for(int i=0;i<snakes.size();i++){
+           for(int i= 0;i<snakes.size();i++){
                if(!snakes.get(i).equals(snake)){
                     snakes.get(i).inverse = !snakes.get(i).inverse;
                }
+
+
            }
         }
     }
 
-    private boolean collide(Point point, Snake snake) {
-        for(int i=0;i<snake.body.size();i++)
+    private boolean collide(Point point, Snake snake, boolean exceptHead) {
+        //if(snake.invincible)return false;
+
+        for(int i=exceptHead?3:0;i<snake.body.size();i++)
         {
             if(snake.body.get(i).x==point.x && snake.body.get(i).y==point.y){
                 if(i==0)snakes.get(i).meurt();
