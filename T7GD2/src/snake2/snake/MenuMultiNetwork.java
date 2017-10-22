@@ -230,7 +230,7 @@ public class MenuMultiNetwork implements Client.SocketListener {
         System.out.println("message received= "+message);
         if(message.equals("get_connected_players")){
 
-            message = "received_connected_players;"+snakes.size();
+            message = "received_connected_players;"+snakes.size()+";";
             for(int i=0;i<snakes.size();i++){
                 message += snakes.get(i).nom+";"+snakes.get(i).couleur.getRed()+";"+snakes.get(i).couleur.getGreen()+";"+snakes.get(i).couleur.getBlue()+";"+snakes.get(i).couleur.getAlpha();
             }
