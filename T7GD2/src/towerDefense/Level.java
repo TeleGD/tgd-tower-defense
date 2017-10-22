@@ -19,12 +19,13 @@ public class Level {
 	int spawnX,spawnY;
 	double timer;
 
-	public Level() {
+	public Level(Player p) {
 		width = 32;
 		height = 32;
 		lenX = (int)(1280 / width);
 		lenY = (int)(616 / height);
 		nVague = 0;
+		pl = p;
 		try {
 			sprite0 = new Image("images/TowerDefense/chemin.png");
 			sprite1 = new Image("images/TowerDefense/mur.png");
