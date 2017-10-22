@@ -72,6 +72,7 @@ public class MenuMultiNetwork implements Client.SocketListener {
             }});
 
         picker = new ColorPicker(container,0,0, World.longueur/5, World.hauteur/4);
+
         choixCouleur = new Button(container,longueurJeu/2+longueurMenu/4,yn,hauteurMenu/15,hauteurMenu/15);
         choixCouleur.setBackgroundColor(snake.couleur);
         choixCouleur.setBackgroundColorEntered(new Color(255,255,255,100));
@@ -83,7 +84,9 @@ public class MenuMultiNetwork implements Client.SocketListener {
                 picker.setY(choixCouleur.getY());
                 picker.setColorSelected(snake.couleur);
                 picker.setX(longueurJeu/2+longueurMenu/3);
+
                 affPicker = true;
+
                 picker.setOnClickListener(new OnClickListener() {
 
                     @Override
@@ -127,10 +130,10 @@ public class MenuMultiNetwork implements Client.SocketListener {
                 g.setColor(snakes.get(i).couleur);
                 g.drawString("Nom Joueur n "+i+" : "+snakes.get(i).nom,debutx,yn+35);
 
-                if (affPicker) {
-                    picker.render(container, game, g);
-                }
-
+            }
+            
+            if (affPicker) {
+                picker.render(container, game, g);
             }
 
             nomJoueursField.render(container, game, g);
