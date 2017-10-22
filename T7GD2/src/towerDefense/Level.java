@@ -148,4 +148,7 @@ public class Level {
 		return (32*ligne);
 	}
 
+	public int getnVague() {
+		return nVague;
+	}
 }
