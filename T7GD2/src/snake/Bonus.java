@@ -115,6 +115,7 @@ public class Bonus {
 		break;
 		case bInvincible:
 			s.invincible = 150;
+			World.sonMouette.play();
 		break;
 		}
 	}
