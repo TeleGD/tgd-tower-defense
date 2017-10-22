@@ -57,7 +57,8 @@ public class Snake {
 		}
 	
 	public void meurt(){
-		mort = true;
+		if (invincible==0){
+		mort = true;}
 	}
 	
 	public void move() {
@@ -92,7 +93,12 @@ public class Snake {
 			else {
 				ajout = new Point(nbcasesl-29 , (body.get(0).y));}
 		}
-		body.remove((body.size()-1)); 
+		
+		
+		body.remove((body.size()-1));
+		if (invincible!=0 && body.size()==0 ){
+			body.add(0,ajout);
+		}
 		if (body.size()==0) {
 			World.dead(this);
 		}
