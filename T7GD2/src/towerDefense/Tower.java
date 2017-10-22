@@ -1,6 +1,8 @@
 package towerDefense;
 
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -93,8 +95,8 @@ public class Tower {
 		}
 	}
 	
-	private boolean ChooseEnemy() {            // renvoie vrai si un ennemi est à portée
-		for (Enemy e : World.enemies) {        // cherche dans la liste des ennemis triée par ordre d'appartition
+	private boolean ChooseEnemy() {            // renvoie vrai si un ennemi est ï¿½ portï¿½e
+		for (Enemy e : World.enemies) {        // cherche dans la liste des ennemis triï¿½e par ordre d'appartition
 			if (Math.sqrt(Math.pow(this.x-this.y,2)+Math.pow(e.getX()-e.getY(),2))<this.range) {
 				this.enemy = e;
 				return true;
@@ -148,5 +150,14 @@ public class Tower {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public boolean existeDeja(ArrayList<Tower> tour){
+		for(int i = 0; i < tour.size(); i++){
+			if( this.equals(tour.get(i))){
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -127,8 +127,10 @@ public class World extends BasicGameState {
 				getTile(ab, or);
 
 				if(l.getCase(ligne, colonne) == 1){
-					towers.add(new Tower(32*colonne, 32*ligne, c.choose));
-					System.out.println(towers.size());
+					Tower newtour = new Tower(32*colonne, 32*ligne, c.choose);
+					if(!(newtour.existeDeja(towers))){
+						towers.add(newtour);
+					}
 				}
 			}
 		}
