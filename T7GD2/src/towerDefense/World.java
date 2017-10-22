@@ -56,7 +56,7 @@ public class World extends BasicGameState {
 		
 		towers.add(t);
 		//e = new Enemy(1, 1, l, 1);
-		enemies.add(e);
+		//enemies.add(e);
 		//p = new Projectile(32*20,32*0,e,1);
 		//projectiles.add(p);
 		//projectiles.add(new Projectile(32*25,32*10,e,1,3));
@@ -127,8 +127,10 @@ public class World extends BasicGameState {
 				getTile(ab, or);
 
 				if(l.getCase(ligne, colonne) == 1){
-					towers.add(new Tower(32*colonne, 32*ligne, c.choose));
-					System.out.println(towers.size());
+					Tower newtour = new Tower(32*colonne, 32*ligne, c.choose);
+					if(!(newtour.existeDeja(towers))){
+						towers.add(newtour);
+					}
 				}
 			}
 		}
