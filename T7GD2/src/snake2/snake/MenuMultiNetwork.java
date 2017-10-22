@@ -182,6 +182,7 @@ public class MenuMultiNetwork implements Client.SocketListener {
                     }
                 });
                 serveur.addSocketListener(MenuMultiNetwork.this);
+                serveur.start();
             }
 
         }else if(i == Input.KEY_C){
