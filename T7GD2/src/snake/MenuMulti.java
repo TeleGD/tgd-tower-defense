@@ -33,8 +33,8 @@ public class MenuMulti {
 	private Button boutonStart;
 	private Snake[] joueurs;
 	public boolean enleve=false;
-	private int[] touchesDefaut = {Input.KEY_RIGHT,Input.KEY_LEFT, Input.KEY_Z, Input.KEY_A, Input.KEY_P, Input.KEY_O, Input.KEY_X, Input.KEY_W, Input.KEY_N, Input.KEY_B, Input.KEY_NUMPAD2,Input.KEY_NUMPAD1,Input.KEY_NUMPAD9,Input.KEY_NUMPAD8};
-	private Color[] couleursDefaut =new Color[] {Color.white, Color.blue,Color.red,Color.green,Color.pink,Color.yellow,Color.cyan};
+	private int[] touchesDefaut = {Input.KEY_RIGHT,Input.KEY_LEFT, Input.KEY_Z, Input.KEY_A, Input.KEY_P, Input.KEY_O, Input.KEY_X, Input.KEY_W, Input.KEY_N, Input.KEY_B, Input.KEY_NUMPAD2,Input.KEY_NUMPAD1,Input.KEY_NUMPAD9,Input.KEY_NUMPAD8,Input.KEY_U,Input.KEY_Y,Input.KEY_G,Input.KEY_F};
+	private Color[] couleursDefaut =new Color[] {Color.white, Color.blue,Color.red,Color.green,Color.pink,Color.yellow,Color.cyan,Color.orange,Color.magenta};
 	private Color[] couleursJoueurs = couleursDefaut;
 	private Button[] choixCouleur;
 	private ColorPicker picker;

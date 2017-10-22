@@ -27,6 +27,8 @@ public class World extends BasicGameState {
     private static ArrayList<Snake> snakes;
 
     private TrueTypeFont font = FontUtils.loadSystemFont("Arial", java.awt.Font.BOLD,20);
+    private TrueTypeFont fontScore = FontUtils.loadSystemFont("Arial", java.awt.Font.BOLD,15);
+
     private Button replay,backMenu;
     private static Music soundMusicBackground;
     private static  boolean jeuTermine = false;
@@ -48,6 +50,12 @@ public class World extends BasicGameState {
             @Override
             public void onClick(TGDComponent componenent) {
                 if(soundMusicBackground!=null)soundMusicBackground.stop();
+                menu = new MenuMulti();
+                try {
+                    menu.init(container, game);
+                } catch (SlickException e) {
+                    e.printStackTrace();
+                }
                 reset();
             }
         });
@@ -99,9 +107,9 @@ public class World extends BasicGameState {
 
         if(jeuTermine){
             g.setColor(Color.black);
-            g.fillRect(World.longueur/2-200,World.hauteur/2-150,400,300);
+            g.fillRect(World.longueur/2-170,World.hauteur/2-130,340,260);
             g.setColor(Color.white);
-            g.fillRect(World.longueur/2-200+4,World.hauteur/2-150+2,396,296);
+            g.fillRect(World.longueur/2-170+4,World.hauteur/2-130+2,340-4,256);
             g.setColor(Color.black);
             g.setFont(font);
             g.drawString("Perdu !", World.longueur/2-50,World.hauteur/2-50);
@@ -142,10 +150,11 @@ public class World extends BasicGameState {
 
 
         if(jeuDemarre){
-            addBonus();
 
             if(!jeuTermine){
                 jeuTermine = isFini();
+                addBonus();
+
 
                 for(int i=0;i<snakes.size();i++) {
                     snakes.get(i).GScore(1);
