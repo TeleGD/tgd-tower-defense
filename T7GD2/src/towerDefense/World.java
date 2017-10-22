@@ -51,15 +51,9 @@ public class World extends BasicGameState {
 		player = new Player(20, 200);
 		
 		l = new Level();
-		t = new Tower((double)10, (double)10, (double)1, (double)1000, (double)10, 1);
 		c = new ChooseTower(player);
-		
-		towers.add(t);
 		e = new Enemy(1, 1, l, 1, player);
 		enemies.add(e);
-		//p = new Projectile(32*20,32*0,e,1);
-		//projectiles.add(p);
-		//projectiles.add(new Projectile(32*25,32*10,e,1,3));
 		ab = 0;
 		or = 0;
 		input = container.getInput();
@@ -98,7 +92,8 @@ public class World extends BasicGameState {
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		l.update(container, game, delta);
-		//player.update(container, game, delta);
+		System.out.println(enemies.size()+" enemies");
+		player.update(container, game, delta);
 		tempTowers.clear();
 		tempTowers.addAll(towers);
 		for(Tower t: tempTowers){
