@@ -29,14 +29,13 @@ public class World extends BasicGameState {
     private TrueTypeFont font = FontUtils.loadSystemFont("Arial", java.awt.Font.BOLD,20);
     private Button replay,backMenu;
     private static Music soundMusicBackground;
+    private static  boolean jeuTermine = false;
 
     @Override
     public void init(final GameContainer container, final StateBasedGame game) throws SlickException {
+
         menu = new MenuMulti();
         menu.init(container, game);
-        bonus = new ArrayList<Bonus>();
-
-        snakes = new ArrayList<Snake>();
 
         replay = new Button(container,World.longueur - widthBandeau+20, World.hauteur-150,widthBandeau-40,40);
         replay.setText("REJOUER");
@@ -67,6 +66,9 @@ public class World extends BasicGameState {
                 game.enterState(MainMenu.ID,new FadeOutTransition(),new FadeInTransition());
             }
         });
+
+        reset();
+
     }
 
     @Override
@@ -93,6 +95,21 @@ public class World extends BasicGameState {
         g.fillRect(World.longueur-widthBandeau+6,60,widthBandeau,5);
         g.resetFont();
 
+
+
+        if(jeuTermine){
+            g.setColor(Color.black);
+            g.fillRect(World.longueur/2-200,World.hauteur/2-150,400,300);
+            g.setColor(Color.white);
+            g.fillRect(World.longueur/2-200+4,World.hauteur/2-150+2,396,296);
+            g.setColor(Color.black);
+            g.setFont(font);
+            g.drawString("Perdu !", World.longueur/2-50,World.hauteur/2-50);
+        }else{
+
+
+        }
+
         for(int i=0;i<snakes.size();i++){
             g.setColor(snakes.get(i).couleur);
             g.drawString(snakes.get(i).nom+" : "+snakes.get(i).score,World.longueur-widthBandeau+20,100+50*i+20);
@@ -102,10 +119,10 @@ public class World extends BasicGameState {
             bonus.get(i).render(container, game, g);
         }
 
+
         replay.render(container, game, g);
         backMenu.render(container, game, g);
         menu.render(container, game, g);
-
     }
 
     @Override
@@ -122,42 +139,54 @@ public class World extends BasicGameState {
             }
         });
 
-        for(int i=0;i<snakes.size();i++){
-            snakes.get(i).GScore(1);
-            snakes.get(i).update(container, game,delta);
 
-            for (Iterator<Bonus> it = bonus.iterator();it.hasNext();) {
-                Bonus b = it.next();
-                if (!snakes.get(i).mort){
-                if (b.isInBonus(snakes.get(i).body.get(0))) {
-                    applyBonus(b,snakes.get(i));
-                    it.remove();
-                	}
-                }
-            }
 
-            for(int j = 0;j<snakes.size();j++){
+        if(jeuDemarre){
+            addBonus();
 
-                if(j!=i){
-                    if(!snakes.get(i).mort){
-                        if(collide(snakes.get(i).body.get(0),snakes.get(j))){
-                            snakes.get(i).meurt();
+            if(!jeuTermine){
+                jeuTermine = isFini();
+
+                for(int i=0;i<snakes.size();i++) {
+                    snakes.get(i).GScore(1);
+                    snakes.get(i).update(container, game, delta);
+
+                    for (Iterator<Bonus> it = bonus.iterator(); it.hasNext(); ) {
+                        Bonus b = it.next();
+                        if (!snakes.get(i).mort) {
+                            if (b.isInBonus(snakes.get(i).body.get(0))) {
+                                applyBonus(b, snakes.get(i));
+                                it.remove();
+                            }
                         }
                     }
 
+                    for (int j = 0; j < snakes.size(); j++) {
+
+                        if (j != i) {
+                            if (!snakes.get(i).mort) {
+                                if (collide(snakes.get(i).body.get(0), snakes.get(j))) {
+                                    snakes.get(i).meurt();
+                                }
+                            }
+
+                        }
+
+
+                    }
                 }
+
 
 
             }
         }
-        if(jeuDemarre){
-            addBonus();
-        }
+
 
     }
 
     private void applyBonus(Bonus bonus, Snake snake) {
         bonus.applyBonus(snake);
+
         if(bonus.type == Bonus.bonusType.bInverseBonus){
            for(int i=0;i<snakes.size();i++){
                if(!snakes.get(i).equals(snake)){
@@ -176,6 +205,11 @@ public class World extends BasicGameState {
             }
         }
         return false;
+    }
+
+    public static void addBonus(Bonus bonusLoc)
+    {
+        bonus.add(bonusLoc);
     }
 
     private static void addBonus(){
@@ -206,9 +240,11 @@ public class World extends BasicGameState {
 
     public static void reset() {
         snakes = new ArrayList<Snake>();
+        bonus = new ArrayList<>();
         menu.enleve = false;
         menu.nJoueur = 0;
         jeuDemarre = false;
+        jeuTermine = false;
 
     }
 
@@ -218,8 +254,8 @@ public class World extends BasicGameState {
         try {
             soundMusicBackground=new Music("sounds/snake/hymne_russe.ogg");
             soundMusicBackground.loop(1,0.3f);
-
             jeuDemarre = true;
+
         } catch (SlickException e) {
             e.printStackTrace();
         }
@@ -227,5 +263,22 @@ public class World extends BasicGameState {
 
     public static void dead(Snake snake){
         //snakes.remove(snake);
+    }
+
+    public boolean isFini() {
+
+        int compt = 0;
+
+        if(snakes.size()==1){
+            if(snakes.get(0).mort)return true;
+        }
+
+        for(int i=0;i<snakes.size();i++){
+            if(!snakes.get(i).mort)compt++;
+        }
+
+        if(compt<=1)return true;
+
+        return false;
     }
 }
