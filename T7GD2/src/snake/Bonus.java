@@ -14,7 +14,7 @@ public class Bonus {
 	
 	public Point pt;
 	
-	public static enum bonusType {bGrandis,bRetrecis,bRapide,bLent,bMort,bInverseBonus,bInverseMalus,bRemis};
+	public static enum bonusType {bGrandis,bRetrecis,bRapide,bLent,bMort,bInverseBonus,bInverseMalus,bRemis,bInvincible};
 	
 	
 	public bonusType type;
@@ -29,7 +29,7 @@ public class Bonus {
 		double b = r.nextFloat();
 		bonusType bonus;
 		if(b < 0.40)
-			bonus = bonusType.bGrandis;
+			bonus = bonusType.bRemis;
 		else if(b < 0.50)
 			bonus = bonusType.bRetrecis;
 		else if(b < 0.65)
@@ -105,7 +105,7 @@ public class Bonus {
 		case bRemis:
 			for(int i=-1;i<1;i++)
 				for(int j=-1;j<2;j++)
-					CreeRemi(pt, i, j);
+					CreeRemi(new Point(pt.x+5*i,pt.y+5*j), i, j);
 		break;
 		}
 	}
