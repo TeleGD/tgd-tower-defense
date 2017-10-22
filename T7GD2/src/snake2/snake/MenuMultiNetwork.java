@@ -36,9 +36,7 @@ public class MenuMultiNetwork implements Client.SocketListener {
     private ColorPicker picker;
     private boolean affPicker=false;
 
-    private DiscoverServerThread discoverServerThread;
-    private String ipServer;
-    private TextField nomJoueursField;
+    private DiscoverServerThread discoverServerThread;private TextField nomJoueursField;
     private Button choixCouleur;
 
     private ArrayList<Snake> snakes =new ArrayList<>();
@@ -84,9 +82,7 @@ public class MenuMultiNetwork implements Client.SocketListener {
                 picker.setY(choixCouleur.getY());
                 picker.setColorSelected(snake.couleur);
                 picker.setX(longueurJeu/2+longueurMenu/3);
-
-                affPicker = true;
-
+                picker.setVisible(true);
                 picker.setOnClickListener(new OnClickListener() {
 
                     @Override
@@ -96,7 +92,7 @@ public class MenuMultiNetwork implements Client.SocketListener {
 
                         choixCouleur.setBackgroundColor(picker.getColorSelected());
                         nomJoueursField.setTextColor(picker.getColorSelected());
-                        affPicker = false;
+                        picker.setVisible(false);
                     }});
             }});
 
@@ -164,16 +160,10 @@ public class MenuMultiNetwork implements Client.SocketListener {
                 discoverServerThread = new DiscoverServerThread(5000,15);
                 discoverServerThread.start();
 
-                try {
-                    ipServer = InetAddress.getLocalHost().getHostAddress();
-                } catch (UnknownHostException e) {
-                    e.printStackTrace();
-                }
-
                 snakes.add(new Snake(choixCouleur.getBackgroundColor(),0,Input.KEY_RIGHT,Input.KEY_LEFT,10,nomJoueursField.getText(),2));
-                snakes.get(snakes.size()-1).ipAdress =ipServer;
+                snakes.get(snakes.size()-1).ipAdress =World.ipAdress;
 
-                        World.serveur =new Serveur(8887);
+                World.serveur =new Serveur(8887);
                 World.serveur.addOnClientConnectedListener(new Serveur.OnClientConnectedListener() {
                     @Override
                     public void onConnected(Socket socket) {
@@ -197,24 +187,29 @@ public class MenuMultiNetwork implements Client.SocketListener {
             thread.addOnServerDetectedListener(new DiscoveryThread.OnServerDetectedListener() {
                 @Override
                 public void onServerDetected(String ipAdress) {
-                    ipServer = ipAdress;
-                    World.client= new Client(ipAdress,8887);
-
-                    String message = "add_joueur;";
-                    message += ipAdress+";";
-
-                    Color c = choixCouleur.getBackgroundColor();
-                    message += nomJoueursField.getText()+";"+c.getRed()+";"+c.getGreen()+";"+c.getBlue()+";"+c.getAlpha();
-
-
-                    World.client.sendString(message);
-                    World.client.sendString("get_connected_players");
-                    World.client.addSocketListener(MenuMultiNetwork.this);
+                    addClient(ipAdress);
                 }
             });
-
             thread.start();
+
+            //addClient("localhost");
+
         }
+    }
+
+    private void addClient(String ipAdress) {
+        World.client= new Client(ipAdress,8887);
+
+        String message = "add_joueur;";
+        message += ipAdress+";";
+
+        Color c = choixCouleur.getBackgroundColor();
+        message += nomJoueursField.getText()+";"+c.getRed()+";"+c.getGreen()+";"+c.getBlue()+";"+c.getAlpha();
+
+
+        World.client.sendString(message);
+        World.client.sendString("get_connected_players");
+        World.client.addSocketListener(MenuMultiNetwork.this);
     }
 
 

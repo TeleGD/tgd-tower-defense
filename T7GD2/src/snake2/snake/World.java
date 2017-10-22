@@ -173,34 +173,22 @@ public class World extends BasicGameState {
             if(!jeuTermine){
                 if(World.serveur!=null){
 
-                    try {
-                        Snake snake = findSnakeByIpAdress(ipAdress);;
-                        String message = InetAddress.getLocalHost().getHostAddress()+";";
-                        for(int i=0;i<snake.body.size();i++)
-                        {
-                            message += snake.body.get(i).x+";"+snake.body.get(i).y+";";
-                        }
-                        serveur.sendStringToAllClients(message);
-
-                    } catch (UnknownHostException e) {
-                        e.printStackTrace();
+                    Snake snake = findSnakeByIpAdress(ipAdress);;
+                    String message = ipAdress+";";
+                    for(int i=0;i<snake.body.size();i++)
+                    {
+                        message += snake.body.get(i).x+";"+snake.body.get(i).y+";";
                     }
-
+                    serveur.sendStringToAllClients(message);
 
                 }else if(World.client!=null){
-                    try {
-                        Snake snake = findSnakeByIpAdress(ipAdress);;
-                        String message = InetAddress.getLocalHost().getHostAddress()+";";
-                        for(int i=0;i<snake.body.size();i++)
-                        {
-                            message += snake.body.get(i).x+";"+snake.body.get(i).y+";";
-                        }
-                        client.sendString(message);
-
-                    } catch (UnknownHostException e) {
-                        e.printStackTrace();
+                    Snake snake = findSnakeByIpAdress(ipAdress);
+                    String message = ipAdress+";";
+                    for(int i=0;i<snake.body.size();i++)
+                    {
+                        message += snake.body.get(i).x+";"+snake.body.get(i).y+";";
                     }
-
+                    client.sendString(message);
                 }
 
                 jeuTermine = isFini();
