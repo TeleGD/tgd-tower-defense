@@ -124,6 +124,7 @@ public class World extends BasicGameState {
 					Tower newtour = new Tower(32*colonne, 32*ligne, c.choose);
 					if(!(newtour.existeDeja(towers))){
 						towers.add(newtour);
+						player.earnGold(-(c.choose*50));
 					}
 				}
 			}
