@@ -18,7 +18,7 @@ public class ColorPicker extends TGDComponent {
     public ColorPicker(GameContainer container, float x, float y, float width, float height) {
         super(container, x, y, width, height);
 
-        bouton = new Button(container,x,y,width,5*(height-(paddingBottom-paddingTop))/6);
+        bouton = new Button(container,x,5*(height-(paddingBottom-paddingTop))/6,width,(height-(paddingBottom-paddingTop))/6);
         bouton.setBackgroundColor(Color.white);
         bouton.setTextColor(Color.black);
         bouton.setText("Ok !");//sez
@@ -53,7 +53,7 @@ public class ColorPicker extends TGDComponent {
             g.fillRect((float) (x+paddingLeft+1+c[i]*w/255.0)-2, (float) (y+paddingTop+h/6*i+1),4,h/6-2);
             g.setColor(Color.white);
 
-            g.drawString(""+c[i],x+width/2-10,y+paddingTop+h/6*i+20);
+            g.drawString(""+c[i],x+width/2-10,y+paddingTop+h/6*i+h/30);
 
         }
 
@@ -68,6 +68,16 @@ public class ColorPicker extends TGDComponent {
 
     }
 
+    @Override
+    public void setX(float x) {
+    	super.setX(x);
+    	bouton.setX(x);
+    }
+    @Override
+    public void setY(float y) {
+    	super.setY(y);
+    	bouton.setY(y+5*(height-(paddingBottom-paddingTop))/6);
+    }
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         super.update(container, game, delta);
