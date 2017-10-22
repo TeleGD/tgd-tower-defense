@@ -56,7 +56,7 @@ public class World extends BasicGameState {
 		
 		towers.add(t);
 		//e = new Enemy(1, 1, l, 1);
-		enemies.add(e);
+		//enemies.add(e);
 		//p = new Projectile(32*20,32*0,e,1);
 		//projectiles.add(p);
 		//projectiles.add(new Projectile(32*25,32*10,e,1,3));
