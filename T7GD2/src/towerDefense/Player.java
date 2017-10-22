@@ -12,6 +12,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Player {
 	private int wave;
 	private int gold;
+
 	private int totalGold;
 	private int lives;
 	private int boughtTowers;
@@ -40,7 +41,7 @@ public class Player {
 	}
 	
 	public void buyTower(int price) {
-		// Vérifier si on a l'argent puis la retirer
+		// Vï¿½rifier si on a l'argent puis la retirer
 		
 		boughtTowers+=1;
 	}
@@ -63,5 +64,8 @@ public class Player {
 	public void endGame() {
 		// Pop-up : or total, vagues, nb de tours construites/upgrades, 
 	}
-	
+
+	public int getGold() {
+		return gold;
+	}
 }
