@@ -32,6 +32,7 @@ public class World extends BasicGameState {
 	Input input;
 	boolean atarashi;
 	
+	@Override
 	public int getID(){
 		return ID;
 	}
@@ -149,8 +150,8 @@ public class World extends BasicGameState {
 	
 	public void getTile (int X, int Y) {
 		// Indique les coordonn�e ligne colonne dans un tableau de 2 �l�ments
-		ligne = (int)(Y / 32);
-		colonne = (int)(X /32);
+		ligne = Y / 32;
+		colonne = X /32;
 		
 	}
 }

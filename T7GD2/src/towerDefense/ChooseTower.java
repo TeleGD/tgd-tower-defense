@@ -73,7 +73,7 @@ public class ChooseTower {
 			}else{
 				g.setColor(Color.red);
 			}
-			g.fillRect((float)x + i*7*lenX, (float)y, (float)lenX*5, (float)lenX*5);
+			g.fillRect((float)x + i*7*lenX, y, (float)lenX*5, (float)lenX*5);
 		}
 		
 		for(i = 0; i < nbTower; i++){

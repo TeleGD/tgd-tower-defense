@@ -64,7 +64,7 @@ public class Level {
 		Arrays.fill(line1, 1);
 		map[0] = line1; //Murs du haut
 		
-		for (int i=1; i < (int)(lenY - 4); i+=4)
+		for (int i=1; i < lenY - 4; i+=4)
 		{
 			map[i+3] = genereLine(0,1,1,2);
 			map[i+2] = genereLine(0,1,1,lenX - 1);
@@ -104,12 +104,12 @@ public class Level {
 				break;
 				case 2 :  g.drawImage(sprite2, (float)x, (float)y);
 				break;
-				case 3 :  g.setColor(Color.blue);g.fillRect((float)(x), (float)(y),(float) width, (float)height);
+				case 3 :  g.setColor(Color.blue);g.fillRect((float)(x), (float)(y),width, height);
 				break;
 				}
 			}
 		}
-		g.drawImage(base, (float)1205, (float)520);
+		g.drawImage(base, 1205, 520);
 		
 	}
 
