@@ -29,6 +29,8 @@ public class Snake {
 	public int score;
 	public boolean mort ;
 	public boolean inverse;
+	public int invincible;
+	
 	
 	public Snake(Color couleur,int x_init, int TDroite, int TGauche,int taille_init, String nom,int speed) {
 		this.couleur = couleur;
@@ -41,6 +43,7 @@ public class Snake {
 		this.speed = speed;
 		this.mort = false;
 		this.inverse = false;
+		this.invincible = 0;
 		for (int i = 0;i<taille_init;i++){
 			body.add(new Point(x_init,(nbcasesh-i)));
 		}
@@ -175,7 +178,7 @@ public class Snake {
 	}
 	
 	public void retrecir(){
-		if(body.size() == 1)
+		if((body.size() == 1))
 			this.meurt();
 		body.remove((body.size()-1)); 
 	}
@@ -200,6 +203,10 @@ public class Snake {
 	}
 	int compteur = 0;
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+		if (invincible >0) {
+			invincible = invincible - 1;
+			}
+		
 		compteur += speed;
 		while(compteur >= 15){
 			move();
