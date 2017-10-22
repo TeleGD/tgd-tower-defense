@@ -25,10 +25,12 @@ public class Enemy {
 	private Image sprite;
 	private Level map;
 	private int type;
+	private Player player;
 
 	
-	public Enemy(int posX, int posY,Level map, int wave) {
+	public Enemy(int posX, int posY, Level map, int wave, Player player) {
 		this.map=map;
+		this.player=player;
 		this.x= (int) map.getX(posY);
 		this.y= (int) map.getY(posX);
 		this.currentPosX=posX;
@@ -47,8 +49,8 @@ public class Enemy {
 		if (wave%5 ==0) {
 			this.type=3;
 			this.life=5*wave;
-			this.speed=0.25;
-			this.attack=7;
+			this.speed=0.1;
+			this.attack=5;
 			try {
 				sprite = new Image("images/TowerDefense/boss.png");
 			} catch (SlickException e) {
@@ -59,8 +61,8 @@ public class Enemy {
 		else if (wave%10==1 || wave%10==3 || wave%10==6 || wave%10==8) {
 			this.type=1;
 			this.life=wave*2;
-			this.speed=0.3;
-			this.attack=3;
+			this.speed=0.12;
+			this.attack=1;
 			try {
 				sprite = new Image("images/TowerDefense/enemy1.png");
 			} catch (SlickException e) {
@@ -71,8 +73,8 @@ public class Enemy {
 		else {
 			this.type=2;
 			this.life=wave+(Math.abs(wave/5));
-			this.speed=0.4;
-			this.attack=2;
+			this.speed=0.15;
+			this.attack=1;
 			try {
 				sprite = new Image("images/TowerDefense/enemy2.png");
 			} catch (SlickException e) {
@@ -135,7 +137,7 @@ public class Enemy {
 			this.currentPosX = this.nextPosX; this.currentPosY = this.nextPosY;
 		}
 		if ( map.getCase(this.currentPosX,this.currentPosY) == 3) {
-			// giveDamage(attack);
+			player.damaged(attack);
 			World.enemies.remove(this);
 		}
 	}
@@ -169,7 +171,7 @@ public class Enemy {
 		this.life -= damage;
 		if (this.life<=0) {
 			World.enemies.remove(this);
-			
+			player.earnGold(1);
 		}
 	}
 
