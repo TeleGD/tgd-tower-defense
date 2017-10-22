@@ -269,7 +269,7 @@ public class World extends BasicGameState {
 
     @Override
     public int getID() {
-        return 1;
+        return ID;
     }
 
     public void keyReleased(int key, char c){
@@ -287,8 +287,8 @@ public class World extends BasicGameState {
     public static void reset() {
         snakes = new ArrayList<Snake>();
         bonus = new ArrayList<>();
-        menu.enleve = false;
-        menu.nJoueur = 0;
+        //menu.enleve = false;
+        //menu.nJoueur = 0;
         jeuDemarre = false;
         jeuTermine = false;
 
