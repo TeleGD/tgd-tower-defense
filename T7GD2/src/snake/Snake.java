@@ -204,10 +204,11 @@ public class Snake {
 	int compteur = 0;
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		if (invincible >0) {
-			if(invincible % 30 < 15)
-				couleur = couleur.brighter();
+			if(invincible % 40 > 20)
+				couleur= new Color(couleur.r,couleur.g,couleur.b,0.5f);
 			else
-				couleur = couleur.brighter();
+				couleur= new Color(couleur.r,couleur.g,couleur.b,1);
+			
 			invincible = invincible - 1;
 			}
 		
