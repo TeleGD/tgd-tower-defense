@@ -220,12 +220,13 @@ public class MenuMultiNetwork implements Client.SocketListener {
 
     @Override
     public void onMessageSend(Socket socket, String message) {
+        System.out.println("message send= "+message);
 
     }
 
     @Override
     public void onMessageReceived(Socket socket, String message) {
-        System.out.println("message = "+message);
+        System.out.println("message received= "+message);
         if(message.equals("get_connected_players")){
 
             message = "received_connected_players;"+snakes.size();
