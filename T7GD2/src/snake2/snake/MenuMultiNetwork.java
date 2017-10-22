@@ -196,10 +196,10 @@ public class MenuMultiNetwork implements Client.SocketListener {
 
             String message = "add_joueur;";
             message += ipAdress+";";
-            for(int i=0;i<nJoueur;i++){
+            /*for(int i=0;i<nJoueur;i++){
                 Color c = choixCouleur.getBackgroundColor();
                 message += nomJoueursField.getText()+";"+c.getRed()+";"+c.getGreen()+";"+c.getBlue()+";"+c.getAlpha();
-            }
+            }*/
 
             client.sendString(message);
             client.sendString("get_connected_players");
