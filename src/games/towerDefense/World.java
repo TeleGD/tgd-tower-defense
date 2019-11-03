@@ -1,4 +1,4 @@
-package towerDefense;
+package games.towerDefense;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,10 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class World extends BasicGameState {
-	public static int ID = 2;
+
+	public final static int ID = 2;
+	public final static String GAME_NAME = "Tower Defense";
+
 	public static ArrayList<Enemy> enemies, tempEnemies;
 	public static ArrayList<Projectile> projectiles, tempProjectiles;
 	public static ArrayList<Tower> towers, tempTowers;
@@ -149,7 +152,7 @@ public class World extends BasicGameState {
 	}
 
 	public void getTile (int X, int Y) {
-		// Indique les coordonn�e ligne colonne dans un tableau de 2 �l�ments
+		// Indique les coordonnée ligne colonne dans un tableau de 2 éléments
 		ligne = Y / 32;
 		colonne = X /32;
 

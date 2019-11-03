@@ -1,4 +1,4 @@
-package towerDefense;
+package games.towerDefense;
 
 
 import java.util.ArrayList;
@@ -40,10 +40,10 @@ public class ChooseTower {
 
 		try{
 			for(int i = 1; i <= nbTower; i++){
-				sprite.add(new Image("images/TowerDefense/TowerModel"+i+".png"));
+				sprite.add(new Image("images/towerDefense/TowerModel"+i+".png"));
 			}
-			sprite2 = new Image("images/TowerDefense/rock.png");
-			sprite3 = new Image("images/TowerDefense/wood.png");
+			sprite2 = new Image("images/towerDefense/rock.png");
+			sprite3 = new Image("images/towerDefense/wood.png");
 		}catch (SlickException e) {
 			e.printStackTrace();
 		}

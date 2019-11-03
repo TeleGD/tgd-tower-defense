@@ -1,4 +1,4 @@
-package towerDefense;
+package games.towerDefense;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -27,8 +27,8 @@ public class Player {
 		g.setColor(Color.white);
 		g.drawString("Or : "+this.gold, 800, 656);
 		g.drawString("Vies : "+this.lives, 1000, 656);
-		g.drawImage(new Image("images/TowerDefense/bitcoincoin.png"), 730, 640);
-		g.drawImage(new Image("images/TowerDefense/Heart.png"), 930, 640);
+		g.drawImage(new Image("images/towerDefense/bitcoincoin.png"), 730, 640);
+		g.drawImage(new Image("images/towerDefense/Heart.png"), 930, 640);
 	}
 
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
@@ -36,7 +36,7 @@ public class Player {
 	}
 
 	public void buyTower(int price) {
-		// V�rifier si on a l'argent puis la retirer
+		// Vérifier si on a l'argent puis la retirer
 
 		boughtTowers+=1;
 	}

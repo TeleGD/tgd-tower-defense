@@ -1,4 +1,4 @@
-package towerDefense;
+package games.towerDefense;
 
 import java.util.Arrays;
 
@@ -27,10 +27,10 @@ public class Level {
 		nVague = 0;
 		pl = p;
 		try {
-			sprite0 = new Image("images/TowerDefense/chemin.png");
-			sprite1 = new Image("images/TowerDefense/mur.png");
-			sprite2 = new Image("images/TowerDefense/spawn.png");
-			base = new Image("images/TowerDefense/Base.png");
+			sprite0 = new Image("images/towerDefense/chemin.png");
+			sprite1 = new Image("images/towerDefense/mur.png");
+			sprite2 = new Image("images/towerDefense/spawn.png");
+			base = new Image("images/towerDefense/Base.png");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -42,7 +42,7 @@ public class Level {
 	}
 
 	public int[] genereLine(int element1, int element2, int debut, int fin) {
-		//Genere une ligne avec element1 � partir de la case debut jusqu'� la case fin exclu, compl�te le reste avec element2
+		//Genere une ligne avec element1 à partir de la case debut jusqu'à la case fin exclu, complète le reste avec element2
 		int[] line = new int[lenX];
 		for (int i = 0; i < lenX; i++)
 		{
@@ -72,7 +72,7 @@ public class Level {
 			map[i] = genereLine(0,1,1,lenX - 1);
 		}
 
-		map[lenY -2] = genereLine(0,1,1,lenX - 1); //avant derni�re ligne
+		map[lenY -2] = genereLine(0,1,1,lenX - 1); //avant dernière ligne
 		map[1][1] = 2;    //spawn
 		spawnX = 1;
 		spawnY = 1;
@@ -123,14 +123,14 @@ public class Level {
 		else if ((nbEnemies == 0) && (World.enemies.isEmpty())) {
 			newVague();  // nouvelle vague avec un ennemis de moins qu'avant
 			if (nVague % 5 == 0)  {
-				nbEnemies = 2;  //Si c'est une vague de boss on ne pr�voit que 2 ennemis
+				nbEnemies = 2;  //Si c'est une vague de boss on ne prévoit que 2 ennemis
 			}
 		}
 	}
 
 	public int getCase(int ligne, int colonne) {
 		if (ligne > lenY -1|| colonne > lenX - 1) {
-			return -1; //D�passement de la carte
+			return -1; //Dépassement de la carte
 		} else {
 			return map[ligne][colonne];
 		}
@@ -139,12 +139,12 @@ public class Level {
 
 
 	public double getX(int colonne) {
-		//Donne le x du point en haut � gauche de la case � la colonne 'colonne'
+		//Donne le x du point en haut à gauche de la case à la colonne 'colonne'
 		return 32*colonne;
 	}
 
 	public double getY(int ligne) {
-		//Donne le y du point en haut � gauche de la case � la ligne 'ligne'
+		//Donne le y du point en haut à gauche de la case à la ligne 'ligne'
 		return (32*ligne);
 	}
 

@@ -1,4 +1,4 @@
-package towerDefense;
+package games.towerDefense;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;

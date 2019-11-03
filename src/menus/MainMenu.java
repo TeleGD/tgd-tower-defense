@@ -4,10 +4,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
-
-//import towerDefense.World;
-
-
 public class MainMenu extends Menu{
 
 	public static int ID = -3;
@@ -32,8 +28,8 @@ public class MainMenu extends Menu{
 	public void onOptionItemSelected(int position) {
 		switch (position) {
 		case 0:
-			towerDefense.World.reset();
-			game.enterState(towerDefense.World.ID, new FadeOutTransition(),
+			games.towerDefense.World.reset();
+			game.enterState(games.towerDefense.World.ID, new FadeOutTransition(),
 					new FadeInTransition());
 			break;
 		case 1:

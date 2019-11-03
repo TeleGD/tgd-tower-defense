@@ -1,4 +1,4 @@
-package towerDefense;
+package games.towerDefense;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -51,7 +51,7 @@ public class Enemy {
 			this.speed=0.1;
 			this.attack=5;
 			try {
-				sprite = new Image("images/TowerDefense/boss.png");
+				sprite = new Image("images/towerDefense/boss.png");
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -63,7 +63,7 @@ public class Enemy {
 			this.speed=0.12;
 			this.attack=1;
 			try {
-				sprite = new Image("images/TowerDefense/enemy1.png");
+				sprite = new Image("images/towerDefense/enemy1.png");
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -75,7 +75,7 @@ public class Enemy {
 			this.speed=0.15;
 			this.attack=1;
 			try {
-				sprite = new Image("images/TowerDefense/enemy2.png");
+				sprite = new Image("images/towerDefense/enemy2.png");
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
