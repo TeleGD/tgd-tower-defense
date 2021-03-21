@@ -7,8 +7,9 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
+import app.AppLoader;
 
 public class ChooseTower {
 	int x;
@@ -27,7 +28,7 @@ public class ChooseTower {
 
 	Player player;
 
-	public ChooseTower(Player player) throws SlickException{
+	public ChooseTower(Player player) {
 		lenX = 16;
 		x = 0 + 2*lenX;
 		y = 720 - 6*lenX;
@@ -38,15 +39,11 @@ public class ChooseTower {
 
 		sprite = new ArrayList<Image>();
 
-		try{
-			for(int i = 1; i <= nbTower; i++){
-				sprite.add(new Image("images/towerDefense/TowerModel"+i+".png"));
-			}
-			sprite2 = new Image("images/towerDefense/rock.png");
-			sprite3 = new Image("images/towerDefense/wood.png");
-		}catch (SlickException e) {
-			e.printStackTrace();
+		for(int i = 1; i <= nbTower; i++){
+			sprite.add(AppLoader.loadPicture("/images/towerDefense/TowerModel"+i+".png"));
 		}
+		sprite2 = AppLoader.loadPicture("/images/towerDefense/rock.png");
+		sprite3 = AppLoader.loadPicture("/images/towerDefense/wood.png");
 	}
 
 	public void render(GameContainer container, StateBasedGame game, Graphics g){
@@ -81,7 +78,7 @@ public class ChooseTower {
 		}
 	}
 
-	public boolean update(int abs, int ord) throws SlickException {
+	public boolean update(int abs, int ord) {
 		return click(abs, ord);
 	}
 

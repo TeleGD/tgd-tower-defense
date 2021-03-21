@@ -5,18 +5,19 @@ import java.util.ArrayList;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class World extends BasicGameState {
 
-	public final static int ID = 2;
-	public final static String GAME_NAME = "Tower Defense";
+	private int ID;
+	private int state;
 
-	public static ArrayList<Enemy> enemies, tempEnemies;
-	public static ArrayList<Projectile> projectiles, tempProjectiles;
-	public static ArrayList<Tower> towers, tempTowers;
+	public ArrayList<Enemy> enemies, tempEnemies;
+	public ArrayList<Projectile> projectiles, tempProjectiles;
+	public ArrayList<Tower> towers, tempTowers;
 	private Player player;
 
 	//A VIRER
@@ -35,36 +36,45 @@ public class World extends BasicGameState {
 	Input input;
 	boolean atarashi;
 
-	@Override
-	public int getID(){
-		return ID;
-	}
-
-	public static void reset(){
-		enemies = new ArrayList<Enemy>();
-		projectiles = new ArrayList<Projectile>();
-		towers = new ArrayList<Tower>();
-		tempTowers = new ArrayList<Tower>();
-		tempEnemies = new ArrayList<Enemy>();
-		tempProjectiles = new ArrayList<Projectile>();
+	public World(int ID) {
+		this.ID = ID;
+		this.state = 0;
 	}
 
 	@Override
-	public void init(GameContainer container, StateBasedGame game) throws SlickException {
-		reset();
-		player = new Player(20,200);
-		l = new Level(player);
-		c = new ChooseTower(player);
-		ab = 0;
-		or = 0;
-		input = container.getInput();
-		atarashi = false;
-		incomeDelay = 1000;
-
+	public int getID() {
+		return this.ID;
 	}
 
 	@Override
-	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+	public void init(GameContainer container, StateBasedGame game) {
+		/* Méthode exécutée une unique fois au chargement du programme */
+	}
+
+	@Override
+	public void enter(GameContainer container, StateBasedGame game) {
+		/* Méthode exécutée à l'apparition de la page */
+		if (this.state == 0) {
+			this.play(container, game);
+		} else if (this.state == 2) {
+			this.resume(container, game);
+		}
+	}
+
+	@Override
+	public void leave(GameContainer container, StateBasedGame game) {
+		/* Méthode exécutée à la disparition de la page */
+		if (this.state == 1) {
+			this.pause(container, game);
+		} else if (this.state == 3) {
+			this.stop(container, game);
+			this.state = 0; // TODO: remove
+		}
+	}
+
+	@Override
+	public void render(GameContainer container, StateBasedGame game, Graphics g) {
+		/* Méthode exécutée environ 60 fois par seconde */
 		l.render(container,game,g);
 		c.render(container, game, g);
 		player.render(container, game, g);
@@ -81,18 +91,14 @@ public class World extends BasicGameState {
 
 	}
 
-	public void updateArrays(){
-		//Useless method
-		tempTowers.clear();
-		tempTowers.addAll(towers);
-		tempEnemies.clear();
-		tempEnemies.addAll(enemies);
-		tempProjectiles.clear();
-		tempProjectiles.addAll(projectiles);
-	}
-
 	@Override
-	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+	public void update(GameContainer container, StateBasedGame game, int delta) {
+		/* Méthode exécutée environ 60 fois par seconde */
+		Input input = container.getInput();
+		if (input.isKeyDown(Input.KEY_ESCAPE)) {
+			this.setState(1);
+			game.enterState(2, new FadeOutTransition(), new FadeInTransition());
+		}
 		l.update(container, game, delta);
 		player.update(container, game, delta);
 		tempTowers.clear();
@@ -122,7 +128,7 @@ public class World extends BasicGameState {
 				getTile(ab, or);
 
 				if(l.getCase(ligne, colonne) == 1){
-					Tower newtour = new Tower(32*colonne, 32*ligne, c.choose);
+					Tower newtour = new Tower(this,32*colonne, 32*ligne, c.choose);
 					if(!(newtour.existeDeja(towers))){
 						if(player.getGold() - c.choose * 50 >= 0){
 							towers.add(newtour);
@@ -140,10 +146,48 @@ public class World extends BasicGameState {
 		}
 
 		if(player.getLives() == 0) {
-			((TowerEnd) game.getState(20)).changeWave(l.getnVague());
-			game.enterState(TowerEnd.ID);
+			((TowerEnd) game.getState(4 /* TowerEnd */)).changeWave(l.getnVague());
+			game.enterState(4 /* TowerEnd */);
 		}
 
+	}
+
+	public void play(GameContainer container, StateBasedGame game) {
+		/* Méthode exécutée une unique fois au début du jeu */
+		enemies = new ArrayList<Enemy>();
+		projectiles = new ArrayList<Projectile>();
+		towers = new ArrayList<Tower>();
+		tempTowers = new ArrayList<Tower>();
+		tempEnemies = new ArrayList<Enemy>();
+		tempProjectiles = new ArrayList<Projectile>();
+		player = new Player(20,200);
+		l = new Level(this, player);
+		c = new ChooseTower(player);
+		ab = 0;
+		or = 0;
+		input = container.getInput();
+		atarashi = false;
+		incomeDelay = 1000;
+	}
+
+	public void pause(GameContainer container, StateBasedGame game) {
+		/* Méthode exécutée lors de la mise en pause du jeu */
+	}
+
+	public void resume(GameContainer container, StateBasedGame game) {
+		/* Méthode exécutée lors de la reprise du jeu */
+	}
+
+	public void stop(GameContainer container, StateBasedGame game) {
+		/* Méthode exécutée une unique fois à la fin du jeu */
+	}
+
+	public void setState(int state) {
+		this.state = state;
+	}
+
+	public int getState() {
+		return this.state;
 	}
 
 	public void changeMouse(){

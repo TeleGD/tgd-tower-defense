@@ -6,10 +6,13 @@ import java.util.ArrayList;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import app.AppLoader;
+
 public class Tower {
+
+	private World world;
 	private double x,y;
 	private double damage;
 	private Enemy enemy;
@@ -34,7 +37,8 @@ public class Tower {
 		return type;
 	}
 
-	public Tower(double x,double y,double damage,double attackSpeed,double range,int type) {
+	public Tower(World world, double x,double y,double damage,double attackSpeed,double range,int type) {
+		this.world = world;
 		this.x=x;
 		this.y=y;
 		this.damage=damage;
@@ -43,13 +47,10 @@ public class Tower {
 		this.type = type;
 		this.range=range;
 		this.level=1;
-		try {
-			sprite = new Image("images/towerDefense/TowerType"+type+"Level1.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		sprite = AppLoader.loadPicture("/images/towerDefense/TowerType"+type+"Level1.png");
 	}
-	public Tower(double x,double y,int type) {
+	public Tower(World world, double x,double y,int type) {
+		this.world = world;
 		this.x=x;
 		this.y=y;
 		this.level=1;
@@ -100,29 +101,25 @@ public class Tower {
 
 		}
 		timer = 0;
-		try {
-			sprite = new Image("images/towerDefense/TowerType"+type+"Level1.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		sprite = AppLoader.loadPicture("/images/towerDefense/TowerType"+type+"Level1.png");
 
 	}
 
-	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
+	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) {
 		arg2.drawImage(sprite, (float)x, (float)y);
 	}
 
-	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+	public void update(GameContainer container, StateBasedGame game, int delta) {
 		timer-=delta;
 		boolean c = ChooseEnemy();
 		if (c && timer<=0) {
-			World.projectiles.add(new Projectile(x,y,enemy,damage,type));
+			this.world.projectiles.add(new Projectile(this.world,x,y,enemy,damage,type));
 			timer=attackSpeed;                 // exemple si cadence=0,5 sec, attackSpeed=500 (delta=nb de ms entre 2 frames)
 		}
 	}
 
 	private boolean ChooseEnemy() {// renvoie vrai si un ennemi est à portée
-		for (Enemy e : World.tempEnemies) {        // cherche dans la liste des ennemis triée par ordre d'appartition
+		for (Enemy e : this.world.tempEnemies) {        // cherche dans la liste des ennemis triée par ordre d'appartition
 			if (Math.sqrt(Math.pow(this.x-e.getX(),2)+Math.pow(e.getY()-this.y,2))<this.range) {
 				this.enemy = e;
 				return true;
@@ -137,44 +134,28 @@ public class Tower {
 			this.range+=25;
 			this.damage+=factor;
 			this.radius+=16;
-			try {
-				sprite = new Image("images/towerDefense/TowerType"+type+"Level1.png");
-			} catch (SlickException e) {
-				e.printStackTrace();
-			}
+			sprite = AppLoader.loadPicture("/images/towerDefense/TowerType"+type+"Level1.png");
 		}
 		if (n==3) {
 			this.level+=1;
 			this.range+=25;
 			this.damage+=factor;
 			this.attackSpeed-=300;
-			try {
-				sprite = new Image("images/towerDefense/TowerType"+type+"Level"+level+".png");
-			} catch (SlickException e) {
-				e.printStackTrace();
-			}
+			sprite = AppLoader.loadPicture("/images/towerDefense/TowerType"+type+"Level"+level+".png");
 		}
 		if (n==4) {
 			this.level+=1;
 			this.range+=25;
 			this.damage+=factor;
 			this.radius+=16;
-			try {
-				sprite = new Image("images/towerDefense/TowerType"+type+"Level"+level+".png");
-			} catch (SlickException e) {
-				e.printStackTrace();
-			}
+			sprite = AppLoader.loadPicture("/images/towerDefense/TowerType"+type+"Level"+level+".png");
 		}
 		if (n==5) {
 			this.level+=1;
 			this.range+=25;
 			this.damage+=factor;
 			this.attackSpeed-=300;
-			try {
-				sprite = new Image("images/towerDefense/TowerType"+type+"Level"+level+".png");
-			} catch (SlickException e) {
-				e.printStackTrace();
-			}
+			sprite = AppLoader.loadPicture("/images/towerDefense/TowerType"+type+"Level"+level+".png");
 		}
 	}
 

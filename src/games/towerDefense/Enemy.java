@@ -3,13 +3,15 @@ package games.towerDefense;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.state.StateBasedGame;
 
+import app.AppLoader;
+
 public class Enemy {
 
+	private World world;
 	private int x;
 	private int y;
 	private int nextPosX;
@@ -27,7 +29,8 @@ public class Enemy {
 	private Player player;
 
 
-	public Enemy(int posX, int posY, Level map, int wave, Player player) {
+	public Enemy(World world, int posX, int posY, Level map, int wave, Player player) {
+		this.world = world;
 		this.map=map;
 		this.player=player;
 		this.x= (int) map.getX(posY);
@@ -38,7 +41,7 @@ public class Enemy {
 		this.nextPosY=posY;
 		this.direction=0;
 		enemyType(wave);
-		World.enemies.add(this);
+		this.world.enemies.add(this);
 
 		shape=new Rectangle((x),(y),32, 32);
 	}
@@ -50,46 +53,31 @@ public class Enemy {
 			this.life=5*wave;
 			this.speed=0.1;
 			this.attack=5;
-			try {
-				sprite = new Image("images/towerDefense/boss.png");
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			sprite = AppLoader.loadPicture("/images/towerDefense/boss.png");
 		}
 		else if (wave%10==1 || wave%10==3 || wave%10==6 || wave%10==8) {
 			this.type=1;
 			this.life=wave*2;
 			this.speed=0.12;
 			this.attack=1;
-			try {
-				sprite = new Image("images/towerDefense/enemy1.png");
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			sprite = AppLoader.loadPicture("/images/towerDefense/enemy1.png");
 		}
 		else {
 			this.type=2;
 			this.life=wave+(Math.abs(wave/5));
 			this.speed=0.15;
 			this.attack=1;
-			try {
-				sprite = new Image("images/towerDefense/enemy2.png");
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			sprite = AppLoader.loadPicture("/images/towerDefense/enemy2.png");
 		}
 	}
 
 
-	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+	public void render(GameContainer container, StateBasedGame game, Graphics g) {
 		g.drawImage(sprite, x, y);
 	}
 
 
-	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+	public void update(GameContainer container, StateBasedGame game, int delta) {
 		if ( this.x >= (int) map.getX(nextPosY) && this.direction==2 ) {
 			this.x = (int) map.getX(nextPosY);
 			calcNextPos();
@@ -137,7 +125,7 @@ public class Enemy {
 		}
 		if ( map.getCase(this.currentPosX,this.currentPosY) == 3) {
 			player.damaged(attack);
-			World.enemies.remove(this);
+			this.world.enemies.remove(this);
 		}
 	}
 
@@ -170,7 +158,7 @@ public class Enemy {
 		this.life -= damage;
 		if (this.life<=0) {
 			player.earnGold(1);
-			World.enemies.remove(this);
+			this.world.enemies.remove(this);
 		}
 	}
 

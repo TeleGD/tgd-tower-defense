@@ -3,9 +3,9 @@ package games.towerDefense;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
+import app.AppLoader;
 
 public class Player {
 	private int gold;
@@ -23,15 +23,15 @@ public class Player {
 	}
 
 
-	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+	public void render(GameContainer container, StateBasedGame game, Graphics g) {
 		g.setColor(Color.white);
 		g.drawString("Or : "+this.gold, 800, 656);
 		g.drawString("Vies : "+this.lives, 1000, 656);
-		g.drawImage(new Image("images/towerDefense/bitcoincoin.png"), 730, 640);
-		g.drawImage(new Image("images/towerDefense/Heart.png"), 930, 640);
+		g.drawImage(AppLoader.loadPicture("/images/towerDefense/bitcoincoin.png"), 730, 640);
+		g.drawImage(AppLoader.loadPicture("/images/towerDefense/Heart.png"), 930, 640);
 	}
 
-	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+	public void update(GameContainer container, StateBasedGame game, int delta) {
 
 	}
 

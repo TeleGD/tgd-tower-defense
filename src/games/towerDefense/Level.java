@@ -6,11 +6,13 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
+import app.AppLoader;
 
 public class Level {
 
+	private World world;
 	Player pl;
 	int[][] map;
 	float width, height;
@@ -19,22 +21,18 @@ public class Level {
 	int spawnX,spawnY;
 	double timer;
 
-	public Level(Player p) {
+	public Level(World world, Player p) {
+		this.world = world;
 		width = 32;
 		height = 32;
 		lenX = (int)(1280 / width);
 		lenY = (int)(616 / height);
 		nVague = 0;
 		pl = p;
-		try {
-			sprite0 = new Image("images/towerDefense/chemin.png");
-			sprite1 = new Image("images/towerDefense/mur.png");
-			sprite2 = new Image("images/towerDefense/spawn.png");
-			base = new Image("images/towerDefense/Base.png");
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		sprite0 = AppLoader.loadPicture("/images/towerDefense/chemin.png");
+		sprite1 = AppLoader.loadPicture("/images/towerDefense/mur.png");
+		sprite2 = AppLoader.loadPicture("/images/towerDefense/spawn.png");
+		base = AppLoader.loadPicture("/images/towerDefense/Base.png");
 
 		genereMap();
 		newVague();
@@ -116,11 +114,11 @@ public class Level {
 	protected void update(GameContainer container, StateBasedGame game, int delta) {
 		timer += delta;
 		if ((timer > 800) && (nbEnemies > 0)) {
-			Enemy e = new Enemy(spawnX, spawnY,this,nVague,pl);
+			Enemy e = new Enemy(this.world, spawnX, spawnY,this,nVague,pl);
 			nbEnemies -= 1;
 			timer = 0;
 		}
-		else if ((nbEnemies == 0) && (World.enemies.isEmpty())) {
+		else if ((nbEnemies == 0) && (this.world.enemies.isEmpty())) {
 			newVague();  // nouvelle vague avec un ennemis de moins qu'avant
 			if (nVague % 5 == 0)  {
 				nbEnemies = 2;  //Si c'est une vague de boss on ne prévoit que 2 ennemis

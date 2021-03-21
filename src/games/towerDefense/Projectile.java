@@ -3,16 +3,16 @@ package games.towerDefense;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.state.StateBasedGame;
 
-import general.Main;
+import app.AppLoader;
 
 public class Projectile {
 
+	private World world;
 	private double x,y,speedX,speedY, damage;
 	private float width, height, radius;
 	private int dirX, dirY, type, angle;
@@ -21,7 +21,8 @@ public class Projectile {
 	private boolean alreadyDead;
 	private Image sprite;
 
-	public Projectile (double x, double y, Enemy target, double damage){
+	public Projectile (World world, double x, double y, Enemy target, double damage){
+		this.world = world;
 		this.x = x;
 		this.y = y;
 		width = 9;
@@ -35,21 +36,17 @@ public class Projectile {
 		this.speedY = 0.6;
 		alreadyDead = false;
 		this.collisionBox = new Rectangle((float)x,(float)y,width,height);
-		try {
-			sprite = new Image("images/towerDefense/Arrow.png");
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		sprite = AppLoader.loadPicture("/images/towerDefense/Arrow.png");
 		faceTarget();
 	}
 
-	public Projectile(double x, double y, Enemy target, double damage, int type){
+	public Projectile(World world, double x, double y, Enemy target, double damage, int type){
 		/* Types :
 		 * 1 : Normal
 		 * 2 : Powerful but slow
 		 * 3 : AOE
 		 */
+		this.world = world;
 		this.x = x;
 		this.y = y;
 		this.damage = damage;
@@ -64,12 +61,7 @@ public class Projectile {
 			//A ADAPTER A LA VITESSE DES ENNEMIS
 			this.speedX = 0.6;
 			this.speedY = 0.6;
-			try {
-				sprite = new Image("images/towerDefense/Arrow.png");
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			sprite = AppLoader.loadPicture("/images/towerDefense/Arrow.png");
 			break;
 		case 3:
 			width = 16;
@@ -78,12 +70,7 @@ public class Projectile {
 			this.speedX = 0.6;
 			this.speedY = 0.6;
 			this.radius = 64;
-			try {
-				sprite = new Image("images/towerDefense/Bomb.png");
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			sprite = AppLoader.loadPicture("/images/towerDefense/Bomb.png");
 			break;
 		case 2:
 			width = 9;
@@ -91,12 +78,7 @@ public class Projectile {
 			//A ADAPTER A LA VITESSE DES ENNEMIS
 			this.speedX = 0.6;
 			this.speedY = 0.6;
-			try {
-				sprite = new Image("images/towerDefense/Bolt.png");
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			sprite = AppLoader.loadPicture("/images/towerDefense/Bolt.png");
 			break;
 		}
 
@@ -104,7 +86,8 @@ public class Projectile {
 		faceTarget();
 	}
 
-	public Projectile(double x, double y, Enemy target, double damage, float radius){
+	public Projectile(World world, double x, double y, Enemy target, double damage, float radius){
+		this.world = world;
 		this.x = x;
 		this.y = y;
 		this.damage = damage;
@@ -117,32 +100,27 @@ public class Projectile {
 		//A ADAPTER A LA VITESSE DES ENNEMIS
 		this.speedX = 0.6;
 		this.speedY = 0.6;
-		try {
-			sprite = new Image("images/towerDefense/Bomb.png");
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		sprite = AppLoader.loadPicture("/images/towerDefense/Bomb.png");
 
 		this.collisionBox = new Rectangle((float)x,(float)y,width,height);
 		faceTarget();
 	}
 
 
-	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+	public void update(GameContainer container, StateBasedGame game, int delta) {
 		checkForCollision();
-		move(delta,2);
+		move(container,delta,2);
 		if(alreadyDead) die();
 	}
 
-	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+	public void render(GameContainer container, StateBasedGame game, Graphics g) {
 		g.drawImage(sprite,(float) x,(float) y);
 		//g.setColor(Color.cyan);
 		//g.fillRect(collisionBox.getX(), collisionBox.getY(), collisionBox.getWidth(), collisionBox.getHeight());
 	}
 
 	public void die(){
-		World.projectiles.remove(this);
+		this.world.projectiles.remove(this);
 	}
 
 	public float distanceToTarget(Enemy enn){
@@ -154,7 +132,7 @@ public class Projectile {
 	}
 
 	public void checkForCollision(){
-		for(Enemy e : World.enemies){
+		for(Enemy e : this.world.enemies){
 			if(collisionBox.intersects(e.getShape())){
 				switch(type){
 				default:
@@ -162,7 +140,7 @@ public class Projectile {
 					break;
 				case 3:
 					//AOE
-					for(Enemy enn:World.tempEnemies){
+					for(Enemy enn:this.world.tempEnemies){
 						if(distanceToTarget(enn)<=radius){
 							enn.takeDamage((int) damage);
 						}
@@ -231,7 +209,7 @@ public class Projectile {
 		collisionBox.transform(Transform.createRotateTransform(deltaAngle));
 	}
 
-	public void move(int dt){
+	public void move(GameContainer container, int dt){
 	//Equivalent to move(dt,2)
 		if(target != null){
 			faceTarget();
@@ -249,12 +227,12 @@ public class Projectile {
 		x += dirX*speedX*dt/2;
 		y += dirY*speedY*dt/2;
 		collisionBox.setLocation((float)x, (float)y);
-		if(x > Main.longueur || y > Main.hauteur || x < 0 || y < 0){
+		if(x > container.getWidth() || y > container.getHeight() || x < 0 || y < 0){
 			alreadyDead = true;
 		}
 	}
 
-	public void move(int dt, int subdivision){
+	public void move(GameContainer container, int dt, int subdivision){
 		if(subdivision < 0){
 			subdivision = subdivision*-1;
 		}else if (subdivision == 0){
@@ -270,7 +248,7 @@ public class Projectile {
 			y += dirY*speedY*dt/subdivision;
 			collisionBox.setLocation((float)x, (float)y);
 		}
-		if(x > Main.longueur || y > Main.hauteur || x < 0 || y < 0){
+		if(x > container.getWidth() || y > container.getHeight() || x < 0 || y < 0){
 			alreadyDead = true;
 		}
 	}
