@@ -1,7 +1,7 @@
 - Amos George (@AmosGeorge)
 - Arthur Canal (@canalarthur)
+- Clémence Picquet (@FlamantRose)
 - David Forlen (@DavidForlen)
-- FlamantRose (@FlamantRose)
 - Guillaume Teset (@gteset)
 - Jérôme Gauzins (@jeromegauzins)
 - Mathieu Milhem (@milhem1u)
